@@ -31,11 +31,8 @@ export function PurchasePanel({ product }: { product: Product }) {
       {priceLabel ? (
         <p className="text-2xl font-semibold text-primary-deep">{priceLabel}</p>
       ) : (
-        <p className="text-sm font-medium text-muted-foreground">
-          {tr.productDetail.pricePending}
-        </p>
+        <p className="text-sm font-medium text-muted-foreground">{tr.productDetail.pricePending}</p>
       )}
-
 
       {outOfStock ? (
         <>
@@ -71,7 +68,11 @@ export function PurchasePanel({ product }: { product: Product }) {
 
       {previewMode ? (
         <div className="mt-4 flex items-start gap-2 rounded-2xl bg-champagne/25 p-3">
-          <Info size={16} className="mt-0.5 shrink-0 text-champagne-foreground" aria-hidden="true" />
+          <Info
+            size={16}
+            className="mt-0.5 shrink-0 text-champagne-foreground"
+            aria-hidden="true"
+          />
           <p className="text-[0.75rem] leading-relaxed text-champagne-foreground/90">
             {tr.productDetail.previewSaleNote}
           </p>
