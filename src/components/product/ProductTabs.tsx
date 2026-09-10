@@ -104,6 +104,9 @@ export function ProductTabs({ product }: { product: Product }) {
           <InfoRow label={t.storageTitle} value={product.storage} />
           <InfoRow label={t.shelfLifeTitle} value={product.shelfLife} />
         </dl>
+
+        {/* Etiket şablonunun kısa görünümü; tamamı Besin Değerleri sekmesinde. */}
+        <NutritionLabel product={product} compact />
       </TabsContent>
 
       {/* 2 — Hazırlama */}
