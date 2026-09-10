@@ -154,14 +154,14 @@ export const tr = {
     ],
     certificatesTitle: "Kalite Belgeleri",
     certificatesNote:
-      "Kulalac, üretim ve kalite yönetimi süreçlerini uluslararası standartlara uyum hedefiyle geliştirmektedir. Sertifika ve kalite belgelerine ilişkin doğrulanmış bilgiler, gerekli kontroller tamamlandıktan sonra bu alanda yayımlanacaktır.",
+      "Üretim ve kalite yönetimi süreçleri, aşağıdaki uluslararası standartlar kapsamında yürütülmektedir. Belge kopyaları talep üzerine paylaşılır.",
+    certificates: ["FSSC 22000", "ISO 22000", "ISO 9001", "GMP", "FDA"],
     cta: "Kalite ve Güvenlik",
   },
   factory: {
     eyebrow: "Üretim Tesisi",
     title: "Türkiye’de Üretim",
     description: "Dreamlac ürünleri, Kulalac’ın Kula, Manisa’daki üretim tesisinde üretilmektedir.",
-    visualNote: "Üretim tesisi görselleri için ayrılmış alan (yer tutucu).",
   },
   trust: {
     eyebrow: "Neden Dreamlac?",
