@@ -1,4 +1,5 @@
 import { Clock, Info, ShieldAlert, Sparkles } from "lucide-react";
+import { NutritionLabel } from "@/components/product/NutritionLabel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { tr } from "@/content/tr";
 import { company } from "@/data/company";
