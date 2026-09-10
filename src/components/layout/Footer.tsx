@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { LogoPlaceholder } from "@/components/brand/LogoPlaceholder";
 import { tr } from "@/content/tr";
+import { company } from "@/data/company";
 
 const columns = [
   {
@@ -54,18 +55,51 @@ export function Footer() {
             <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
               {tr.footer.about}
             </p>
+            {/* Kurumsal bilgiler tek kaynaktan (src/data/company.ts) okunur. */}
             <div className="space-y-1.5 text-sm text-muted-foreground">
               <p className="font-semibold text-primary-deep">{tr.footer.company.title}</p>
-              <p>{tr.footer.company.name}</p>
-              <p>{tr.footer.company.address}</p>
-              <p>{tr.footer.company.phone}</p>
-              <p>{tr.footer.company.email}</p>
-              <p>{tr.footer.company.taxId}</p>
+              <p>{company.legalName}</p>
+              <p>{company.address}</p>
+              <p>
+                <a href={`tel:${company.phone.replace(/\s/g, "")}`} className="hover:underline">
+                  {company.phone}
+                </a>
+              </p>
+              <p>
+                <a href={`tel:${company.mobile.replace(/\s/g, "")}`} className="hover:underline">
+                  {company.mobile}
+                </a>
+              </p>
+              <p>
+                <a href={`mailto:${company.email}`} className="hover:underline">
+                  {company.email}
+                </a>
+              </p>
+              <p>
+                <a
+                  href={company.websiteUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:underline"
+                >
+                  {company.website}
+                </a>
+              </p>
             </div>
-            <div className="text-sm text-muted-foreground">
-              <p className="font-semibold text-primary-deep">{tr.footer.social.title}</p>
-              <p>{tr.footer.social.note}</p>
-            </div>
+            {company.social.length > 0 ? (
+              <div className="text-sm text-muted-foreground">
+                <p className="font-semibold text-primary-deep">{tr.footer.social.title}</p>
+                <ul className="mt-1 space-y-1">
+                  {company.social.map((item) => (
+                    <li key={item.url}>
+                      <a href={item.url} target="_blank" rel="noreferrer" className="hover:underline">
+                        {item.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </div>
 
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
