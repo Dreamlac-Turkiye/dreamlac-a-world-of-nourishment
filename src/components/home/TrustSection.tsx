@@ -26,7 +26,9 @@ export function TrustSection() {
               <Icon3D icon={icons[index]!} tone={tones[index]!} />
               <div className="min-w-0">
                 <h3 className="text-base font-semibold text-primary-deep">{item.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.description}
+                </p>
               </div>
             </li>
           ))}

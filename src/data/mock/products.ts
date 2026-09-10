@@ -12,7 +12,8 @@ export const mockProducts: Product[] = [
     slug: "dreamlac-1",
     sku: "DL-001",
     name: "Dreamlac 1",
-    shortDescription: "Dreamlac ürün ailesinin ilk basamağı. Ürün açıklaması onayınızla güncellenecek.",
+    shortDescription:
+      "Dreamlac ürün ailesinin ilk basamağı. Ürün açıklaması onayınızla güncellenecek.",
     stage: "stage-1",
     ageRange: null,
     weight: null,

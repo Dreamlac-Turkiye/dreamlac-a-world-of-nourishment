@@ -10,5 +10,7 @@ export const Route = createFileRoute("/sepet")({
       { property: "og:description", content: "Sepet ve ödeme akışı 3. aşamada tasarlanacaktır." },
     ],
   }),
-  component: () => <PagePlaceholder title="Sepet" description="Sepet ve ödeme akışı 3. aşamada tasarlanacaktır." />,
+  component: () => (
+    <PagePlaceholder title="Sepet" description="Sepet ve ödeme akışı 3. aşamada tasarlanacaktır." />
+  ),
 });

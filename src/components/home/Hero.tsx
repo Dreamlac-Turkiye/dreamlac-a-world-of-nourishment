@@ -12,7 +12,9 @@ function usePointerTilt() {
   const enabled = useRef(false);
 
   useEffect(() => {
-    const media = window.matchMedia("(min-width: 1024px) and (prefers-reduced-motion: no-preference)");
+    const media = window.matchMedia(
+      "(min-width: 1024px) and (prefers-reduced-motion: no-preference)",
+    );
     enabled.current = media.matches;
     if (!enabled.current) return;
     let frame = 0;
@@ -48,7 +50,10 @@ export function Hero() {
         />
         <div
           className="droplet animate-float-slow absolute top-40 -right-20 size-64 bg-champagne/45 opacity-70 md:size-80"
-          style={{ transform: `translate3d(${tilt.x * 18}px, ${tilt.y * 12}px, 0)`, animationDelay: "1.4s" }}
+          style={{
+            transform: `translate3d(${tilt.x * 18}px, ${tilt.y * 12}px, 0)`,
+            animationDelay: "1.4s",
+          }}
         />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-background" />
       </div>
@@ -60,7 +65,6 @@ export function Hero() {
             {tr.hero.eyebrow}
           </div>
 
-
           <h1 className="mt-5 text-4xl leading-[1.05] font-semibold text-primary-deep sm:text-5xl lg:text-6xl">
             {tr.hero.title}
           </h1>
@@ -69,13 +73,22 @@ export function Hero() {
           </p>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Button asChild size="lg" className="h-13 rounded-full px-7 text-base shadow-[var(--shadow-glow)]">
+            <Button
+              asChild
+              size="lg"
+              className="h-13 rounded-full px-7 text-base shadow-[var(--shadow-glow)]"
+            >
               <Link to="/urunler">
                 {tr.hero.primaryCta}
                 <ArrowRight aria-hidden="true" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="h-13 rounded-full px-7 text-base">
+            <Button
+              asChild
+              size="lg"
+              variant="outline"
+              className="h-13 rounded-full px-7 text-base"
+            >
               <Link to="/hakkimizda">{tr.hero.secondaryCta}</Link>
             </Button>
           </div>

@@ -91,7 +91,10 @@ export function Newsletter() {
                 onCheckedChange={(value) => setConsent(value === true)}
                 className="mt-0.5"
               />
-              <Label htmlFor={consentId} className="text-sm leading-relaxed font-normal text-muted-foreground">
+              <Label
+                htmlFor={consentId}
+                className="text-sm leading-relaxed font-normal text-muted-foreground"
+              >
                 {tr.newsletter.consent}
               </Label>
             </div>

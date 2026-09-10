@@ -46,7 +46,10 @@ export function CookieBanner() {
             <p className="font-semibold text-primary-deep">{tr.cookie.title}</p>
             <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
               {tr.cookie.description}{" "}
-              <Link to="/cerez-politikasi" className="underline underline-offset-4 hover:text-primary-deep">
+              <Link
+                to="/cerez-politikasi"
+                className="underline underline-offset-4 hover:text-primary-deep"
+              >
                 {tr.cookie.policy}
               </Link>
             </p>
@@ -56,7 +59,11 @@ export function CookieBanner() {
           <Button className="flex-1 rounded-full" onClick={() => decide("all")}>
             {tr.cookie.accept}
           </Button>
-          <Button variant="outline" className="flex-1 rounded-full" onClick={() => decide("necessary")}>
+          <Button
+            variant="outline"
+            className="flex-1 rounded-full"
+            onClick={() => decide("necessary")}
+          >
             {tr.cookie.reject}
           </Button>
         </div>

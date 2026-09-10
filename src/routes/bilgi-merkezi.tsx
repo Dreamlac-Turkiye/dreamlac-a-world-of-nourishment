@@ -10,5 +10,10 @@ export const Route = createFileRoute("/bilgi-merkezi")({
       { property: "og:description", content: "İçerik sayfaları 5. aşamada tasarlanacaktır." },
     ],
   }),
-  component: () => <PagePlaceholder title="Bilgi Merkezi" description="İçerik sayfaları 5. aşamada tasarlanacaktır." />,
+  component: () => (
+    <PagePlaceholder
+      title="Bilgi Merkezi"
+      description="İçerik sayfaları 5. aşamada tasarlanacaktır."
+    />
+  ),
 });

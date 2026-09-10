@@ -25,7 +25,10 @@ export function ProductCardSkeleton() {
 function StockBadge({ stock }: { stock: Product["stock"] }) {
   const map = {
     in_stock: { label: tr.products.stock.inStock, className: "bg-success/12 text-success" },
-    out_of_stock: { label: tr.products.stock.outOfStock, className: "bg-destructive/10 text-destructive" },
+    out_of_stock: {
+      label: tr.products.stock.outOfStock,
+      className: "bg-destructive/10 text-destructive",
+    },
     pending: { label: tr.products.stock.pending, className: "bg-secondary text-muted-foreground" },
   } as const;
   const item = map[stock];
@@ -88,16 +91,25 @@ export function ProductCard({
           onClick={() => setFavorite((v) => !v)}
           className="absolute top-3 right-3 grid size-10 place-items-center rounded-full bg-card/85 text-primary-deep shadow-[var(--shadow-soft)] backdrop-blur transition-colors hover:bg-card"
         >
-          <Heart size={18} strokeWidth={1.8} className={cn(favorite && "fill-destructive text-destructive")} aria-hidden="true" />
+          <Heart
+            size={18}
+            strokeWidth={1.8}
+            className={cn(favorite && "fill-destructive text-destructive")}
+            aria-hidden="true"
+          />
         </button>
       </div>
 
       <div className="mt-5 flex min-w-0 flex-1 flex-col">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">{product.name}</h3>
+          <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">
+            {product.name}
+          </h3>
           <StockBadge stock={product.stock} />
         </div>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{product.shortDescription}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {product.shortDescription}
+        </p>
 
         <dl className="mt-4 grid gap-2 text-sm">
           <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">

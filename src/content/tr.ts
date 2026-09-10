@@ -64,15 +64,18 @@ export const tr = {
     items: [
       {
         title: "Şeffaf Ürün Bilgileri",
-        description: "Ürün detayları, içindekiler ve besin değerleri açık ve okunabilir bir düzende sunulur.",
+        description:
+          "Ürün detayları, içindekiler ve besin değerleri açık ve okunabilir bir düzende sunulur.",
       },
       {
         title: "Güvenli Alışveriş",
-        description: "Sipariş adımları anlaşılır, bilgileriniz özenle korunacak şekilde tasarlanır.",
+        description:
+          "Sipariş adımları anlaşılır, bilgileriniz özenle korunacak şekilde tasarlanır.",
       },
       {
         title: "Özenli Paketleme",
-        description: "Ürünlerin size ulaşana kadar korunması için paketleme akışı öncelikli tutulur.",
+        description:
+          "Ürünlerin size ulaşana kadar korunması için paketleme akışı öncelikli tutulur.",
       },
       {
         title: "Müşteri Desteği",

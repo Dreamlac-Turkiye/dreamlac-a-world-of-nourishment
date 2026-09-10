@@ -10,5 +10,10 @@ export const Route = createFileRoute("/sikca-sorulan-sorular")({
       { property: "og:description", content: "SSS sayfası 5. aşamada tasarlanacaktır." },
     ],
   }),
-  component: () => <PagePlaceholder title="Sıkça Sorulan Sorular" description="SSS sayfası 5. aşamada tasarlanacaktır." />,
+  component: () => (
+    <PagePlaceholder
+      title="Sıkça Sorulan Sorular"
+      description="SSS sayfası 5. aşamada tasarlanacaktır."
+    />
+  ),
 });

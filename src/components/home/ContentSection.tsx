@@ -25,7 +25,11 @@ function ArticleCard({ article }: { article: Article }) {
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">{article.excerpt}</p>
       <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary">
         {tr.content.readMore}
-        <ArrowRight size={16} aria-hidden="true" className="transition-transform group-hover:translate-x-1" />
+        <ArrowRight
+          size={16}
+          aria-hidden="true"
+          className="transition-transform group-hover:translate-x-1"
+        />
       </span>
     </article>
   );

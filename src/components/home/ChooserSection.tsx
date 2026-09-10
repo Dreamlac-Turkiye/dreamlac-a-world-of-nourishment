@@ -36,7 +36,9 @@ export function ChooserSection() {
                   aria-hidden="true"
                   className={cn("droplet size-9 shrink-0", stageTone[product.stage])}
                 />
-                <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">{product.name}</h3>
+                <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">
+                  {product.name}
+                </h3>
               </div>
               <dl className="mt-5 space-y-3 text-sm">
                 <div>

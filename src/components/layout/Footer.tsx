@@ -51,7 +51,9 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-[1.2fr_2.4fr]">
           <div className="min-w-0 space-y-5">
             <LogoPlaceholder showNote />
-            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">{tr.footer.about}</p>
+            <p className="max-w-sm text-sm leading-relaxed text-muted-foreground">
+              {tr.footer.about}
+            </p>
             <div className="space-y-1.5 text-sm text-muted-foreground">
               <p className="font-semibold text-primary-deep">{tr.footer.company.title}</p>
               <p>{tr.footer.company.name}</p>
@@ -95,7 +97,9 @@ export function Footer() {
             {tr.footer.links.cookieSettings}
           </Link>
         </div>
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground/80">{tr.footer.disclaimer}</p>
+        <p className="mt-4 text-xs leading-relaxed text-muted-foreground/80">
+          {tr.footer.disclaimer}
+        </p>
       </div>
     </footer>
   );

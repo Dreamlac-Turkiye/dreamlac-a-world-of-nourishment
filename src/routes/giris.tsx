@@ -10,5 +10,7 @@ export const Route = createFileRoute("/giris")({
       { property: "og:description", content: "Üyelik ekranları 4. aşamada tasarlanacaktır." },
     ],
   }),
-  component: () => <PagePlaceholder title="Giriş Yap" description="Üyelik ekranları 4. aşamada tasarlanacaktır." />,
+  component: () => (
+    <PagePlaceholder title="Giriş Yap" description="Üyelik ekranları 4. aşamada tasarlanacaktır." />
+  ),
 });

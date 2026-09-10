@@ -1,5 +1,13 @@
 import { Link } from "@tanstack/react-router";
-import { ArrowRight, Boxes, FileCheck2, Microscope, Route, ShieldCheck, Thermometer } from "lucide-react";
+import {
+  ArrowRight,
+  Boxes,
+  FileCheck2,
+  Microscope,
+  Route,
+  ShieldCheck,
+  Thermometer,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Icon3D } from "@/components/brand/Icon3D";
 import { SectionHeading } from "@/components/common/SectionHeading";
@@ -37,10 +45,16 @@ export function QualitySection() {
                 key={item.title}
                 className="surface-glass flex items-start gap-3 rounded-[1.5rem] p-5 shadow-[var(--shadow-soft)]"
               >
-                <Icon3D icon={icons[index]!} size="sm" tone={index % 2 === 0 ? "primary" : "stage-2"} />
+                <Icon3D
+                  icon={icons[index]!}
+                  size="sm"
+                  tone={index % 2 === 0 ? "primary" : "stage-2"}
+                />
                 <div className="min-w-0">
                   <h3 className="text-sm font-semibold text-primary-deep">{item.title}</h3>
-                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                  <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                    {item.description}
+                  </p>
                 </div>
               </li>
             ))}

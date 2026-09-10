@@ -61,7 +61,13 @@ export function Header() {
         </nav>
 
         <div className="flex items-center justify-end gap-1">
-          <Button asChild variant="ghost" size="icon" className="rounded-full" aria-label={tr.nav.search}>
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+            aria-label={tr.nav.search}
+          >
             <Link to="/arama">
               <Search aria-hidden="true" />
             </Link>
@@ -77,7 +83,13 @@ export function Header() {
               <User aria-hidden="true" />
             </Link>
           </Button>
-          <Button asChild variant="ghost" size="icon" className="rounded-full" aria-label={tr.nav.cart}>
+          <Button
+            asChild
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+            aria-label={tr.nav.cart}
+          >
             <Link to="/sepet">
               <ShoppingBag aria-hidden="true" />
             </Link>
