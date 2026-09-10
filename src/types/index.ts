@@ -137,3 +137,74 @@ export interface NewsletterSubscription {
 }
 
 export type AsyncState = "loading" | "success" | "empty" | "error";
+
+/* ------------------------------------------------------------------ */
+/* Sepet ve ödeme (Aşama 3)                                            */
+/* ------------------------------------------------------------------ */
+
+/** Tarayıcıda saklanan en küçük sepet birimi (ürün kodu + adet). */
+export interface CartLine {
+  productId: string;
+  quantity: number;
+}
+
+/** Ürün verisiyle çözümlenmiş sepet satırı. */
+export interface CartItem {
+  product: Product;
+  quantity: number;
+  /** Satır toplamı kuruş cinsinden; fiyat bilinmiyorsa null. */
+  lineTotal: number | null;
+}
+
+export interface CartTotals {
+  /** Kuruş; herhangi bir satırın fiyatı bilinmiyorsa null. */
+  subtotal: number | null;
+  /** Kargo ücreti resmî olarak iletilmedi → null. */
+  shipping: number | null;
+  /** Genel toplam; bileşenlerden biri null ise null. */
+  total: number | null;
+  itemCount: number;
+  /** Fiyatı henüz belli olmayan satır var mı? */
+  hasPendingPrice: boolean;
+}
+
+export interface ShippingOption {
+  id: string;
+  title: string;
+  description: string;
+  /** Ücret resmî olarak iletilmeden doldurulmaz → null. */
+  fee: number | null;
+}
+
+export interface PaymentMethodOption {
+  id: string;
+  title: string;
+  description: string;
+  /** Gerçek tahsilat entegrasyonu yok; arayüz önizlemesi. */
+  available: boolean;
+}
+
+export interface CheckoutAddress {
+  fullName: string;
+  phone: string;
+  email: string;
+  city: string;
+  district: string;
+  addressLine: string;
+  note: string;
+}
+
+export interface CheckoutDraft {
+  step: number;
+  address: CheckoutAddress | null;
+  shippingOptionId: string | null;
+  paymentMethodId: string | null;
+}
+
+export interface OrderResult {
+  orderNumber: string;
+  createdAt: string;
+  itemCount: number;
+  /** Ödeme entegrasyonu olmadığı için sipariş durumu her zaman önizleme. */
+  status: "preview";
+}
