@@ -10,33 +10,311 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AramaRouteImport } from './routes/arama'
+import { Route as BilgiMerkeziRouteImport } from './routes/bilgi-merkezi'
+import { Route as CerezPolitikasiRouteImport } from './routes/cerez-politikasi'
+import { Route as GirisRouteImport } from './routes/giris'
+import { Route as GizlilikPolitikasiRouteImport } from './routes/gizlilik-politikasi'
+import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
+import { Route as HesabimRouteImport } from './routes/hesabim'
+import { Route as IadeVeIptalPolitikasiRouteImport } from './routes/iade-ve-iptal-politikasi'
+import { Route as IletisimRouteImport } from './routes/iletisim'
+import { Route as KaliteVeGuvenlikRouteImport } from './routes/kalite-ve-guvenlik'
+import { Route as KvkkRouteImport } from './routes/kvkk'
+import { Route as MesafeliSatisSozlesmesiRouteImport } from './routes/mesafeli-satis-sozlesmesi'
+import { Route as OnBilgilendirmeFormuRouteImport } from './routes/on-bilgilendirme-formu'
+import { Route as SepetRouteImport } from './routes/sepet'
+import { Route as SikcaSorulanSorularRouteImport } from './routes/sikca-sorulan-sorular'
+import { Route as SiparisTakipRouteImport } from './routes/siparis-takip'
+import { Route as TeslimatPolitikasiRouteImport } from './routes/teslimat-politikasi'
+import { Route as TicariElektronikIletiOnayiRouteImport } from './routes/ticari-elektronik-ileti-onayi'
+import { Route as UyelikSozlesmesiRouteImport } from './routes/uyelik-sozlesmesi'
+import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
+import { Route as UrunlerSlugRouteImport } from './routes/urunler.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AramaRoute = AramaRouteImport.update({
+  id: '/arama',
+  path: '/arama',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BilgiMerkeziRoute = BilgiMerkeziRouteImport.update({
+  id: '/bilgi-merkezi',
+  path: '/bilgi-merkezi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CerezPolitikasiRoute = CerezPolitikasiRouteImport.update({
+  id: '/cerez-politikasi',
+  path: '/cerez-politikasi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GirisRoute = GirisRouteImport.update({
+  id: '/giris',
+  path: '/giris',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GizlilikPolitikasiRoute = GizlilikPolitikasiRouteImport.update({
+  id: '/gizlilik-politikasi',
+  path: '/gizlilik-politikasi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HakkimizdaRoute = HakkimizdaRouteImport.update({
+  id: '/hakkimizda',
+  path: '/hakkimizda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HesabimRoute = HesabimRouteImport.update({
+  id: '/hesabim',
+  path: '/hesabim',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IadeVeIptalPolitikasiRoute = IadeVeIptalPolitikasiRouteImport.update({
+  id: '/iade-ve-iptal-politikasi',
+  path: '/iade-ve-iptal-politikasi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IletisimRoute = IletisimRouteImport.update({
+  id: '/iletisim',
+  path: '/iletisim',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KaliteVeGuvenlikRoute = KaliteVeGuvenlikRouteImport.update({
+  id: '/kalite-ve-guvenlik',
+  path: '/kalite-ve-guvenlik',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KvkkRoute = KvkkRouteImport.update({
+  id: '/kvkk',
+  path: '/kvkk',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MesafeliSatisSozlesmesiRoute = MesafeliSatisSozlesmesiRouteImport.update({
+  id: '/mesafeli-satis-sozlesmesi',
+  path: '/mesafeli-satis-sozlesmesi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnBilgilendirmeFormuRoute = OnBilgilendirmeFormuRouteImport.update({
+  id: '/on-bilgilendirme-formu',
+  path: '/on-bilgilendirme-formu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SepetRoute = SepetRouteImport.update({
+  id: '/sepet',
+  path: '/sepet',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SikcaSorulanSorularRoute = SikcaSorulanSorularRouteImport.update({
+  id: '/sikca-sorulan-sorular',
+  path: '/sikca-sorulan-sorular',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SiparisTakipRoute = SiparisTakipRouteImport.update({
+  id: '/siparis-takip',
+  path: '/siparis-takip',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeslimatPolitikasiRoute = TeslimatPolitikasiRouteImport.update({
+  id: '/teslimat-politikasi',
+  path: '/teslimat-politikasi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TicariElektronikIletiOnayiRoute =
+  TicariElektronikIletiOnayiRouteImport.update({
+    id: '/ticari-elektronik-ileti-onayi',
+    path: '/ticari-elektronik-ileti-onayi',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const UyelikSozlesmesiRoute = UyelikSozlesmesiRouteImport.update({
+  id: '/uyelik-sozlesmesi',
+  path: '/uyelik-sozlesmesi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrunlerIndexRoute = UrunlerIndexRouteImport.update({
+  id: '/urunler/',
+  path: '/urunler/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UrunlerSlugRoute = UrunlerSlugRouteImport.update({
+  id: '/urunler/$slug',
+  path: '/urunler/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/arama': typeof AramaRoute
+  '/bilgi-merkezi': typeof BilgiMerkeziRoute
+  '/cerez-politikasi': typeof CerezPolitikasiRoute
+  '/giris': typeof GirisRoute
+  '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/hesabim': typeof HesabimRoute
+  '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
+  '/iletisim': typeof IletisimRoute
+  '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
+  '/kvkk': typeof KvkkRoute
+  '/mesafeli-satis-sozlesmesi': typeof MesafeliSatisSozlesmesiRoute
+  '/on-bilgilendirme-formu': typeof OnBilgilendirmeFormuRoute
+  '/sepet': typeof SepetRoute
+  '/sikca-sorulan-sorular': typeof SikcaSorulanSorularRoute
+  '/siparis-takip': typeof SiparisTakipRoute
+  '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
+  '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
+  '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/urunler/$slug': typeof UrunlerSlugRoute
+  '/urunler/': typeof UrunlerIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/arama': typeof AramaRoute
+  '/bilgi-merkezi': typeof BilgiMerkeziRoute
+  '/cerez-politikasi': typeof CerezPolitikasiRoute
+  '/giris': typeof GirisRoute
+  '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/hesabim': typeof HesabimRoute
+  '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
+  '/iletisim': typeof IletisimRoute
+  '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
+  '/kvkk': typeof KvkkRoute
+  '/mesafeli-satis-sozlesmesi': typeof MesafeliSatisSozlesmesiRoute
+  '/on-bilgilendirme-formu': typeof OnBilgilendirmeFormuRoute
+  '/sepet': typeof SepetRoute
+  '/sikca-sorulan-sorular': typeof SikcaSorulanSorularRoute
+  '/siparis-takip': typeof SiparisTakipRoute
+  '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
+  '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
+  '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/urunler/$slug': typeof UrunlerSlugRoute
+  '/urunler': typeof UrunlerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/arama': typeof AramaRoute
+  '/bilgi-merkezi': typeof BilgiMerkeziRoute
+  '/cerez-politikasi': typeof CerezPolitikasiRoute
+  '/giris': typeof GirisRoute
+  '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
+  '/hakkimizda': typeof HakkimizdaRoute
+  '/hesabim': typeof HesabimRoute
+  '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
+  '/iletisim': typeof IletisimRoute
+  '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
+  '/kvkk': typeof KvkkRoute
+  '/mesafeli-satis-sozlesmesi': typeof MesafeliSatisSozlesmesiRoute
+  '/on-bilgilendirme-formu': typeof OnBilgilendirmeFormuRoute
+  '/sepet': typeof SepetRoute
+  '/sikca-sorulan-sorular': typeof SikcaSorulanSorularRoute
+  '/siparis-takip': typeof SiparisTakipRoute
+  '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
+  '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
+  '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/urunler/$slug': typeof UrunlerSlugRoute
+  '/urunler/': typeof UrunlerIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/arama'
+    | '/bilgi-merkezi'
+    | '/cerez-politikasi'
+    | '/giris'
+    | '/gizlilik-politikasi'
+    | '/hakkimizda'
+    | '/hesabim'
+    | '/iade-ve-iptal-politikasi'
+    | '/iletisim'
+    | '/kalite-ve-guvenlik'
+    | '/kvkk'
+    | '/mesafeli-satis-sozlesmesi'
+    | '/on-bilgilendirme-formu'
+    | '/sepet'
+    | '/sikca-sorulan-sorular'
+    | '/siparis-takip'
+    | '/teslimat-politikasi'
+    | '/ticari-elektronik-ileti-onayi'
+    | '/uyelik-sozlesmesi'
+    | '/urunler/$slug'
+    | '/urunler/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/arama'
+    | '/bilgi-merkezi'
+    | '/cerez-politikasi'
+    | '/giris'
+    | '/gizlilik-politikasi'
+    | '/hakkimizda'
+    | '/hesabim'
+    | '/iade-ve-iptal-politikasi'
+    | '/iletisim'
+    | '/kalite-ve-guvenlik'
+    | '/kvkk'
+    | '/mesafeli-satis-sozlesmesi'
+    | '/on-bilgilendirme-formu'
+    | '/sepet'
+    | '/sikca-sorulan-sorular'
+    | '/siparis-takip'
+    | '/teslimat-politikasi'
+    | '/ticari-elektronik-ileti-onayi'
+    | '/uyelik-sozlesmesi'
+    | '/urunler/$slug'
+    | '/urunler'
+  id:
+    | '__root__'
+    | '/'
+    | '/arama'
+    | '/bilgi-merkezi'
+    | '/cerez-politikasi'
+    | '/giris'
+    | '/gizlilik-politikasi'
+    | '/hakkimizda'
+    | '/hesabim'
+    | '/iade-ve-iptal-politikasi'
+    | '/iletisim'
+    | '/kalite-ve-guvenlik'
+    | '/kvkk'
+    | '/mesafeli-satis-sozlesmesi'
+    | '/on-bilgilendirme-formu'
+    | '/sepet'
+    | '/sikca-sorulan-sorular'
+    | '/siparis-takip'
+    | '/teslimat-politikasi'
+    | '/ticari-elektronik-ileti-onayi'
+    | '/uyelik-sozlesmesi'
+    | '/urunler/$slug'
+    | '/urunler/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AramaRoute: typeof AramaRoute
+  BilgiMerkeziRoute: typeof BilgiMerkeziRoute
+  CerezPolitikasiRoute: typeof CerezPolitikasiRoute
+  GirisRoute: typeof GirisRoute
+  GizlilikPolitikasiRoute: typeof GizlilikPolitikasiRoute
+  HakkimizdaRoute: typeof HakkimizdaRoute
+  HesabimRoute: typeof HesabimRoute
+  IadeVeIptalPolitikasiRoute: typeof IadeVeIptalPolitikasiRoute
+  IletisimRoute: typeof IletisimRoute
+  KaliteVeGuvenlikRoute: typeof KaliteVeGuvenlikRoute
+  KvkkRoute: typeof KvkkRoute
+  MesafeliSatisSozlesmesiRoute: typeof MesafeliSatisSozlesmesiRoute
+  OnBilgilendirmeFormuRoute: typeof OnBilgilendirmeFormuRoute
+  SepetRoute: typeof SepetRoute
+  SikcaSorulanSorularRoute: typeof SikcaSorulanSorularRoute
+  SiparisTakipRoute: typeof SiparisTakipRoute
+  TeslimatPolitikasiRoute: typeof TeslimatPolitikasiRoute
+  TicariElektronikIletiOnayiRoute: typeof TicariElektronikIletiOnayiRoute
+  UyelikSozlesmesiRoute: typeof UyelikSozlesmesiRoute
+  UrunlerSlugRoute: typeof UrunlerSlugRoute
+  UrunlerIndexRoute: typeof UrunlerIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +326,179 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/arama': {
+      id: '/arama'
+      path: '/arama'
+      fullPath: '/arama'
+      preLoaderRoute: typeof AramaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bilgi-merkezi': {
+      id: '/bilgi-merkezi'
+      path: '/bilgi-merkezi'
+      fullPath: '/bilgi-merkezi'
+      preLoaderRoute: typeof BilgiMerkeziRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cerez-politikasi': {
+      id: '/cerez-politikasi'
+      path: '/cerez-politikasi'
+      fullPath: '/cerez-politikasi'
+      preLoaderRoute: typeof CerezPolitikasiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/giris': {
+      id: '/giris'
+      path: '/giris'
+      fullPath: '/giris'
+      preLoaderRoute: typeof GirisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gizlilik-politikasi': {
+      id: '/gizlilik-politikasi'
+      path: '/gizlilik-politikasi'
+      fullPath: '/gizlilik-politikasi'
+      preLoaderRoute: typeof GizlilikPolitikasiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hakkimizda': {
+      id: '/hakkimizda'
+      path: '/hakkimizda'
+      fullPath: '/hakkimizda'
+      preLoaderRoute: typeof HakkimizdaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/hesabim': {
+      id: '/hesabim'
+      path: '/hesabim'
+      fullPath: '/hesabim'
+      preLoaderRoute: typeof HesabimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iade-ve-iptal-politikasi': {
+      id: '/iade-ve-iptal-politikasi'
+      path: '/iade-ve-iptal-politikasi'
+      fullPath: '/iade-ve-iptal-politikasi'
+      preLoaderRoute: typeof IadeVeIptalPolitikasiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iletisim': {
+      id: '/iletisim'
+      path: '/iletisim'
+      fullPath: '/iletisim'
+      preLoaderRoute: typeof IletisimRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kalite-ve-guvenlik': {
+      id: '/kalite-ve-guvenlik'
+      path: '/kalite-ve-guvenlik'
+      fullPath: '/kalite-ve-guvenlik'
+      preLoaderRoute: typeof KaliteVeGuvenlikRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kvkk': {
+      id: '/kvkk'
+      path: '/kvkk'
+      fullPath: '/kvkk'
+      preLoaderRoute: typeof KvkkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mesafeli-satis-sozlesmesi': {
+      id: '/mesafeli-satis-sozlesmesi'
+      path: '/mesafeli-satis-sozlesmesi'
+      fullPath: '/mesafeli-satis-sozlesmesi'
+      preLoaderRoute: typeof MesafeliSatisSozlesmesiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/on-bilgilendirme-formu': {
+      id: '/on-bilgilendirme-formu'
+      path: '/on-bilgilendirme-formu'
+      fullPath: '/on-bilgilendirme-formu'
+      preLoaderRoute: typeof OnBilgilendirmeFormuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sepet': {
+      id: '/sepet'
+      path: '/sepet'
+      fullPath: '/sepet'
+      preLoaderRoute: typeof SepetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sikca-sorulan-sorular': {
+      id: '/sikca-sorulan-sorular'
+      path: '/sikca-sorulan-sorular'
+      fullPath: '/sikca-sorulan-sorular'
+      preLoaderRoute: typeof SikcaSorulanSorularRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/siparis-takip': {
+      id: '/siparis-takip'
+      path: '/siparis-takip'
+      fullPath: '/siparis-takip'
+      preLoaderRoute: typeof SiparisTakipRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/teslimat-politikasi': {
+      id: '/teslimat-politikasi'
+      path: '/teslimat-politikasi'
+      fullPath: '/teslimat-politikasi'
+      preLoaderRoute: typeof TeslimatPolitikasiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ticari-elektronik-ileti-onayi': {
+      id: '/ticari-elektronik-ileti-onayi'
+      path: '/ticari-elektronik-ileti-onayi'
+      fullPath: '/ticari-elektronik-ileti-onayi'
+      preLoaderRoute: typeof TicariElektronikIletiOnayiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/uyelik-sozlesmesi': {
+      id: '/uyelik-sozlesmesi'
+      path: '/uyelik-sozlesmesi'
+      fullPath: '/uyelik-sozlesmesi'
+      preLoaderRoute: typeof UyelikSozlesmesiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/urunler/': {
+      id: '/urunler/'
+      path: '/urunler'
+      fullPath: '/urunler/'
+      preLoaderRoute: typeof UrunlerIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/urunler/$slug': {
+      id: '/urunler/$slug'
+      path: '/urunler/$slug'
+      fullPath: '/urunler/$slug'
+      preLoaderRoute: typeof UrunlerSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AramaRoute: AramaRoute,
+  BilgiMerkeziRoute: BilgiMerkeziRoute,
+  CerezPolitikasiRoute: CerezPolitikasiRoute,
+  GirisRoute: GirisRoute,
+  GizlilikPolitikasiRoute: GizlilikPolitikasiRoute,
+  HakkimizdaRoute: HakkimizdaRoute,
+  HesabimRoute: HesabimRoute,
+  IadeVeIptalPolitikasiRoute: IadeVeIptalPolitikasiRoute,
+  IletisimRoute: IletisimRoute,
+  KaliteVeGuvenlikRoute: KaliteVeGuvenlikRoute,
+  KvkkRoute: KvkkRoute,
+  MesafeliSatisSozlesmesiRoute: MesafeliSatisSozlesmesiRoute,
+  OnBilgilendirmeFormuRoute: OnBilgilendirmeFormuRoute,
+  SepetRoute: SepetRoute,
+  SikcaSorulanSorularRoute: SikcaSorulanSorularRoute,
+  SiparisTakipRoute: SiparisTakipRoute,
+  TeslimatPolitikasiRoute: TeslimatPolitikasiRoute,
+  TicariElektronikIletiOnayiRoute: TicariElektronikIletiOnayiRoute,
+  UyelikSozlesmesiRoute: UyelikSozlesmesiRoute,
+  UrunlerSlugRoute: UrunlerSlugRoute,
+  UrunlerIndexRoute: UrunlerIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
