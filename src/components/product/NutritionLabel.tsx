@@ -21,8 +21,7 @@ export function NutritionLabel({
 }) {
   const values = new Map((product.nutrition ?? []).map((row) => [row.label, row]));
   const filledCount = nutritionLabelTemplate.reduce(
-    (total, section) =>
-      total + section.rows.filter((row) => values.has(row.label)).length,
+    (total, section) => total + section.rows.filter((row) => values.has(row.label)).length,
     0,
   );
   const isReady = filledCount > 0;
