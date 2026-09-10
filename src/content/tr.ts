@@ -412,8 +412,7 @@ export const tr = {
     reviewPayment: "Ödeme yöntemi",
     reviewItems: "Ürünler",
     edit: "Düzenle",
-    consent:
-      "Mesafeli Satış Sözleşmesi ve Ön Bilgilendirme Formu’nu okudum, onaylıyorum.",
+    consent: "Mesafeli Satış Sözleşmesi ve Ön Bilgilendirme Formu’nu okudum, onaylıyorum.",
     submit: "Siparişi tamamla (önizleme)",
     submitting: "İşleniyor…",
     successTitle: "Önizleme siparişi oluşturuldu",

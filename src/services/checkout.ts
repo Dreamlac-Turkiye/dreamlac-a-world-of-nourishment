@@ -19,7 +19,8 @@ const shippingOptions: ShippingOption[] = [
   {
     id: "standard",
     title: "Standart Kargo",
-    description: "Kargo firması ve teslimat süresi bilgisi tarafımıza iletildikten sonra eklenecek.",
+    description:
+      "Kargo firması ve teslimat süresi bilgisi tarafımıza iletildikten sonra eklenecek.",
     fee: null,
   },
   {

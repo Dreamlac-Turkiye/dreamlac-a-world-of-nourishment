@@ -44,7 +44,11 @@ export function CartSummary({ totals, children }: { totals: CartTotals; children
 
       {totals.total === null ? (
         <div className="mt-3 flex items-start gap-2 rounded-2xl bg-champagne/25 p-3">
-          <Info size={16} className="mt-0.5 shrink-0 text-champagne-foreground" aria-hidden="true" />
+          <Info
+            size={16}
+            className="mt-0.5 shrink-0 text-champagne-foreground"
+            aria-hidden="true"
+          />
           <p className="text-xs leading-relaxed text-champagne-foreground/90">
             {tr.cart.pendingTotal}
           </p>
