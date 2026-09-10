@@ -48,6 +48,12 @@ export const mockProducts: Product[] = [
       "Anne sütü bebekler için en uygun besindir. Dreamlac 1 yalnızca sağlık profesyonelinin önerisi doğrultusunda kullanılmalıdır. Ürünün kullanımı, hazırlanması ve bebeğinizin beslenmesi hakkında doktorunuza danışınız.",
     /** Hukuki inceleme tamamlanana kadar doğrudan satış kapalı. */
     directSaleEnabled: false,
+    ingredientsList: null,
+    nutrition: null,
+    preparation: null,
+    allergens: null,
+    storage: null,
+    shelfLife: null,
   },
   {
     id: "p-dreamlac-2",
@@ -70,6 +76,12 @@ export const mockProducts: Product[] = [
     warning:
       "Anne sütü bebekler için en uygun besindir. Devam sütleri, tamamlayıcı beslenmenin bir parçasıdır ve ilk 6 ay boyunca anne sütü yerine kullanılmamalıdır. Ürün seçimi ve kullanımı hakkında sağlık profesyonelinize danışınız.",
     directSaleEnabled: false,
+    ingredientsList: null,
+    nutrition: null,
+    preparation: null,
+    allergens: null,
+    storage: null,
+    shelfLife: null,
   },
   {
     id: "p-dreamlac-3",
@@ -93,5 +105,11 @@ export const mockProducts: Product[] = [
     warning:
       "Anne sütü çocukların beslenmesinde önemli bir yere sahiptir. Dreamlac 3, çeşitli ve dengeli beslenmenin yerine geçmez. Çocuğunuzun beslenme ihtiyaçları ve ürün kullanımı hakkında sağlık profesyonelinize danışınız.",
     directSaleEnabled: false,
+    ingredientsList: null,
+    nutrition: null,
+    preparation: null,
+    allergens: null,
+    storage: null,
+    shelfLife: null,
   },
 ];

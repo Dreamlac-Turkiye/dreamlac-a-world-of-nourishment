@@ -45,6 +45,45 @@ export interface Product {
   warning: string;
   /** Doğrudan satış hukuki inceleme sonrası açılacak (admin panelinden kontrol edilir). */
   directSaleEnabled: boolean;
+  /** Tam bileşen listesi etiketten okunmadan doldurulmaz → null. */
+  ingredientsList: string | null;
+  /** Besin değerleri tablosu resmî veri gelmeden doldurulmaz → null. */
+  nutrition: NutritionFact[] | null;
+  /** Hazırlama talimatı ve dozaj tablosu resmî veri gelmeden doldurulmaz → null. */
+  preparation: PreparationInfo | null;
+  /** Alerjen bilgisi → null. */
+  allergens: string | null;
+  /** Saklama koşulları → null. */
+  storage: string | null;
+  /** Raf ömrü → null. */
+  shelfLife: string | null;
+}
+
+export interface NutritionFact {
+  label: string;
+  /** 100 g toz ürün için değer. */
+  per100g: string;
+  /** Hazırlanmış 100 ml için değer. */
+  per100ml: string;
+}
+
+export interface PreparationStep {
+  id: string;
+  title: string;
+  description: string;
+}
+
+export interface DosageRow {
+  ageLabel: string;
+  waterMl: string;
+  scoops: string;
+  perDay: string;
+}
+
+export interface PreparationInfo {
+  steps: PreparationStep[];
+  dosage: DosageRow[];
+  hygieneNotes: string[];
 }
 
 export interface Article {
