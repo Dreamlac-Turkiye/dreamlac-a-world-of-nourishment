@@ -1,4 +1,5 @@
 import { Minus, Plus } from "lucide-react";
+import { useId } from "react";
 import { tr } from "@/content/tr";
 
 export const MAX_QUANTITY = 10;
@@ -8,16 +9,19 @@ export function QuantityStepper({
   value,
   onChange,
   disabled = false,
+  hideNote = false,
 }: {
   value: number;
   onChange: (next: number) => void;
   disabled?: boolean;
+  hideNote?: boolean;
 }) {
+  const labelId = useId();
   const clamp = (n: number) => Math.min(MAX_QUANTITY, Math.max(1, n));
 
   return (
     <div className="flex flex-col gap-1.5">
-      <span id="quantity-label" className="text-xs font-medium text-muted-foreground">
+      <span id={labelId} className="text-xs font-medium text-muted-foreground">
         {tr.productDetail.quantity}
       </span>
       <div className="inline-flex w-fit items-center gap-1 rounded-full border border-border/70 bg-card p-1">
@@ -33,7 +37,7 @@ export function QuantityStepper({
         <input
           type="number"
           inputMode="numeric"
-          aria-labelledby="quantity-label"
+          aria-labelledby={labelId}
           min={1}
           max={MAX_QUANTITY}
           value={value}
@@ -54,7 +58,9 @@ export function QuantityStepper({
           <Plus size={16} aria-hidden="true" />
         </button>
       </div>
-      <p className="text-xs text-muted-foreground">{tr.productDetail.maxQuantityNote}</p>
+      {hideNote ? null : (
+        <p className="text-xs text-muted-foreground">{tr.productDetail.maxQuantityNote}</p>
+      )}
     </div>
   );
 }
