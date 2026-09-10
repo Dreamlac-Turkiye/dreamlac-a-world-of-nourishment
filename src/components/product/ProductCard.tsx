@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { tr } from "@/content/tr";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/context/CartContext";
 import type { Product } from "@/types";
 
 export function ProductCardSkeleton() {
@@ -62,6 +63,7 @@ export function ProductCard({
   className?: string;
 }) {
   const [favorite, setFavorite] = useState(false);
+  const { add } = useCart();
   const outOfStock = product.stock === "out_of_stock";
   /** Fiyat iletilmediği ve hukuki inceleme tamamlanmadığı için satış kapalı. */
   const canAddToCart = product.directSaleEnabled && !outOfStock;
@@ -155,7 +157,10 @@ export function ProductCard({
           {canAddToCart ? (
             <Button
               className="flex-1 rounded-full"
-              onClick={() => toast.info(`${product.name} — ${tr.common.soon}`)}
+              onClick={() => {
+                add(product.id, 1);
+                toast.success(tr.cart.added);
+              }}
             >
               <ShoppingBag aria-hidden="true" />
               {tr.products.addToCart}

@@ -16,6 +16,7 @@ import { Footer } from "@/components/layout/Footer";
 import { CookieBanner } from "@/components/layout/CookieBanner";
 import { Toaster } from "@/components/ui/sonner";
 import { tr } from "@/content/tr";
+import { CartProvider } from "@/context/CartContext";
 
 function NotFoundComponent() {
   return (
@@ -124,18 +125,20 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <a
-        href="#main"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
-      >
-        {tr.common.skipToContent}
-      </a>
-      <Header />
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <Footer />
-      <CookieBanner />
-      <Toaster position="bottom-center" />
+      <CartProvider>
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
+        >
+          {tr.common.skipToContent}
+        </a>
+        <Header />
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <Footer />
+        <CookieBanner />
+        <Toaster position="bottom-center" />
+      </CartProvider>
     </QueryClientProvider>
   );
 }

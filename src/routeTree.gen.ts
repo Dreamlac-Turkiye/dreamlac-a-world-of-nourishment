@@ -22,6 +22,7 @@ import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KaliteVeGuvenlikRouteImport } from './routes/kalite-ve-guvenlik'
 import { Route as KvkkRouteImport } from './routes/kvkk'
 import { Route as MesafeliSatisSozlesmesiRouteImport } from './routes/mesafeli-satis-sozlesmesi'
+import { Route as OdemeRouteImport } from './routes/odeme'
 import { Route as OnBilgilendirmeFormuRouteImport } from './routes/on-bilgilendirme-formu'
 import { Route as SepetRouteImport } from './routes/sepet'
 import { Route as SikcaSorulanSorularRouteImport } from './routes/sikca-sorulan-sorular'
@@ -97,6 +98,11 @@ const MesafeliSatisSozlesmesiRoute = MesafeliSatisSozlesmesiRouteImport.update({
   path: '/mesafeli-satis-sozlesmesi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OdemeRoute = OdemeRouteImport.update({
+  id: '/odeme',
+  path: '/odeme',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OnBilgilendirmeFormuRoute = OnBilgilendirmeFormuRouteImport.update({
   id: '/on-bilgilendirme-formu',
   path: '/on-bilgilendirme-formu',
@@ -158,6 +164,7 @@ export interface FileRoutesByFullPath {
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
   '/kvkk': typeof KvkkRoute
   '/mesafeli-satis-sozlesmesi': typeof MesafeliSatisSozlesmesiRoute
+  '/odeme': typeof OdemeRoute
   '/on-bilgilendirme-formu': typeof OnBilgilendirmeFormuRoute
   '/sepet': typeof SepetRoute
   '/sikca-sorulan-sorular': typeof SikcaSorulanSorularRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
   '/kvkk': typeof KvkkRoute
   '/mesafeli-satis-sozlesmesi': typeof MesafeliSatisSozlesmesiRoute
+  '/odeme': typeof OdemeRoute
   '/on-bilgilendirme-formu': typeof OnBilgilendirmeFormuRoute
   '/sepet': typeof SepetRoute
   '/sikca-sorulan-sorular': typeof SikcaSorulanSorularRoute
@@ -207,6 +215,7 @@ export interface FileRoutesById {
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
   '/kvkk': typeof KvkkRoute
   '/mesafeli-satis-sozlesmesi': typeof MesafeliSatisSozlesmesiRoute
+  '/odeme': typeof OdemeRoute
   '/on-bilgilendirme-formu': typeof OnBilgilendirmeFormuRoute
   '/sepet': typeof SepetRoute
   '/sikca-sorulan-sorular': typeof SikcaSorulanSorularRoute
@@ -233,6 +242,7 @@ export interface FileRouteTypes {
     | '/kalite-ve-guvenlik'
     | '/kvkk'
     | '/mesafeli-satis-sozlesmesi'
+    | '/odeme'
     | '/on-bilgilendirme-formu'
     | '/sepet'
     | '/sikca-sorulan-sorular'
@@ -257,6 +267,7 @@ export interface FileRouteTypes {
     | '/kalite-ve-guvenlik'
     | '/kvkk'
     | '/mesafeli-satis-sozlesmesi'
+    | '/odeme'
     | '/on-bilgilendirme-formu'
     | '/sepet'
     | '/sikca-sorulan-sorular'
@@ -281,6 +292,7 @@ export interface FileRouteTypes {
     | '/kalite-ve-guvenlik'
     | '/kvkk'
     | '/mesafeli-satis-sozlesmesi'
+    | '/odeme'
     | '/on-bilgilendirme-formu'
     | '/sepet'
     | '/sikca-sorulan-sorular'
@@ -306,6 +318,7 @@ export interface RootRouteChildren {
   KaliteVeGuvenlikRoute: typeof KaliteVeGuvenlikRoute
   KvkkRoute: typeof KvkkRoute
   MesafeliSatisSozlesmesiRoute: typeof MesafeliSatisSozlesmesiRoute
+  OdemeRoute: typeof OdemeRoute
   OnBilgilendirmeFormuRoute: typeof OnBilgilendirmeFormuRoute
   SepetRoute: typeof SepetRoute
   SikcaSorulanSorularRoute: typeof SikcaSorulanSorularRoute
@@ -410,6 +423,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MesafeliSatisSozlesmesiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/odeme': {
+      id: '/odeme'
+      path: '/odeme'
+      fullPath: '/odeme'
+      preLoaderRoute: typeof OdemeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/on-bilgilendirme-formu': {
       id: '/on-bilgilendirme-formu'
       path: '/on-bilgilendirme-formu'
@@ -490,6 +510,7 @@ const rootRouteChildren: RootRouteChildren = {
   KaliteVeGuvenlikRoute: KaliteVeGuvenlikRoute,
   KvkkRoute: KvkkRoute,
   MesafeliSatisSozlesmesiRoute: MesafeliSatisSozlesmesiRoute,
+  OdemeRoute: OdemeRoute,
   OnBilgilendirmeFormuRoute: OnBilgilendirmeFormuRoute,
   SepetRoute: SepetRoute,
   SikcaSorulanSorularRoute: SikcaSorulanSorularRoute,

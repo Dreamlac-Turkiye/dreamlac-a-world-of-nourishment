@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import { MAX_QUANTITY, QuantityStepper } from "@/components/product/QuantityStepper";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
+import { useCart } from "@/context/CartContext";
 import type { Product } from "@/types";
 
 /**
@@ -14,6 +15,7 @@ import type { Product } from "@/types";
  */
 export function PurchasePanel({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
+  const { add } = useCart();
 
   const priceLabel =
     product.price.amount === null
@@ -70,11 +72,10 @@ export function PurchasePanel({ product }: { product: Product }) {
           </div>
           <Button
             className="mt-4 w-full rounded-full"
-            onClick={() =>
-              toast.info(
-                `${product.name} × ${Math.min(quantity, MAX_QUANTITY)} — ${tr.common.soon}`,
-              )
-            }
+            onClick={() => {
+              add(product.id, Math.min(quantity, MAX_QUANTITY));
+              toast.success(tr.cart.added);
+            }}
           >
             <ShoppingBag aria-hidden="true" />
             {tr.products.addToCart}

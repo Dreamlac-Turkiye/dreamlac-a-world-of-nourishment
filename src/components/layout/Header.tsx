@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { LogoPlaceholder } from "@/components/brand/LogoPlaceholder";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
+import { useCart } from "@/context/CartContext";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -17,6 +18,7 @@ const navItems = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { itemCount } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -90,8 +92,13 @@ export function Header() {
             className="rounded-full"
             aria-label={tr.nav.cart}
           >
-            <Link to="/sepet">
+            <Link to="/sepet" className="relative">
               <ShoppingBag aria-hidden="true" />
+              {itemCount > 0 ? (
+                <span className="absolute -top-0.5 -right-0.5 grid min-w-4 place-items-center rounded-full bg-primary px-1 text-[0.65rem] leading-4 font-semibold text-primary-foreground tabular-nums">
+                  {itemCount}
+                </span>
+              ) : null}
             </Link>
           </Button>
           <Button
