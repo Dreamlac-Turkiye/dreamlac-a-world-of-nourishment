@@ -62,7 +62,9 @@ function OrdersPage() {
               >
                 <div className="min-w-0">
                   <p className="text-sm font-semibold text-primary-deep">{order.orderNumber}</p>
-                  <p className="mt-1 text-xs text-muted-foreground">{formatDate(order.createdAt)}</p>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {formatDate(order.createdAt)}
+                  </p>
                 </div>
                 <div className="text-right">
                   <p className="text-sm text-primary-deep">

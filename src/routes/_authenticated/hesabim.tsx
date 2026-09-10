@@ -47,9 +47,7 @@ function AccountPage() {
   return (
     <main id="main" className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
       <h1 className="text-3xl font-semibold text-primary-deep sm:text-4xl">{tr.account.title}</h1>
-      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-        {tr.account.description}
-      </p>
+      <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tr.account.description}</p>
 
       <div className="mt-6 rounded-2xl border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
         <p className="text-xs uppercase tracking-wide text-muted-foreground">
