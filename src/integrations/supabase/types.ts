@@ -14,6 +14,125 @@ export type Database = {
   }
   public: {
     Tables: {
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          line_total_kurus: number | null
+          order_id: string
+          product_id: string
+          product_name: string
+          product_slug: string
+          quantity: number
+          stage: string | null
+          unit_price_kurus: number | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          line_total_kurus?: number | null
+          order_id: string
+          product_id: string
+          product_name: string
+          product_slug: string
+          quantity: number
+          stage?: string | null
+          unit_price_kurus?: number | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          line_total_kurus?: number | null
+          order_id?: string
+          product_id?: string
+          product_name?: string
+          product_slug?: string
+          quantity?: number
+          stage?: string | null
+          unit_price_kurus?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address_line: string
+          city: string
+          created_at: string
+          district: string
+          email: string
+          full_name: string
+          id: string
+          item_count: number
+          note: string | null
+          order_number: string
+          payment_method_id: string
+          payment_method_title: string
+          phone: string
+          shipping_kurus: number | null
+          shipping_option_id: string
+          shipping_option_title: string
+          status: string
+          subtotal_kurus: number | null
+          total_kurus: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address_line: string
+          city: string
+          created_at?: string
+          district: string
+          email: string
+          full_name: string
+          id?: string
+          item_count?: number
+          note?: string | null
+          order_number: string
+          payment_method_id: string
+          payment_method_title: string
+          phone: string
+          shipping_kurus?: number | null
+          shipping_option_id: string
+          shipping_option_title: string
+          status?: string
+          subtotal_kurus?: number | null
+          total_kurus?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address_line?: string
+          city?: string
+          created_at?: string
+          district?: string
+          email?: string
+          full_name?: string
+          id?: string
+          item_count?: number
+          note?: string | null
+          order_number?: string
+          payment_method_id?: string
+          payment_method_title?: string
+          phone?: string
+          shipping_kurus?: number | null
+          shipping_option_id?: string
+          shipping_option_title?: string
+          status?: string
+          subtotal_kurus?: number | null
+          total_kurus?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       product_settings: {
         Row: {
           admin_note: string | null
