@@ -63,6 +63,7 @@ export function ProductCard({
   className?: string;
 }) {
   const [favorite, setFavorite] = useState(false);
+  const { add } = useCart();
   const outOfStock = product.stock === "out_of_stock";
   /** Fiyat iletilmediği ve hukuki inceleme tamamlanmadığı için satış kapalı. */
   const canAddToCart = product.directSaleEnabled && !outOfStock;
