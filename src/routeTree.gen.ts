@@ -17,7 +17,6 @@ import { Route as CerezPolitikasiRouteImport } from './routes/cerez-politikasi'
 import { Route as GirisRouteImport } from './routes/giris'
 import { Route as GizlilikPolitikasiRouteImport } from './routes/gizlilik-politikasi'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
-import { Route as HesabimRouteImport } from './routes/hesabim'
 import { Route as IadeVeIptalPolitikasiRouteImport } from './routes/iade-ve-iptal-politikasi'
 import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KaliteVeGuvenlikRouteImport } from './routes/kalite-ve-guvenlik'
@@ -72,11 +71,6 @@ const GizlilikPolitikasiRoute = GizlilikPolitikasiRouteImport.update({
 const HakkimizdaRoute = HakkimizdaRouteImport.update({
   id: '/hakkimizda',
   path: '/hakkimizda',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HesabimRoute = HesabimRouteImport.update({
-  id: '/hesabim',
-  path: '/hesabim',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IadeVeIptalPolitikasiRoute = IadeVeIptalPolitikasiRouteImport.update({
@@ -169,7 +163,6 @@ export interface FileRoutesByFullPath {
   '/giris': typeof GirisRoute
   '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimizda': typeof HakkimizdaRoute
-  '/hesabim': typeof HesabimRoute
   '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
   '/iletisim': typeof IletisimRoute
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
@@ -195,7 +188,6 @@ export interface FileRoutesByTo {
   '/giris': typeof GirisRoute
   '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimizda': typeof HakkimizdaRoute
-  '/hesabim': typeof HesabimRoute
   '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
   '/iletisim': typeof IletisimRoute
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
@@ -223,7 +215,6 @@ export interface FileRoutesById {
   '/giris': typeof GirisRoute
   '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimizda': typeof HakkimizdaRoute
-  '/hesabim': typeof HesabimRoute
   '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
   '/iletisim': typeof IletisimRoute
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
@@ -251,7 +242,6 @@ export interface FileRouteTypes {
     | '/giris'
     | '/gizlilik-politikasi'
     | '/hakkimizda'
-    | '/hesabim'
     | '/iade-ve-iptal-politikasi'
     | '/iletisim'
     | '/kalite-ve-guvenlik'
@@ -277,7 +267,6 @@ export interface FileRouteTypes {
     | '/giris'
     | '/gizlilik-politikasi'
     | '/hakkimizda'
-    | '/hesabim'
     | '/iade-ve-iptal-politikasi'
     | '/iletisim'
     | '/kalite-ve-guvenlik'
@@ -304,7 +293,6 @@ export interface FileRouteTypes {
     | '/giris'
     | '/gizlilik-politikasi'
     | '/hakkimizda'
-    | '/hesabim'
     | '/iade-ve-iptal-politikasi'
     | '/iletisim'
     | '/kalite-ve-guvenlik'
@@ -332,7 +320,6 @@ export interface RootRouteChildren {
   GirisRoute: typeof GirisRoute
   GizlilikPolitikasiRoute: typeof GizlilikPolitikasiRoute
   HakkimizdaRoute: typeof HakkimizdaRoute
-  HesabimRoute: typeof HesabimRoute
   IadeVeIptalPolitikasiRoute: typeof IadeVeIptalPolitikasiRoute
   IletisimRoute: typeof IletisimRoute
   KaliteVeGuvenlikRoute: typeof KaliteVeGuvenlikRoute
@@ -406,13 +393,6 @@ declare module '@tanstack/react-router' {
       path: '/hakkimizda'
       fullPath: '/hakkimizda'
       preLoaderRoute: typeof HakkimizdaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hesabim': {
-      id: '/hesabim'
-      path: '/hesabim'
-      fullPath: '/hesabim'
-      preLoaderRoute: typeof HesabimRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/iade-ve-iptal-politikasi': {
@@ -550,7 +530,6 @@ const rootRouteChildren: RootRouteChildren = {
   GirisRoute: GirisRoute,
   GizlilikPolitikasiRoute: GizlilikPolitikasiRoute,
   HakkimizdaRoute: HakkimizdaRoute,
-  HesabimRoute: HesabimRoute,
   IadeVeIptalPolitikasiRoute: IadeVeIptalPolitikasiRoute,
   IletisimRoute: IletisimRoute,
   KaliteVeGuvenlikRoute: KaliteVeGuvenlikRoute,
