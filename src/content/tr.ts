@@ -293,6 +293,9 @@ export const tr = {
     salesClosedTitle: "Bu ürün için çevrim içi satış henüz açık değil",
     salesClosedText:
       "Fiyat, gramaj ve satış bilgileri tarafımıza iletildikten sonra sipariş alanı etkinleştirilecektir.",
+    pricePending: "Fiyat bilgisi hazırlanıyor",
+    previewSaleNote:
+      "Sipariş akışı şu anda önizleme olarak çalışır: ürünü sepete ekleyip ödeme adımlarını uçtan uca görebilirsiniz. Tutarlar, resmî fiyat bilgisi tarafımıza iletildikten sonra görüntülenecektir.",
     outOfStockText: "Ürün şu anda stokta bulunmuyor.",
     notifyMe: "Stoğa gelince haber ver",
     ingredientsTitle: "Öne çıkan bileşenler",

@@ -22,34 +22,17 @@ export function PurchasePanel({ product }: { product: Product }) {
       ? null
       : `${(product.price.amount / 100).toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺`;
 
-  const salesReady = product.directSaleEnabled && priceLabel !== null;
   const outOfStock = product.stock === "out_of_stock";
-
-  if (!salesReady) {
-    return (
-      <div className="rounded-[1.75rem] border border-champagne/70 bg-champagne/25 p-5">
-        <div className="flex items-start gap-3">
-          <Info
-            size={18}
-            className="mt-0.5 shrink-0 text-champagne-foreground"
-            aria-hidden="true"
-          />
-          <div className="min-w-0">
-            <h3 className="text-sm font-semibold text-champagne-foreground">
-              {tr.productDetail.salesClosedTitle}
-            </h3>
-            <p className="mt-1.5 text-sm leading-relaxed text-champagne-foreground/90">
-              {tr.productDetail.salesClosedText}
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  /** Fiyat iletilmediği sürece sipariş akışı önizleme olarak çalışır. */
+  const previewMode = !product.directSaleEnabled || priceLabel === null;
 
   return (
     <div className="rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
-      {priceLabel ? <p className="text-2xl font-semibold text-primary-deep">{priceLabel}</p> : null}
+      {priceLabel ? (
+        <p className="text-2xl font-semibold text-primary-deep">{priceLabel}</p>
+      ) : (
+        <p className="text-sm font-medium text-muted-foreground">{tr.productDetail.pricePending}</p>
+      )}
 
       {outOfStock ? (
         <>
@@ -82,6 +65,19 @@ export function PurchasePanel({ product }: { product: Product }) {
           </Button>
         </>
       )}
+
+      {previewMode ? (
+        <div className="mt-4 flex items-start gap-2 rounded-2xl bg-champagne/25 p-3">
+          <Info
+            size={16}
+            className="mt-0.5 shrink-0 text-champagne-foreground"
+            aria-hidden="true"
+          />
+          <p className="text-[0.75rem] leading-relaxed text-champagne-foreground/90">
+            {tr.productDetail.previewSaleNote}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
