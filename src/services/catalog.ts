@@ -38,7 +38,8 @@ function mergeSettings(product: Product, setting?: ProductSettingRecord): Produc
     ...product,
     price: { ...product.price, amount: setting.priceKurus ?? product.price.amount },
     weight: setting.weight ?? product.weight,
-    ingredientsList: setting.ingredients.length > 0 ? setting.ingredients : product.ingredientsList,
+    ingredientsList:
+      setting.ingredients.length > 0 ? setting.ingredients.join("\n") : product.ingredientsList,
     stock: setting.stock,
     directSaleEnabled: setting.directSaleEnabled,
   };
