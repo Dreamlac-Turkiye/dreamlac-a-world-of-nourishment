@@ -58,9 +58,7 @@ export function PackShotPlaceholder({
         <span className="text-[0.7rem] font-medium text-primary-deep/80 sm:text-xs">
           {label ?? tr.products.imageMissing}
         </span>
-        <span className="hidden text-[0.7rem] text-primary-deep/60 sm:block">
-          {product.packagingNote}
-        </span>
+        <span className="hidden text-[0.7rem] text-primary-deep/60 sm:block">{product.name}</span>
       </div>
     </div>
   );

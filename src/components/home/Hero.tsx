@@ -93,7 +93,15 @@ export function Hero() {
             </Button>
           </div>
 
-          <p className="mt-8 hidden items-center gap-2 text-xs text-muted-foreground lg:flex">
+          {/* Zorunlu bilgilendirme — anne sütü uyarısı */}
+          <p
+            role="note"
+            className="mt-8 max-w-xl rounded-[1.25rem] border border-champagne/70 bg-champagne/25 px-4 py-3 text-xs leading-relaxed text-champagne-foreground sm:text-sm"
+          >
+            {tr.hero.notice}
+          </p>
+
+          <p className="mt-6 hidden items-center gap-2 text-xs text-muted-foreground lg:flex">
             <ChevronDown size={14} aria-hidden="true" />
             {tr.hero.scrollHint}
           </p>

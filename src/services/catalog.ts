@@ -1,6 +1,24 @@
-import { mockArticles, mockQualityItems, mockTrustItems } from "@/data/mock/content";
+import {
+  mockArticles,
+  mockComparisonRows,
+  mockFaqs,
+  mockIngredientCards,
+  mockProductionSteps,
+  mockQualityItems,
+  mockTrustItems,
+} from "@/data/mock/content";
 import { mockProducts } from "@/data/mock/products";
-import type { Article, NewsletterSubscription, Product, QualityItem, TrustItem } from "@/types";
+import type {
+  Article,
+  ComparisonRow,
+  FaqItem,
+  IngredientCard,
+  NewsletterSubscription,
+  Product,
+  ProductionStep,
+  QualityItem,
+  TrustItem,
+} from "@/types";
 
 /**
  * Servis katmanı — arayüz bu fonksiyonlara bağlıdır, mock veriye değil.
@@ -26,6 +44,22 @@ export function getTrustItems(): TrustItem[] {
 
 export function getQualityItems(): QualityItem[] {
   return mockQualityItems;
+}
+
+export function getIngredientCards(): IngredientCard[] {
+  return mockIngredientCards;
+}
+
+export function getProductionSteps(): ProductionStep[] {
+  return mockProductionSteps;
+}
+
+export function getComparisonRows(): ComparisonRow[] {
+  return mockComparisonRows;
+}
+
+export function getFaqs(): FaqItem[] {
+  return mockFaqs;
 }
 
 /** TODO(backend): gerçek bülten kaydı. Şu an yalnızca arayüz doğrulaması yapar. */
