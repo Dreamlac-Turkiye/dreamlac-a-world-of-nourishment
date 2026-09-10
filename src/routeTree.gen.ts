@@ -30,9 +30,12 @@ import { Route as SiparisTakipRouteImport } from './routes/siparis-takip'
 import { Route as TeslimatPolitikasiRouteImport } from './routes/teslimat-politikasi'
 import { Route as TicariElektronikIletiOnayiRouteImport } from './routes/ticari-elektronik-ileti-onayi'
 import { Route as UyelikSozlesmesiRouteImport } from './routes/uyelik-sozlesmesi'
+import { Route as AuthenticatedHesabimRouteImport } from './routes/_authenticated/hesabim'
 import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
 import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
 import { Route as UrunlerSlugRouteImport } from './routes/urunler.$slug'
+import { Route as AuthenticatedSiparislerimIndexRouteImport } from './routes/_authenticated/siparislerim.index'
+import { Route as AuthenticatedSiparislerimOrderNumberRouteImport } from './routes/_authenticated/siparislerim.$orderNumber'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -139,6 +142,11 @@ const UyelikSozlesmesiRoute = UyelikSozlesmesiRouteImport.update({
   path: '/uyelik-sozlesmesi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHesabimRoute = AuthenticatedHesabimRouteImport.update({
+  id: '/hesabim',
+  path: '/hesabim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedYonetimRoute = AuthenticatedYonetimRouteImport.update({
   id: '/yonetim',
   path: '/yonetim',
@@ -154,6 +162,18 @@ const UrunlerSlugRoute = UrunlerSlugRouteImport.update({
   path: '/urunler/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSiparislerimIndexRoute =
+  AuthenticatedSiparislerimIndexRouteImport.update({
+    id: '/siparislerim/',
+    path: '/siparislerim/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSiparislerimOrderNumberRoute =
+  AuthenticatedSiparislerimOrderNumberRouteImport.update({
+    id: '/siparislerim/$orderNumber',
+    path: '/siparislerim/$orderNumber',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -176,9 +196,12 @@ export interface FileRoutesByFullPath {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/hesabim': typeof AuthenticatedHesabimRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
+  '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -201,9 +224,12 @@ export interface FileRoutesByTo {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/hesabim': typeof AuthenticatedHesabimRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler': typeof UrunlerIndexRoute
+  '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/siparislerim': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -228,9 +254,12 @@ export interface FileRoutesById {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/_authenticated/hesabim': typeof AuthenticatedHesabimRoute
   '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
+  '/_authenticated/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/_authenticated/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -255,9 +284,12 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/hesabim'
     | '/yonetim'
     | '/urunler/$slug'
     | '/urunler/'
+    | '/siparislerim/$orderNumber'
+    | '/siparislerim/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -280,9 +312,12 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/hesabim'
     | '/yonetim'
     | '/urunler/$slug'
     | '/urunler'
+    | '/siparislerim/$orderNumber'
+    | '/siparislerim'
   id:
     | '__root__'
     | '/'
@@ -306,9 +341,12 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/_authenticated/hesabim'
     | '/_authenticated/yonetim'
     | '/urunler/$slug'
     | '/urunler/'
+    | '/_authenticated/siparislerim/$orderNumber'
+    | '/_authenticated/siparislerim/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -486,6 +524,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UyelikSozlesmesiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/hesabim': {
+      id: '/_authenticated/hesabim'
+      path: '/hesabim'
+      fullPath: '/hesabim'
+      preLoaderRoute: typeof AuthenticatedHesabimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/yonetim': {
       id: '/_authenticated/yonetim'
       path: '/yonetim'
@@ -507,15 +552,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UrunlerSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/siparislerim/': {
+      id: '/_authenticated/siparislerim/'
+      path: '/siparislerim'
+      fullPath: '/siparislerim/'
+      preLoaderRoute: typeof AuthenticatedSiparislerimIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/siparislerim/$orderNumber': {
+      id: '/_authenticated/siparislerim/$orderNumber'
+      path: '/siparislerim/$orderNumber'
+      fullPath: '/siparislerim/$orderNumber'
+      preLoaderRoute: typeof AuthenticatedSiparislerimOrderNumberRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedHesabimRoute: typeof AuthenticatedHesabimRoute
   AuthenticatedYonetimRoute: typeof AuthenticatedYonetimRoute
+  AuthenticatedSiparislerimOrderNumberRoute: typeof AuthenticatedSiparislerimOrderNumberRoute
+  AuthenticatedSiparislerimIndexRoute: typeof AuthenticatedSiparislerimIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedHesabimRoute: AuthenticatedHesabimRoute,
   AuthenticatedYonetimRoute: AuthenticatedYonetimRoute,
+  AuthenticatedSiparislerimOrderNumberRoute:
+    AuthenticatedSiparislerimOrderNumberRoute,
+  AuthenticatedSiparislerimIndexRoute: AuthenticatedSiparislerimIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
