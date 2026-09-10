@@ -131,7 +131,8 @@ export function Footer() {
             {tr.footer.links.cookieSettings}
           </Link>
         </div>
-        <p className="mt-4 text-xs leading-relaxed text-muted-foreground/80">
+        <p className="mt-4 text-xs leading-relaxed text-primary-deep/80">{tr.footer.notice}</p>
+        <p className="mt-2 text-xs leading-relaxed text-muted-foreground/80">
           {tr.footer.disclaimer}
         </p>
       </div>
