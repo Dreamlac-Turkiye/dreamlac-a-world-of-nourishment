@@ -32,7 +32,6 @@ export function FactorySection() {
               </li>
             </ul>
           </div>
-
         </div>
       </div>
     </section>
