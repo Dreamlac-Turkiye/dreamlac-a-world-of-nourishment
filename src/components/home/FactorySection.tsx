@@ -4,11 +4,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { tr } from "@/content/tr";
 import { company } from "@/data/company";
 
-/**
- * Üretim tesisi bölümü.
- * NOT: Gerçek tesis fotoğrafı iletilmediği için görsel alan soyut 3D formlarla
- * doldurulmuştur — YER TUTUCU. Rastgele fabrika stok fotoğrafı kullanılmaz.
- */
+/** Üretim tesisi bölümü — yalnızca metin bilgisi, tesis fotoğrafı kullanılmaz. */
 export function FactorySection() {
   return (
     <section className="relative overflow-hidden border-y border-border/60 bg-secondary/40">
