@@ -10,8 +10,8 @@ export interface StepOption {
   id: string;
   title: string;
   description: string;
-  fee?: number | null;
-  disabled?: boolean;
+  fee?: number | null | undefined;
+  disabled?: boolean | undefined;
 }
 
 /** Kargo ve ödeme adımları için ortak seçenek listesi. */
