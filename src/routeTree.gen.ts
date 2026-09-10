@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AramaRouteImport } from './routes/arama'
 import { Route as BilgiMerkeziRouteImport } from './routes/bilgi-merkezi'
 import { Route as CerezPolitikasiRouteImport } from './routes/cerez-politikasi'
@@ -30,12 +31,17 @@ import { Route as SiparisTakipRouteImport } from './routes/siparis-takip'
 import { Route as TeslimatPolitikasiRouteImport } from './routes/teslimat-politikasi'
 import { Route as TicariElektronikIletiOnayiRouteImport } from './routes/ticari-elektronik-ileti-onayi'
 import { Route as UyelikSozlesmesiRouteImport } from './routes/uyelik-sozlesmesi'
+import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
 import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
 import { Route as UrunlerSlugRouteImport } from './routes/urunler.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AramaRoute = AramaRouteImport.update({
@@ -139,6 +145,11 @@ const UyelikSozlesmesiRoute = UyelikSozlesmesiRouteImport.update({
   path: '/uyelik-sozlesmesi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedYonetimRoute = AuthenticatedYonetimRouteImport.update({
+  id: '/yonetim',
+  path: '/yonetim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const UrunlerIndexRoute = UrunlerIndexRouteImport.update({
   id: '/urunler/',
   path: '/urunler/',
@@ -172,6 +183,7 @@ export interface FileRoutesByFullPath {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
 }
@@ -197,12 +209,14 @@ export interface FileRoutesByTo {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler': typeof UrunlerIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/arama': typeof AramaRoute
   '/bilgi-merkezi': typeof BilgiMerkeziRoute
   '/cerez-politikasi': typeof CerezPolitikasiRoute
@@ -223,6 +237,7 @@ export interface FileRoutesById {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
 }
@@ -250,6 +265,7 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/yonetim'
     | '/urunler/$slug'
     | '/urunler/'
   fileRoutesByTo: FileRoutesByTo
@@ -275,11 +291,13 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/yonetim'
     | '/urunler/$slug'
     | '/urunler'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/arama'
     | '/bilgi-merkezi'
     | '/cerez-politikasi'
@@ -300,12 +318,14 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/_authenticated/yonetim'
     | '/urunler/$slug'
     | '/urunler/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AramaRoute: typeof AramaRoute
   BilgiMerkeziRoute: typeof BilgiMerkeziRoute
   CerezPolitikasiRoute: typeof CerezPolitikasiRoute
@@ -337,6 +357,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/arama': {
@@ -479,6 +506,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UyelikSozlesmesiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/yonetim': {
+      id: '/_authenticated/yonetim'
+      path: '/yonetim'
+      fullPath: '/yonetim'
+      preLoaderRoute: typeof AuthenticatedYonetimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/urunler/': {
       id: '/urunler/'
       path: '/urunler'
@@ -496,8 +530,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedYonetimRoute: typeof AuthenticatedYonetimRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedYonetimRoute: AuthenticatedYonetimRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AramaRoute: AramaRoute,
   BilgiMerkeziRoute: BilgiMerkeziRoute,
   CerezPolitikasiRoute: CerezPolitikasiRoute,
