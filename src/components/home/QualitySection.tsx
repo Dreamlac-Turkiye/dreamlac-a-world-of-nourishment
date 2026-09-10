@@ -48,6 +48,16 @@ export function QualitySection() {
               <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
                 {tr.quality.certificatesNote}
               </p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {tr.quality.certificates.map((name) => (
+                  <li
+                    key={name}
+                    className="rounded-full border border-border/70 bg-secondary/60 px-3 py-1 text-xs font-semibold text-primary-deep"
+                  >
+                    {name}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
 
