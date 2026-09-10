@@ -17,7 +17,6 @@ import { Route as CerezPolitikasiRouteImport } from './routes/cerez-politikasi'
 import { Route as GirisRouteImport } from './routes/giris'
 import { Route as GizlilikPolitikasiRouteImport } from './routes/gizlilik-politikasi'
 import { Route as HakkimizdaRouteImport } from './routes/hakkimizda'
-import { Route as HesabimRouteImport } from './routes/hesabim'
 import { Route as IadeVeIptalPolitikasiRouteImport } from './routes/iade-ve-iptal-politikasi'
 import { Route as IletisimRouteImport } from './routes/iletisim'
 import { Route as KaliteVeGuvenlikRouteImport } from './routes/kalite-ve-guvenlik'
@@ -31,9 +30,12 @@ import { Route as SiparisTakipRouteImport } from './routes/siparis-takip'
 import { Route as TeslimatPolitikasiRouteImport } from './routes/teslimat-politikasi'
 import { Route as TicariElektronikIletiOnayiRouteImport } from './routes/ticari-elektronik-ileti-onayi'
 import { Route as UyelikSozlesmesiRouteImport } from './routes/uyelik-sozlesmesi'
+import { Route as AuthenticatedHesabimRouteImport } from './routes/_authenticated/hesabim'
 import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
 import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
 import { Route as UrunlerSlugRouteImport } from './routes/urunler.$slug'
+import { Route as AuthenticatedSiparislerimIndexRouteImport } from './routes/_authenticated/siparislerim.index'
+import { Route as AuthenticatedSiparislerimOrderNumberRouteImport } from './routes/_authenticated/siparislerim.$orderNumber'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -72,11 +74,6 @@ const GizlilikPolitikasiRoute = GizlilikPolitikasiRouteImport.update({
 const HakkimizdaRoute = HakkimizdaRouteImport.update({
   id: '/hakkimizda',
   path: '/hakkimizda',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const HesabimRoute = HesabimRouteImport.update({
-  id: '/hesabim',
-  path: '/hesabim',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IadeVeIptalPolitikasiRoute = IadeVeIptalPolitikasiRouteImport.update({
@@ -145,6 +142,11 @@ const UyelikSozlesmesiRoute = UyelikSozlesmesiRouteImport.update({
   path: '/uyelik-sozlesmesi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedHesabimRoute = AuthenticatedHesabimRouteImport.update({
+  id: '/hesabim',
+  path: '/hesabim',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedYonetimRoute = AuthenticatedYonetimRouteImport.update({
   id: '/yonetim',
   path: '/yonetim',
@@ -160,6 +162,18 @@ const UrunlerSlugRoute = UrunlerSlugRouteImport.update({
   path: '/urunler/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSiparislerimIndexRoute =
+  AuthenticatedSiparislerimIndexRouteImport.update({
+    id: '/siparislerim/',
+    path: '/siparislerim/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedSiparislerimOrderNumberRoute =
+  AuthenticatedSiparislerimOrderNumberRouteImport.update({
+    id: '/siparislerim/$orderNumber',
+    path: '/siparislerim/$orderNumber',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -169,7 +183,6 @@ export interface FileRoutesByFullPath {
   '/giris': typeof GirisRoute
   '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimizda': typeof HakkimizdaRoute
-  '/hesabim': typeof HesabimRoute
   '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
   '/iletisim': typeof IletisimRoute
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
@@ -183,9 +196,12 @@ export interface FileRoutesByFullPath {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/hesabim': typeof AuthenticatedHesabimRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
+  '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -195,7 +211,6 @@ export interface FileRoutesByTo {
   '/giris': typeof GirisRoute
   '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimizda': typeof HakkimizdaRoute
-  '/hesabim': typeof HesabimRoute
   '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
   '/iletisim': typeof IletisimRoute
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
@@ -209,9 +224,12 @@ export interface FileRoutesByTo {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/hesabim': typeof AuthenticatedHesabimRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler': typeof UrunlerIndexRoute
+  '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/siparislerim': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -223,7 +241,6 @@ export interface FileRoutesById {
   '/giris': typeof GirisRoute
   '/gizlilik-politikasi': typeof GizlilikPolitikasiRoute
   '/hakkimizda': typeof HakkimizdaRoute
-  '/hesabim': typeof HesabimRoute
   '/iade-ve-iptal-politikasi': typeof IadeVeIptalPolitikasiRoute
   '/iletisim': typeof IletisimRoute
   '/kalite-ve-guvenlik': typeof KaliteVeGuvenlikRoute
@@ -237,9 +254,12 @@ export interface FileRoutesById {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/_authenticated/hesabim': typeof AuthenticatedHesabimRoute
   '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
+  '/_authenticated/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/_authenticated/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -251,7 +271,6 @@ export interface FileRouteTypes {
     | '/giris'
     | '/gizlilik-politikasi'
     | '/hakkimizda'
-    | '/hesabim'
     | '/iade-ve-iptal-politikasi'
     | '/iletisim'
     | '/kalite-ve-guvenlik'
@@ -265,9 +284,12 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/hesabim'
     | '/yonetim'
     | '/urunler/$slug'
     | '/urunler/'
+    | '/siparislerim/$orderNumber'
+    | '/siparislerim/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -277,7 +299,6 @@ export interface FileRouteTypes {
     | '/giris'
     | '/gizlilik-politikasi'
     | '/hakkimizda'
-    | '/hesabim'
     | '/iade-ve-iptal-politikasi'
     | '/iletisim'
     | '/kalite-ve-guvenlik'
@@ -291,9 +312,12 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/hesabim'
     | '/yonetim'
     | '/urunler/$slug'
     | '/urunler'
+    | '/siparislerim/$orderNumber'
+    | '/siparislerim'
   id:
     | '__root__'
     | '/'
@@ -304,7 +328,6 @@ export interface FileRouteTypes {
     | '/giris'
     | '/gizlilik-politikasi'
     | '/hakkimizda'
-    | '/hesabim'
     | '/iade-ve-iptal-politikasi'
     | '/iletisim'
     | '/kalite-ve-guvenlik'
@@ -318,9 +341,12 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/_authenticated/hesabim'
     | '/_authenticated/yonetim'
     | '/urunler/$slug'
     | '/urunler/'
+    | '/_authenticated/siparislerim/$orderNumber'
+    | '/_authenticated/siparislerim/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -332,7 +358,6 @@ export interface RootRouteChildren {
   GirisRoute: typeof GirisRoute
   GizlilikPolitikasiRoute: typeof GizlilikPolitikasiRoute
   HakkimizdaRoute: typeof HakkimizdaRoute
-  HesabimRoute: typeof HesabimRoute
   IadeVeIptalPolitikasiRoute: typeof IadeVeIptalPolitikasiRoute
   IletisimRoute: typeof IletisimRoute
   KaliteVeGuvenlikRoute: typeof KaliteVeGuvenlikRoute
@@ -406,13 +431,6 @@ declare module '@tanstack/react-router' {
       path: '/hakkimizda'
       fullPath: '/hakkimizda'
       preLoaderRoute: typeof HakkimizdaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/hesabim': {
-      id: '/hesabim'
-      path: '/hesabim'
-      fullPath: '/hesabim'
-      preLoaderRoute: typeof HesabimRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/iade-ve-iptal-politikasi': {
@@ -506,6 +524,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UyelikSozlesmesiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/hesabim': {
+      id: '/_authenticated/hesabim'
+      path: '/hesabim'
+      fullPath: '/hesabim'
+      preLoaderRoute: typeof AuthenticatedHesabimRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/yonetim': {
       id: '/_authenticated/yonetim'
       path: '/yonetim'
@@ -527,15 +552,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UrunlerSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/siparislerim/': {
+      id: '/_authenticated/siparislerim/'
+      path: '/siparislerim'
+      fullPath: '/siparislerim/'
+      preLoaderRoute: typeof AuthenticatedSiparislerimIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/siparislerim/$orderNumber': {
+      id: '/_authenticated/siparislerim/$orderNumber'
+      path: '/siparislerim/$orderNumber'
+      fullPath: '/siparislerim/$orderNumber'
+      preLoaderRoute: typeof AuthenticatedSiparislerimOrderNumberRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedHesabimRoute: typeof AuthenticatedHesabimRoute
   AuthenticatedYonetimRoute: typeof AuthenticatedYonetimRoute
+  AuthenticatedSiparislerimOrderNumberRoute: typeof AuthenticatedSiparislerimOrderNumberRoute
+  AuthenticatedSiparislerimIndexRoute: typeof AuthenticatedSiparislerimIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedHesabimRoute: AuthenticatedHesabimRoute,
   AuthenticatedYonetimRoute: AuthenticatedYonetimRoute,
+  AuthenticatedSiparislerimOrderNumberRoute:
+    AuthenticatedSiparislerimOrderNumberRoute,
+  AuthenticatedSiparislerimIndexRoute: AuthenticatedSiparislerimIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
@@ -550,7 +596,6 @@ const rootRouteChildren: RootRouteChildren = {
   GirisRoute: GirisRoute,
   GizlilikPolitikasiRoute: GizlilikPolitikasiRoute,
   HakkimizdaRoute: HakkimizdaRoute,
-  HesabimRoute: HesabimRoute,
   IadeVeIptalPolitikasiRoute: IadeVeIptalPolitikasiRoute,
   IletisimRoute: IletisimRoute,
   KaliteVeGuvenlikRoute: KaliteVeGuvenlikRoute,

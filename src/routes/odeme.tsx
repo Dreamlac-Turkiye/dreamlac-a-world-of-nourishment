@@ -16,6 +16,8 @@ import {
   getPaymentMethods,
   getShippingOptions,
 } from "@/services/checkout";
+import { supabase } from "@/integrations/supabase/client";
+import { placeOrder } from "@/lib/orders.functions";
 import type { CheckoutAddress, CheckoutDraft, OrderResult } from "@/types";
 
 const DRAFT_KEY = "dreamlac.checkout.v1";
@@ -66,6 +68,7 @@ function CheckoutPage() {
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [order, setOrder] = useState<OrderResult | null>(null);
+  const [savedToAccount, setSavedToAccount] = useState(false);
 
   useEffect(() => {
     setDraft(readDraft());
@@ -100,8 +103,20 @@ function CheckoutPage() {
             {tr.checkout.orderNumber}:{" "}
             <span className="font-semibold text-primary-deep">{order.orderNumber}</span>
           </p>
+          <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+            {savedToAccount ? tr.checkout.savedNotice : tr.checkout.guestNotice}
+          </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            <Button asChild className="rounded-full">
+            {savedToAccount ? (
+              <Button asChild className="rounded-full">
+                <Link to="/siparislerim">{tr.checkout.ordersCta}</Link>
+              </Button>
+            ) : (
+              <Button asChild className="rounded-full">
+                <Link to="/giris">{tr.checkout.signInCta}</Link>
+              </Button>
+            )}
+            <Button asChild variant="outline" className="rounded-full">
               <Link to="/siparis-takip">{tr.checkout.trackCta}</Link>
             </Button>
             <Button asChild variant="outline" className="rounded-full">
@@ -227,9 +242,50 @@ function CheckoutPage() {
                           shippingOptionId: selectedShipping.id,
                           paymentMethodId: selectedPayment.id,
                         });
+
+                        const { data: sessionData } = await supabase.auth.getSession();
+                        let saved = false;
+                        let orderNumber = result.orderNumber;
+
+                        if (sessionData.session) {
+                          try {
+                            const record = await placeOrder({
+                              data: {
+                                address: draft.address,
+                                shipping: {
+                                  id: selectedShipping.id,
+                                  title: selectedShipping.title,
+                                  fee: selectedShipping.fee,
+                                },
+                                payment: {
+                                  id: selectedPayment.id,
+                                  title: selectedPayment.title,
+                                },
+                                subtotalKurus: totals.subtotal,
+                                totalKurus: totals.total,
+                                items: items.map((item) => ({
+                                  productId: item.product.id,
+                                  productSlug: item.product.slug,
+                                  productName: item.product.name,
+                                  stage: item.product.stage,
+                                  quantity: item.quantity,
+                                  unitPriceKurus: item.product.price.amount,
+                                  lineTotalKurus: item.lineTotal,
+                                })),
+                              },
+                            });
+                            orderNumber = record.orderNumber;
+                            saved = true;
+                          } catch {
+                            setError(tr.checkout.saveError);
+                            return;
+                          }
+                        }
+
                         clear();
                         window.sessionStorage.removeItem(DRAFT_KEY);
-                        setOrder(result);
+                        setSavedToAccount(saved);
+                        setOrder({ ...result, orderNumber });
                       } finally {
                         setSubmitting(false);
                       }

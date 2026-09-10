@@ -5,6 +5,7 @@ import { LogoPlaceholder } from "@/components/brand/LogoPlaceholder";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 import { useCart } from "@/context/CartContext";
+import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -19,6 +20,15 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const { itemCount } = useCart();
+  const [signedIn, setSignedIn] = useState(false);
+
+  useEffect(() => {
+    void supabase.auth.getSession().then(({ data }) => setSignedIn(Boolean(data.session)));
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSignedIn(Boolean(session));
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -81,7 +91,7 @@ export function Header() {
             className="hidden rounded-full sm:inline-flex"
             aria-label={tr.nav.account}
           >
-            <Link to="/giris">
+            <Link to={signedIn ? "/hesabim" : "/giris"}>
               <User aria-hidden="true" />
             </Link>
           </Button>
@@ -137,15 +147,15 @@ export function Header() {
           </ul>
           <div className="mt-3 grid grid-cols-2 gap-2">
             <Button asChild variant="outline" className="rounded-full">
-              <Link to="/giris" onClick={() => setOpen(false)}>
+              <Link to={signedIn ? "/hesabim" : "/giris"} onClick={() => setOpen(false)}>
                 <User aria-hidden="true" />
-                {tr.nav.account}
+                {signedIn ? tr.nav.account : tr.auth.signIn}
               </Link>
             </Button>
             <Button asChild variant="outline" className="rounded-full">
-              <Link to="/hesabim" onClick={() => setOpen(false)}>
+              <Link to={signedIn ? "/siparislerim" : "/sepet"} onClick={() => setOpen(false)}>
                 <Heart aria-hidden="true" />
-                {tr.nav.account}
+                {signedIn ? tr.orders.title : tr.nav.cart}
               </Link>
             </Button>
           </div>
