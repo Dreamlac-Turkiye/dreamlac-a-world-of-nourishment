@@ -105,10 +105,10 @@ export function ProductCard({
       <div className="mt-5 flex min-w-0 flex-1 flex-col">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">
+            <h3 className="min-w-0 text-lg leading-snug font-semibold text-balance text-primary-deep">
               {product.name}
             </h3>
-            <p className="mt-0.5 truncate text-xs text-primary/90">{product.technicalName}</p>
+            <p className="mt-1 text-xs text-primary/90">{product.technicalName}</p>
           </div>
           <StockBadge stock={product.stock} />
         </div>
