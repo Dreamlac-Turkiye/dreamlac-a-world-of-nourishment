@@ -68,6 +68,15 @@ export function PurchasePanel({ product }: { product: Product }) {
           </Button>
         </>
       )}
+
+      {previewMode ? (
+        <div className="mt-4 flex items-start gap-2 rounded-2xl bg-champagne/25 p-3">
+          <Info size={16} className="mt-0.5 shrink-0 text-champagne-foreground" aria-hidden="true" />
+          <p className="text-[0.75rem] leading-relaxed text-champagne-foreground/90">
+            {tr.productDetail.previewSaleNote}
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }
