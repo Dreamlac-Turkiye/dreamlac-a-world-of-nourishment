@@ -27,7 +27,11 @@ export function PurchasePanel({ product }: { product: Product }) {
     return (
       <div className="rounded-[1.75rem] border border-champagne/70 bg-champagne/25 p-5">
         <div className="flex items-start gap-3">
-          <Info size={18} className="mt-0.5 shrink-0 text-champagne-foreground" aria-hidden="true" />
+          <Info
+            size={18}
+            className="mt-0.5 shrink-0 text-champagne-foreground"
+            aria-hidden="true"
+          />
           <div className="min-w-0">
             <h3 className="text-sm font-semibold text-champagne-foreground">
               {tr.productDetail.salesClosedTitle}
@@ -43,9 +47,7 @@ export function PurchasePanel({ product }: { product: Product }) {
 
   return (
     <div className="rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
-      {priceLabel ? (
-        <p className="text-2xl font-semibold text-primary-deep">{priceLabel}</p>
-      ) : null}
+      {priceLabel ? <p className="text-2xl font-semibold text-primary-deep">{priceLabel}</p> : null}
 
       {outOfStock ? (
         <>
@@ -69,7 +71,9 @@ export function PurchasePanel({ product }: { product: Product }) {
           <Button
             className="mt-4 w-full rounded-full"
             onClick={() =>
-              toast.info(`${product.name} × ${Math.min(quantity, MAX_QUANTITY)} — ${tr.common.soon}`)
+              toast.info(
+                `${product.name} × ${Math.min(quantity, MAX_QUANTITY)} — ${tr.common.soon}`,
+              )
             }
           >
             <ShoppingBag aria-hidden="true" />

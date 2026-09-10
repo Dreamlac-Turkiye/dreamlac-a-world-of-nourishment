@@ -51,9 +51,7 @@ export const Route = createFileRoute("/urunler/$slug")({
 function ProductNotFound() {
   return (
     <main id="main" className="mx-auto max-w-3xl px-4 py-24 text-center sm:px-6">
-      <h1 className="text-2xl font-semibold text-primary-deep">
-        {tr.productDetail.notFoundTitle}
-      </h1>
+      <h1 className="text-2xl font-semibold text-primary-deep">{tr.productDetail.notFoundTitle}</h1>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
         {tr.productDetail.notFoundDescription}
       </p>
@@ -167,7 +165,12 @@ function ProductDetailPage() {
                 params={{ slug: item.slug }}
                 className="lift-hover flex items-center gap-4 rounded-[1.75rem] border border-border/70 bg-card p-4"
               >
-                <span className={cn("grid size-20 shrink-0 place-items-center rounded-[1.25rem] p-2", stageBg[item.stage])}>
+                <span
+                  className={cn(
+                    "grid size-20 shrink-0 place-items-center rounded-[1.25rem] p-2",
+                    stageBg[item.stage],
+                  )}
+                >
                   <PackShotPlaceholder product={item} />
                 </span>
                 <span className="min-w-0">
@@ -176,7 +179,11 @@ function ProductDetailPage() {
                     {item.ageRange}
                   </span>
                 </span>
-                <ArrowRight size={16} className="ml-auto shrink-0 text-primary" aria-hidden="true" />
+                <ArrowRight
+                  size={16}
+                  className="ml-auto shrink-0 text-primary"
+                  aria-hidden="true"
+                />
               </Link>
             </li>
           ))}
