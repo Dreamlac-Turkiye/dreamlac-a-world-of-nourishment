@@ -173,7 +173,9 @@ export function ProductCard({
           </Button>
         </div>
 
-        <p className="mt-4 text-[0.7rem] leading-relaxed text-muted-foreground">{product.warning}</p>
+        <p className="mt-4 text-[0.7rem] leading-relaxed text-muted-foreground">
+          {product.warning}
+        </p>
       </div>
     </article>
   );

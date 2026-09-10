@@ -31,7 +31,8 @@ export const mockQualityItems: QualityItem[] = [
   {
     id: "q-2",
     title: "Modern Üretim Teknolojisi",
-    description: "Üretim sürecinde modern teknolojilerden ve spray-drying yönteminden yararlanılır.",
+    description:
+      "Üretim sürecinde modern teknolojilerden ve spray-drying yönteminden yararlanılır.",
   },
   {
     id: "q-3",
@@ -41,7 +42,8 @@ export const mockQualityItems: QualityItem[] = [
   {
     id: "q-4",
     title: "Paketleme",
-    description: "Ürünler, içeriğin korunmasına yardımcı olacak ambalajlama süreçleriyle hazırlanır.",
+    description:
+      "Ürünler, içeriğin korunmasına yardımcı olacak ambalajlama süreçleriyle hazırlanır.",
   },
   {
     id: "q-5",
@@ -61,10 +63,13 @@ export const mockIngredientCards: IngredientCard[] = [
   {
     id: "i-1",
     title: "DHA ve ARA",
-    description:
-      "Dreamlac formüllerinde uzun zincirli yağ asitleri DHA ve ARA bulunmaktadır.",
+    description: "Dreamlac formüllerinde uzun zincirli yağ asitleri DHA ve ARA bulunmaktadır.",
   },
-  { id: "i-2", title: "Nükleotidler", description: "Dreamlac formülleri nükleotidler içermektedir." },
+  {
+    id: "i-2",
+    title: "Nükleotidler",
+    description: "Dreamlac formülleri nükleotidler içermektedir.",
+  },
   {
     id: "i-3",
     title: "Lutein ve Karotenoidler",
@@ -112,8 +117,7 @@ export const mockFaqs: FaqItem[] = [
   {
     id: "f-1",
     question: "Dreamlac ürünleri nerede üretilmektedir?",
-    answer:
-      "Dreamlac ürünleri, Kulalac’ın Kula, Manisa’daki üretim tesisinde üretilmektedir.",
+    answer: "Dreamlac ürünleri, Kulalac’ın Kula, Manisa’daki üretim tesisinde üretilmektedir.",
   },
   {
     id: "f-2",

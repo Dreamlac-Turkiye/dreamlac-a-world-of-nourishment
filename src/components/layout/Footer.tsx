@@ -92,7 +92,12 @@ export function Footer() {
                 <ul className="mt-1 space-y-1">
                   {company.social.map((item) => (
                     <li key={item.url}>
-                      <a href={item.url} target="_blank" rel="noreferrer" className="hover:underline">
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:underline"
+                      >
                         {item.label}
                       </a>
                     </li>

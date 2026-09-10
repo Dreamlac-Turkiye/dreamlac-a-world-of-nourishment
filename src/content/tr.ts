@@ -138,7 +138,8 @@ export const tr = {
       },
       {
         title: "Paketleme",
-        description: "Ürünler, içeriğin korunmasına yardımcı olacak ambalajlama süreçleriyle hazırlanır.",
+        description:
+          "Ürünler, içeriğin korunmasına yardımcı olacak ambalajlama süreçleriyle hazırlanır.",
       },
       {
         title: "İzlenebilirlik",
@@ -159,8 +160,7 @@ export const tr = {
   factory: {
     eyebrow: "Üretim Tesisi",
     title: "Türkiye’de Üretim",
-    description:
-      "Dreamlac ürünleri, Kulalac’ın Kula, Manisa’daki üretim tesisinde üretilmektedir.",
+    description: "Dreamlac ürünleri, Kulalac’ın Kula, Manisa’daki üretim tesisinde üretilmektedir.",
     visualNote: "Üretim tesisi görselleri için ayrılmış alan (yer tutucu).",
   },
   trust: {

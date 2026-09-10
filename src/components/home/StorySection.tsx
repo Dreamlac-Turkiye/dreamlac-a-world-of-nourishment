@@ -23,7 +23,10 @@ export function StorySection() {
             />
             <div className="mt-6 space-y-4">
               {tr.story.paragraphs.map((paragraph) => (
-                <p key={paragraph} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
+                <p
+                  key={paragraph}
+                  className="text-sm leading-relaxed text-muted-foreground sm:text-base"
+                >
                   {paragraph}
                 </p>
               ))}
