@@ -62,7 +62,7 @@ export function ProductTabs({ product }: { product: Product }) {
           <InfoRow label={t.detailsFields.sku} value={product.sku} />
           <InfoRow label={t.detailsFields.barcode} value={product.barcode} />
           <InfoRow label={t.detailsFields.producer} value={company.legalName} />
-          <InfoRow label={t.detailsFields.origin} value={company.productionLocation} />
+          <InfoRow label={t.detailsFields.origin} value={company.city} />
         </dl>
 
         <div className="grid gap-4 sm:grid-cols-2">
