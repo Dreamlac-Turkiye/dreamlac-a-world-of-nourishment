@@ -437,7 +437,8 @@ export const tr = {
     google: "Google ile devam et",
     signOut: "Çıkış yap",
     signedInAs: "Giriş yapan hesap",
-    signUpSuccess: "Hesap oluşturuldu. E-posta doğrulaması gerekiyorsa gelen kutunuzu kontrol edin.",
+    signUpSuccess:
+      "Hesap oluşturuldu. E-posta doğrulaması gerekiyorsa gelen kutunuzu kontrol edin.",
     signInError: "Giriş yapılamadı. E-posta ve şifrenizi kontrol edin.",
     signUpError: "Hesap oluşturulamadı.",
     loading: "İşleniyor…",

@@ -8,10 +8,7 @@ import {
   mockTrustItems,
 } from "@/data/mock/content";
 import { mockProducts } from "@/data/mock/products";
-import {
-  listProductSettings,
-  type ProductSettingRecord,
-} from "@/lib/product-settings.functions";
+import { listProductSettings, type ProductSettingRecord } from "@/lib/product-settings.functions";
 import type {
   Article,
   ComparisonRow,

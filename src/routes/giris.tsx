@@ -96,7 +96,9 @@ function SignInPage() {
             aria-selected={mode === value}
             onClick={() => setMode(value)}
             className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              mode === value ? "bg-card text-primary-deep shadow-[var(--shadow-soft)]" : "text-muted-foreground"
+              mode === value
+                ? "bg-card text-primary-deep shadow-[var(--shadow-soft)]"
+                : "text-muted-foreground"
             }`}
           >
             {value === "signIn" ? tr.auth.signInTab : tr.auth.signUpTab}
@@ -134,7 +136,11 @@ function SignInPage() {
         </Button>
       </form>
 
-      <Button variant="outline" className="mt-3 w-full rounded-full" onClick={() => void onGoogle()}>
+      <Button
+        variant="outline"
+        className="mt-3 w-full rounded-full"
+        onClick={() => void onGoogle()}
+      >
         {tr.auth.google}
       </Button>
     </main>

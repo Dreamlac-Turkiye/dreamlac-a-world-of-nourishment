@@ -39,7 +39,9 @@ export const listProductSettings = createServerFn({ method: "GET" }).handler(
 
     const { data, error } = await supabasePublic
       .from("product_settings")
-      .select("slug, price_kurus, weight, ingredients, stock, direct_sale_enabled, admin_note, updated_at");
+      .select(
+        "slug, price_kurus, weight, ingredients, stock, direct_sale_enabled, admin_note, updated_at",
+      );
 
     if (error || !data) return [];
 

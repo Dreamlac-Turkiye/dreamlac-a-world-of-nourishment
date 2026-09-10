@@ -56,7 +56,9 @@ function AdminPage() {
     queryFn: async (): Promise<SettingRow[]> => {
       const { data, error } = await supabase
         .from("product_settings")
-        .select("slug, price_kurus, weight, ingredients, stock, direct_sale_enabled, admin_note, updated_at")
+        .select(
+          "slug, price_kurus, weight, ingredients, stock, direct_sale_enabled, admin_note, updated_at",
+        )
         .order("slug");
       if (error) throw error;
       return data ?? [];
