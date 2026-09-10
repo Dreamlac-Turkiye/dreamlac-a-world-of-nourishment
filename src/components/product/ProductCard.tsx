@@ -62,7 +62,9 @@ export function ProductCard({
   className?: string;
 }) {
   const [favorite, setFavorite] = useState(false);
-  const disabled = product.stock === "out_of_stock";
+  const outOfStock = product.stock === "out_of_stock";
+  /** Fiyat iletilmediği ve hukuki inceleme tamamlanmadığı için satış kapalı. */
+  const canAddToCart = product.directSaleEnabled && !outOfStock;
 
   return (
     <article
@@ -102,9 +104,12 @@ export function ProductCard({
 
       <div className="mt-5 flex min-w-0 flex-1 flex-col">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">
-            {product.name}
-          </h3>
+          <div className="min-w-0">
+            <h3 className="min-w-0 truncate text-lg font-semibold text-primary-deep">
+              {product.name}
+            </h3>
+            <p className="mt-0.5 truncate text-xs text-primary/90">{product.technicalName}</p>
+          </div>
           <StockBadge stock={product.stock} />
         </div>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
@@ -113,43 +118,62 @@ export function ProductCard({
 
         <dl className="mt-4 grid gap-2 text-sm">
           <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
-            <dt className="text-muted-foreground">{tr.chooser.columnLabels.age}</dt>
-            <dd className="min-w-0 truncate text-right text-primary-deep/80">
-              {product.ageRange ?? tr.products.placeholders.age}
+            <dt className="text-muted-foreground">{tr.products.fields.age}</dt>
+            <dd className="min-w-0 text-right font-medium text-primary-deep/90">
+              {product.ageRange}
             </dd>
           </div>
-          <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
-            <dt className="text-muted-foreground">{tr.chooser.columnLabels.weight}</dt>
-            <dd className="min-w-0 truncate text-right text-primary-deep/80">
-              {product.weight ?? tr.products.placeholders.weight}
-            </dd>
-          </div>
-          <div className="flex items-baseline justify-between gap-3">
-            <dt className="text-muted-foreground">Fiyat</dt>
-            <dd className="text-right font-semibold text-primary-deep">
-              {product.price.amount === null
-                ? tr.products.placeholders.price
-                : `${(product.price.amount / 100).toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺`}
-            </dd>
-          </div>
+          {/* Gramaj ve fiyat bilgisi iletilmediği sürece gösterilmez. */}
+          {product.weight ? (
+            <div className="flex items-baseline justify-between gap-3 border-b border-border/60 pb-2">
+              <dt className="text-muted-foreground">{tr.products.fields.weight}</dt>
+              <dd className="min-w-0 truncate text-right text-primary-deep/80">{product.weight}</dd>
+            </div>
+          ) : null}
+          {product.price.amount !== null ? (
+            <div className="flex items-baseline justify-between gap-3">
+              <dt className="text-muted-foreground">{tr.products.fields.price}</dt>
+              <dd className="text-right font-semibold text-primary-deep">
+                {`${(product.price.amount / 100).toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺`}
+              </dd>
+            </div>
+          ) : null}
         </dl>
 
+        <ul className="mt-4 flex flex-wrap gap-2">
+          {product.formulaFeatures.map((feature) => (
+            <li
+              key={feature}
+              className="rounded-full bg-secondary px-2.5 py-1 text-[0.7rem] font-medium text-primary-deep/80"
+            >
+              {feature}
+            </li>
+          ))}
+        </ul>
+
         <div className="mt-5 flex flex-col gap-2 sm:flex-row">
+          {canAddToCart ? (
+            <Button
+              className="flex-1 rounded-full"
+              onClick={() => toast.info(`${product.name} — ${tr.common.soon}`)}
+            >
+              <ShoppingBag aria-hidden="true" />
+              {tr.products.addToCart}
+            </Button>
+          ) : null}
           <Button
+            asChild
+            variant={canAddToCart ? "outline" : "default"}
             className="flex-1 rounded-full"
-            disabled={disabled}
-            onClick={() => toast.info(`${product.name} — ${tr.common.soon}`)}
           >
-            <ShoppingBag aria-hidden="true" />
-            {tr.products.addToCart}
-          </Button>
-          <Button asChild variant="outline" className="flex-1 rounded-full">
             <Link to="/urunler/$slug" params={{ slug: product.slug }}>
               {tr.products.detailsCta}
               <ArrowRight aria-hidden="true" />
             </Link>
           </Button>
         </div>
+
+        <p className="mt-4 text-[0.7rem] leading-relaxed text-muted-foreground">{product.warning}</p>
       </div>
     </article>
   );
