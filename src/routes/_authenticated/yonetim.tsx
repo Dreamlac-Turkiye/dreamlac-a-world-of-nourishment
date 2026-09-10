@@ -113,7 +113,10 @@ function AdminPage() {
               />
             ))}
           </div>
+
+          <LegalDocumentsSection />
         </>
+
       ) : (
         <div className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-6">
           <h2 className="text-lg font-semibold text-primary-deep">{tr.admin.noAccessTitle}</h2>

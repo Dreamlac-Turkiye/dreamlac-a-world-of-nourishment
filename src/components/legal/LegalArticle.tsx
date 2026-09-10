@@ -106,10 +106,7 @@ export function LegalArticle({
           {blocks.map((block, index) => {
             if (block.kind === "heading") {
               return (
-                <h2
-                  key={index}
-                  className="pt-2 text-lg font-semibold text-primary-deep sm:text-xl"
-                >
+                <h2 key={index} className="pt-2 text-lg font-semibold text-primary-deep sm:text-xl">
                   {block.text}
                 </h2>
               );
@@ -129,10 +126,7 @@ export function LegalArticle({
               );
             }
             return (
-              <p
-                key={index}
-                className="text-sm leading-relaxed text-muted-foreground sm:text-base"
-              >
+              <p key={index} className="text-sm leading-relaxed text-muted-foreground sm:text-base">
                 {renderInline(block.text)}
               </p>
             );

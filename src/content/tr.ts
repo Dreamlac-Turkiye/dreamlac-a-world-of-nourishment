@@ -538,7 +538,7 @@ export const tr = {
         effectiveDate: "Yürürlük tarihi",
         body: "Metin",
         bodyHint:
-          "Başlık için satır başına \"## \", madde işareti için \"- \", vurgulu ifade için **metin** yazabilirsiniz. Boş satır yeni paragraf başlatır.",
+          'Başlık için satır başına "## ", madde işareti için "- ", vurgulu ifade için **metin** yazabilirsiniz. Boş satır yeni paragraf başlatır.',
       },
       view: "Sayfayı görüntüle",
       saved: "Yasal metin kaydedildi.",
