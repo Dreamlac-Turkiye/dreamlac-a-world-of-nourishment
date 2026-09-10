@@ -113,7 +113,10 @@ function AdminPage() {
               />
             ))}
           </div>
+
+          <LegalDocumentsSection />
         </>
+
       ) : (
         <div className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-6">
           <h2 className="text-lg font-semibold text-primary-deep">{tr.admin.noAccessTitle}</h2>
@@ -283,5 +286,170 @@ function ProductSettingsForm({ row, onSaved }: { row: SettingRow; onSaved: () =>
         </Button>
       </div>
     </section>
+  );
+}
+
+interface LegalRow {
+  slug: string;
+  title: string;
+  summary: string | null;
+  body: string;
+  effective_date: string | null;
+  updated_at: string;
+}
+
+/** Yasal sayfa adresleri — yönetim panelinden ilgili sayfaya bağlantı için. */
+const LEGAL_ROUTES = {
+  kvkk: "/kvkk",
+  "gizlilik-politikasi": "/gizlilik-politikasi",
+  "cerez-politikasi": "/cerez-politikasi",
+  "mesafeli-satis-sozlesmesi": "/mesafeli-satis-sozlesmesi",
+} as const;
+
+function LegalDocumentsSection() {
+  const legalQuery = useQuery({
+    queryKey: ["admin", "legal-documents"],
+    queryFn: async (): Promise<LegalRow[]> => {
+      const { data, error } = await supabase
+        .from("legal_documents")
+        .select("slug, title, summary, body, effective_date, updated_at")
+        .order("slug");
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  return (
+    <section className="mt-16">
+      <h2 className="text-2xl font-semibold text-primary-deep sm:text-3xl">
+        {tr.admin.legal.title}
+      </h2>
+      <p className="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        {tr.admin.legal.description}
+      </p>
+      <p className="mt-4 rounded-2xl bg-secondary/60 p-4 text-sm leading-relaxed text-primary-deep/90">
+        {tr.admin.legal.notice}
+      </p>
+
+      <div className="mt-8 space-y-6">
+        {legalQuery.isLoading ? (
+          <p className="text-sm text-muted-foreground">{tr.states.loading}</p>
+        ) : (
+          legalQuery.data?.map((row) => (
+            <LegalDocumentForm key={row.slug} row={row} onSaved={() => void legalQuery.refetch()} />
+          ))
+        )}
+      </div>
+    </section>
+  );
+}
+
+function LegalDocumentForm({ row, onSaved }: { row: LegalRow; onSaved: () => void }) {
+  const [title, setTitle] = useState(row.title);
+  const [summary, setSummary] = useState(row.summary ?? "");
+  const [effectiveDate, setEffectiveDate] = useState(row.effective_date ?? "");
+  const [body, setBody] = useState(row.body);
+  const [busy, setBusy] = useState(false);
+
+  const href = LEGAL_ROUTES[row.slug as keyof typeof LEGAL_ROUTES];
+
+  async function onSave() {
+    if (title.trim() === "") {
+      toast.error(tr.admin.legal.titleRequired);
+      return;
+    }
+    if (body.trim() === "") {
+      toast.error(tr.admin.legal.bodyRequired);
+      return;
+    }
+
+    setBusy(true);
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      const { error } = await supabase
+        .from("legal_documents")
+        .update({
+          title: title.trim(),
+          summary: summary.trim() === "" ? null : summary.trim(),
+          effective_date: effectiveDate.trim() === "" ? null : effectiveDate,
+          body,
+          updated_by: userData.user?.id ?? null,
+        })
+        .eq("slug", row.slug);
+
+      if (error) {
+        toast.error(tr.admin.legal.saveError);
+        return;
+      }
+      toast.success(tr.admin.legal.saved);
+      onSaved();
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  const idPrefix = `legal-${row.slug}`;
+
+  return (
+    <article className="rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)] sm:p-6">
+      <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <h3 className="text-lg font-semibold text-primary-deep">{row.title}</h3>
+        <p className="text-xs text-muted-foreground">
+          {tr.admin.lastUpdated}: {new Date(row.updated_at).toLocaleString("tr-TR")}
+        </p>
+      </div>
+
+      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        <div className="space-y-2">
+          <Label htmlFor={`${idPrefix}-title`}>{tr.admin.legal.fields.title}</Label>
+          <Input
+            id={`${idPrefix}-title`}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div className="space-y-2">
+          <Label htmlFor={`${idPrefix}-date`}>{tr.admin.legal.fields.effectiveDate}</Label>
+          <Input
+            id={`${idPrefix}-date`}
+            type="date"
+            value={effectiveDate}
+            onChange={(e) => setEffectiveDate(e.target.value)}
+          />
+        </div>
+      </div>
+
+      <div className="mt-4 space-y-2">
+        <Label htmlFor={`${idPrefix}-summary`}>{tr.admin.legal.fields.summary}</Label>
+        <Input
+          id={`${idPrefix}-summary`}
+          value={summary}
+          onChange={(e) => setSummary(e.target.value)}
+        />
+      </div>
+
+      <div className="mt-4 space-y-2">
+        <Label htmlFor={`${idPrefix}-body`}>{tr.admin.legal.fields.body}</Label>
+        <Textarea
+          id={`${idPrefix}-body`}
+          rows={16}
+          value={body}
+          onChange={(e) => setBody(e.target.value)}
+          className="font-mono text-xs leading-relaxed"
+        />
+        <p className="text-xs text-muted-foreground">{tr.admin.legal.fields.bodyHint}</p>
+      </div>
+
+      <div className="mt-5 flex flex-wrap gap-3">
+        <Button className="rounded-full" disabled={busy} onClick={() => void onSave()}>
+          {busy ? tr.admin.saving : tr.admin.save}
+        </Button>
+        {href ? (
+          <Button asChild variant="outline" className="rounded-full">
+            <Link to={href}>{tr.admin.legal.view}</Link>
+          </Button>
+        ) : null}
+      </div>
+    </article>
   );
 }

@@ -1,25 +1,26 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/common/PagePlaceholder";
+import { LegalArticle } from "@/components/legal/LegalArticle";
+import { getLegalDocument } from "@/lib/legal.functions";
+
+const TITLE = "Gizlilik Politikası — Dreamlac";
+const DESCRIPTION =
+  "Dreamlac web sitesinde toplanan bilgilerin nasıl kullanıldığı, korunduğu ve kimlerle paylaşıldığı.";
 
 export const Route = createFileRoute("/gizlilik-politikasi")({
+  loader: () => getLegalDocument({ data: { slug: "gizlilik-politikasi" } }),
   head: () => ({
     meta: [
-      { title: "Gizlilik Politikası — Dreamlac" },
-      {
-        name: "description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
-      },
-      { property: "og:title", content: "Gizlilik Politikası — Dreamlac" },
-      {
-        property: "og:description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
-      },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "article" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  errorComponent: () => <LegalArticle document={null} fallbackTitle="Gizlilik Politikası" />,
+  notFoundComponent: () => <LegalArticle document={null} fallbackTitle="Gizlilik Politikası" />,
   component: () => (
-    <PagePlaceholder
-      title="Gizlilik Politikası"
-      description="Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır."
-    />
+    <LegalArticle document={Route.useLoaderData()} fallbackTitle="Gizlilik Politikası" />
   ),
 });

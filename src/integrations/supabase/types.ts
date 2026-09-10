@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      legal_documents: {
+        Row: {
+          body: string
+          created_at: string
+          effective_date: string | null
+          id: string
+          slug: string
+          summary: string | null
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          body?: string
+          created_at?: string
+          effective_date?: string | null
+          id?: string
+          slug: string
+          summary?: string | null
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          effective_date?: string | null
+          id?: string
+          slug?: string
+          summary?: string | null
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string
