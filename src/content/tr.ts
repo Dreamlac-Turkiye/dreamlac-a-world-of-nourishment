@@ -526,6 +526,32 @@ export const tr = {
     emptyPrice: "Fiyat girilmedi",
     responsibility:
       "Bu alana yalnızca resmî ürün etiketinde ve firma kayıtlarında yer alan bilgileri girin. Girilen bilgiler müşterilere gösterilir.",
+    legal: {
+      title: "Yasal Metin Yönetimi",
+      description:
+        "KVKK Aydınlatma Metni, Gizlilik Politikası, Çerez Politikası ve Mesafeli Satış Sözleşmesi metinleri buradan düzenlenir. Kaydettiğiniz metin ilgili yasal sayfada anında yayınlanır.",
+      notice:
+        "Metinler mevzuata uygun taslak olarak hazırlanmıştır. Yayına almadan önce hukuk danışmanınıza kontrol ettirmeniz önerilir.",
+      fields: {
+        title: "Sayfa başlığı",
+        summary: "Kısa açıklama",
+        effectiveDate: "Yürürlük tarihi",
+        body: "Metin",
+        bodyHint:
+          "Başlık için satır başına \"## \", madde işareti için \"- \", vurgulu ifade için **metin** yazabilirsiniz. Boş satır yeni paragraf başlatır.",
+      },
+      view: "Sayfayı görüntüle",
+      saved: "Yasal metin kaydedildi.",
+      saveError: "Yasal metin kaydedilemedi. Lütfen tekrar deneyin.",
+      titleRequired: "Sayfa başlığı boş bırakılamaz.",
+      bodyRequired: "Metin boş bırakılamaz.",
+    },
+  },
+  legal: {
+    effectiveDate: "Yürürlük tarihi",
+    lastUpdated: "Son güncelleme",
+    empty:
+      "Bu sayfanın metni henüz yayınlanmadı. Metin yönetim panelinden kaydedildiğinde burada görüntülenecektir.",
   },
   common: {
     soon: "Yakında",
