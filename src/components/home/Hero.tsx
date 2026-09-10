@@ -61,9 +61,6 @@ export function Hero() {
             {tr.hero.eyebrow}
           </div>
 
-          <div className="mt-6 lg:hidden">
-            <LogoPlaceholder showNote />
-          </div>
 
           <h1 className="mt-5 text-4xl leading-[1.05] font-semibold text-primary-deep sm:text-5xl lg:text-6xl">
             {tr.hero.title}
@@ -103,7 +100,7 @@ export function Hero() {
               {mockProducts.map((product, index) => (
                 <div
                   key={product.id}
-                  className="aspect-2/3 overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-lifted)]"
+                  className="aspect-square overflow-hidden rounded-[1.5rem] shadow-[var(--shadow-lifted)] sm:aspect-2/3"
                   style={{ transform: `translateY(${index === 1 ? -14 : 0}px)` }}
                 >
                   <PackShotPlaceholder product={product} label={product.name} />
