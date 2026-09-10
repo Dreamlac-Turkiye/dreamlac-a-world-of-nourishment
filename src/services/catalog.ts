@@ -8,6 +8,7 @@ import {
   mockTrustItems,
 } from "@/data/mock/content";
 import { mockProducts } from "@/data/mock/products";
+import { listProductSettings, type ProductSettingRecord } from "@/lib/product-settings.functions";
 import type {
   Article,
   ComparisonRow,
@@ -26,12 +27,38 @@ import type {
  * (örn. Supabase sorgusu veya REST çağrısı) — bileşenlere dokunulmaz.
  */
 
+/**
+ * Ürünün onaylı katalog metinleri mock veriden gelir; ticari alanlar
+ * (fiyat, gramaj, bileşen listesi, stok, satış durumu) yönetim panelinden
+ * girilen kayıtlarla birleştirilir. Yönetimde veri yoksa alan boş kalır.
+ */
+function mergeSettings(product: Product, setting?: ProductSettingRecord): Product {
+  if (!setting) return product;
+  return {
+    ...product,
+    price: { ...product.price, amount: setting.priceKurus ?? product.price.amount },
+    weight: setting.weight ?? product.weight,
+    ingredientsList:
+      setting.ingredients.length > 0 ? setting.ingredients.join("\n") : product.ingredientsList,
+    stock: setting.stock,
+    directSaleEnabled: setting.directSaleEnabled,
+  };
+}
+
 export async function getProducts(): Promise<Product[]> {
-  return mockProducts;
+  const settings = await listProductSettings();
+  const bySlug = new Map(settings.map((s) => [s.slug, s]));
+  return mockProducts.map((product) => mergeSettings(product, bySlug.get(product.slug)));
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  return mockProducts.find((p) => p.slug === slug) ?? null;
+  const product = mockProducts.find((p) => p.slug === slug);
+  if (!product) return null;
+  const settings = await listProductSettings();
+  return mergeSettings(
+    product,
+    settings.find((s) => s.slug === slug),
+  );
 }
 
 export async function getArticles(): Promise<Article[]> {
