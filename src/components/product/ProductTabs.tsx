@@ -1,4 +1,5 @@
 import { Clock, Info, ShieldAlert, Sparkles } from "lucide-react";
+import { NutritionLabel } from "@/components/product/NutritionLabel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { tr } from "@/content/tr";
 import { company } from "@/data/company";
@@ -104,6 +105,9 @@ export function ProductTabs({ product }: { product: Product }) {
           <InfoRow label={t.storageTitle} value={product.storage} />
           <InfoRow label={t.shelfLifeTitle} value={product.shelfLife} />
         </dl>
+
+        {/* Etiket şablonunun kısa görünümü; tamamı Besin Değerleri sekmesinde. */}
+        <NutritionLabel product={product} compact />
       </TabsContent>
 
       {/* 2 — Hazırlama */}
@@ -167,40 +171,10 @@ export function ProductTabs({ product }: { product: Product }) {
         )}
       </TabsContent>
 
-      {/* 3 — Besin değerleri */}
+      {/* 3 — Besin değerleri: tam etiket şablonu */}
       <TabsContent value="nutrition" className="mt-6 space-y-6">
-        {product.nutrition ? (
-          <div className="overflow-x-auto rounded-[1.5rem] border border-border/70 bg-card">
-            <table className="w-full border-collapse text-sm">
-              <thead className="bg-secondary/60">
-                <tr>
-                  <th scope="col" className="px-4 py-3 text-left font-semibold">
-                    {t.nutritionColumns.nutrient}
-                  </th>
-                  <th scope="col" className="px-4 py-3 text-left font-semibold">
-                    {t.nutritionColumns.per100g}
-                  </th>
-                  <th scope="col" className="px-4 py-3 text-left font-semibold">
-                    {t.nutritionColumns.per100ml}
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {product.nutrition.map((row) => (
-                  <tr key={row.label} className="border-t border-border/60">
-                    <th scope="row" className="px-4 py-3 text-left font-medium">
-                      {row.label}
-                    </th>
-                    <td className="px-4 py-3">{row.per100g}</td>
-                    <td className="px-4 py-3">{row.per100ml}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <PendingNote text={t.nutritionPending} />
-        )}
+        {product.nutrition ? null : <PendingNote text={t.nutritionPending} />}
+        <NutritionLabel product={product} />
       </TabsContent>
 
       <div

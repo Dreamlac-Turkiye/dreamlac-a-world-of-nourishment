@@ -326,6 +326,16 @@ export const tr = {
       per100g: "100 g toz üründe",
       per100ml: "Hazırlanmış 100 ml’de",
     },
+    nutritionLabel: {
+      title: "Besin değerleri etiket şablonu",
+      unitColumn: "Birim",
+      pendingBadge: "Değerler bekleniyor",
+      readyBadge: "Resmî değerler yayında",
+      note: "Bu şablon, ürün etiketinde yer alan besin öğesi satırlarının düzenini gösterir. Değerler yalnızca resmî etiket verileri tarafımıza iletildikten sonra doldurulur; tahmini veya uydurma değer gösterilmez. Bebeğinizin beslenmesi hakkında sağlık profesyonelinize danışınız.",
+      compactNote:
+        "Kısaltılmış görünüm. Tüm besin öğesi satırlarını Besin Değerleri sekmesinde görebilirsiniz.",
+      progress: "Şablon durumu: {total} satırın {filled} tanesi resmî veriyle dolu.",
+    },
     storageTitle: "Saklama koşulları",
     allergensTitle: "Alerjen bilgisi",
     shelfLifeTitle: "Raf ömrü",
