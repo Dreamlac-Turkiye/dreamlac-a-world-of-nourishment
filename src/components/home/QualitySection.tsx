@@ -4,9 +4,9 @@ import {
   Boxes,
   FileCheck2,
   Microscope,
+  RefreshCcw,
   Route,
   ShieldCheck,
-  Thermometer,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Icon3D } from "@/components/brand/Icon3D";
@@ -14,7 +14,7 @@ import { SectionHeading } from "@/components/common/SectionHeading";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 
-const icons: LucideIcon[] = [Microscope, ShieldCheck, Route, Thermometer, Boxes, FileCheck2];
+const icons: LucideIcon[] = [ShieldCheck, Microscope, Route, Boxes, FileCheck2, RefreshCcw];
 
 export function QualitySection() {
   return (
@@ -30,13 +30,25 @@ export function QualitySection() {
               title={tr.quality.title}
               description={tr.quality.description}
             />
-            <p className="mt-5 max-w-md text-sm text-muted-foreground/90">{tr.quality.note}</p>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
+              {tr.quality.intro}
+            </p>
             <Button asChild variant="outline" className="mt-6 rounded-full">
               <Link to="/kalite-ve-guvenlik">
                 {tr.quality.cta}
                 <ArrowRight aria-hidden="true" />
               </Link>
             </Button>
+
+            {/* Sertifika alanı — belgeler doğrulanana kadar logo veya iddia gösterilmez. */}
+            <div className="mt-8 rounded-[1.5rem] border border-border/70 bg-card/70 p-5">
+              <h3 className="text-sm font-semibold text-primary-deep">
+                {tr.quality.certificatesTitle}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {tr.quality.certificatesNote}
+              </p>
+            </div>
           </div>
 
           <ul className="grid gap-4 sm:grid-cols-2">
