@@ -4,52 +4,94 @@ import dreamlac2Image from "@/assets/dreamlac-2-cutout.png";
 import dreamlac3Image from "@/assets/dreamlac-3-cutout.png";
 
 /**
- * GEÇİCİ MOCK VERİ — backend bağlanınca silinecek.
- * Fiyat / yaş / gramaj bilgileri kasıtlı olarak null bırakılmıştır.
- * Orijinal ambalaj görselleri şeffaf arka planla bağlanmıştır.
+ * Ürün verisi — metinler firmanın resmî kataloğundan alınan ONAYLI içeriklerdir.
+ * Backend bağlanınca bu dosya yerine servis katmanı gerçek veriyi döndürür.
+ *
+ * BİLEREK BOŞ (null) bırakılan alanlar — bilgi iletilmeden doldurulmaz:
+ * fiyat, gramaj, SKU, barkod, stok, besin değerleri, hazırlama talimatı,
+ * alerjen bilgisi, saklama koşulları, raf ömrü.
  */
+
+const SHARED_INGREDIENTS = [
+  "DHA",
+  "ARA",
+  "Nükleotidler",
+  "Lutein",
+  "Karotenoidler",
+  "Bifidobacterium lactis",
+  "GOS ve FOS prebiyotik lifleri",
+];
+
+const SHARED_FEATURES = ["Palm yağı içermez", "GDO içermez"];
+
 export const mockProducts: Product[] = [
   {
     id: "p-dreamlac-1",
     slug: "dreamlac-1",
-    sku: "DL-001",
-    name: "Dreamlac 1",
+    sku: null,
+    barcode: null,
+    name: "Dreamlac 1 Bebek Sütü",
+    technicalName: "1. Aşama Bebek Formülü",
     shortDescription:
-      "Dreamlac ürün ailesinin ilk basamağı. Ürün açıklaması onayınızla güncellenecek.",
+      "Doğumdan itibaren ilk 6 aylık döneme yönelik, inek sütü bazlı bebek formülü.",
+    description:
+      "Dreamlac 1, yaşamın ilk 6 aylık dönemine yönelik olarak geliştirilmiş, inek sütü bazlı bir bebek formülüdür. Formülünde DHA, ARA, nükleotidler, lutein, karotenoidler, Bifidobacterium lactis ile GOS ve FOS prebiyotik lifleri bulunmaktadır.",
     stage: "stage-1",
-    ageRange: null,
+    ageRange: "Doğumdan itibaren ilk 6 ay",
     weight: null,
     price: { amount: null, currency: "TRY" },
     stock: "pending",
-    image: { src: dreamlac1Image, alt: "Dreamlac 1 ürün ambalajı" },
-    packagingNote: "Dreamlac 1 orijinal ambalajı",
+    image: { src: dreamlac1Image, alt: "Dreamlac 1 Bebek Sütü ürün ambalajı" },
+    highlightedIngredients: SHARED_INGREDIENTS,
+    formulaFeatures: SHARED_FEATURES,
+    warning:
+      "Anne sütü bebekler için en uygun besindir. Dreamlac 1 yalnızca sağlık profesyonelinin önerisi doğrultusunda kullanılmalıdır. Ürünün kullanımı, hazırlanması ve bebeğinizin beslenmesi hakkında doktorunuza danışınız.",
+    /** Hukuki inceleme tamamlanana kadar doğrudan satış kapalı. */
+    directSaleEnabled: false,
   },
   {
     id: "p-dreamlac-2",
     slug: "dreamlac-2",
-    sku: "DL-002",
-    name: "Dreamlac 2",
-    shortDescription: "Ürün ailesinin ikinci basamağı. Açıklama metni tarafınızdan iletilecek.",
+    sku: null,
+    barcode: null,
+    name: "Dreamlac 2 Devam Sütü",
+    technicalName: "2. Aşama Devam Formülü",
+    shortDescription: "6-12 aylık döneme yönelik, inek sütü bazlı devam formülü.",
+    description:
+      "Dreamlac 2, 6-12 aylık döneme yönelik olarak geliştirilmiş, inek sütü bazlı bir devam formülüdür. Formülünde DHA, ARA, nükleotidler, lutein, karotenoidler, Bifidobacterium lactis ile GOS ve FOS prebiyotik lifleri bulunmaktadır.",
     stage: "stage-2",
-    ageRange: null,
+    ageRange: "6-12 ay",
     weight: null,
     price: { amount: null, currency: "TRY" },
     stock: "pending",
-    image: { src: dreamlac2Image, alt: "Dreamlac 2 ürün ambalajı" },
-    packagingNote: "Dreamlac 2 orijinal ambalajı",
+    image: { src: dreamlac2Image, alt: "Dreamlac 2 Devam Sütü ürün ambalajı" },
+    highlightedIngredients: SHARED_INGREDIENTS,
+    formulaFeatures: SHARED_FEATURES,
+    warning:
+      "Anne sütü bebekler için en uygun besindir. Devam sütleri, tamamlayıcı beslenmenin bir parçasıdır ve ilk 6 ay boyunca anne sütü yerine kullanılmamalıdır. Ürün seçimi ve kullanımı hakkında sağlık profesyonelinize danışınız.",
+    directSaleEnabled: false,
   },
   {
     id: "p-dreamlac-3",
     slug: "dreamlac-3",
-    sku: "DL-003",
-    name: "Dreamlac 3",
-    shortDescription: "Ürün ailesinin üçüncü basamağı. Açıklama metni tarafınızdan iletilecek.",
+    sku: null,
+    barcode: null,
+    name: "Dreamlac 3 Devam Sütü",
+    technicalName: "3. Aşama Devam Formülü",
+    shortDescription:
+      "12-36 aylık çocukların beslenme dönemine yönelik, inek sütü bazlı devam formülü.",
+    description:
+      "Dreamlac 3, 12-36 aylık döneme yönelik olarak geliştirilmiş, inek sütü bazlı bir devam formülüdür. Formülünde DHA, ARA, nükleotidler, lutein, karotenoidler, Bifidobacterium lactis ile GOS ve FOS prebiyotik lifleri bulunmaktadır.",
     stage: "stage-3",
-    ageRange: null,
+    ageRange: "12-36 ay",
     weight: null,
     price: { amount: null, currency: "TRY" },
     stock: "pending",
-    image: { src: dreamlac3Image, alt: "Dreamlac 3 ürün ambalajı" },
-    packagingNote: "Dreamlac 3 orijinal ambalajı",
+    image: { src: dreamlac3Image, alt: "Dreamlac 3 Devam Sütü ürün ambalajı" },
+    highlightedIngredients: SHARED_INGREDIENTS,
+    formulaFeatures: SHARED_FEATURES,
+    warning:
+      "Anne sütü çocukların beslenmesinde önemli bir yere sahiptir. Dreamlac 3, çeşitli ve dengeli beslenmenin yerine geçmez. Çocuğunuzun beslenme ihtiyaçları ve ürün kullanımı hakkında sağlık profesyonelinize danışınız.",
+    directSaleEnabled: false,
   },
 ];

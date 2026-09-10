@@ -3,12 +3,16 @@
  * Çoklu dil desteği (AR / RTL, EN) eklenirken bu dosyanın yapısı kopyalanır:
  * src/content/ar.ts, src/content/en.ts + src/content/index.ts içinde seçim.
  * Bileşenlerin içine sabit metin yazılmaz; hepsi buradan okunur.
+ *
+ * Bu dosyadaki ürün, kalite ve kurumsal metinler firmanın resmî kataloğundan
+ * alınan ONAYLI metinlerdir. Onaysız iddia, sertifika veya sağlık beyanı eklenmez.
  */
 export const tr = {
   brand: {
     name: "Dreamlac",
     logoNote: "Logo alanı",
-    tagline: "Bebek maması ürünleri",
+    tagline: "Bebek ve devam sütleri",
+    manufacturer: "Kulalac",
   },
   nav: {
     home: "Ana Sayfa",
@@ -26,27 +30,34 @@ export const tr = {
     openMenu: "Menüyü aç",
   },
   hero: {
-    eyebrow: "Türkiye için özenle hazırlanıyor",
+    eyebrow: "Kulalac üretimi",
     title: "Her Adımda Özenle Yanınızda",
     description:
-      "Dreamlac ürünlerini keşfedin, ürün bilgilerine kolayca ulaşın ve aileniz için güvenli bir alışveriş deneyimi yaşayın.",
+      "Dreamlac 1, 2 ve 3 ürünlerini keşfedin; ürün bilgilerine kolayca ulaşın ve güvenli bir alışveriş deneyimi yaşayın.",
     primaryCta: "Ürünleri Keşfet",
     secondaryCta: "Dreamlac’ı Tanıyın",
-    visualNote: "Dreamlac 1, 2 ve 3 ambalaj görselleri için ayrılmış alan",
+    notice:
+      "Anne sütü bebekler için en uygun besindir. Ürün kullanımı hakkında sağlık profesyonelinize danışınız.",
+    visualNote: "Dreamlac 1, 2 ve 3 ürün ambalajları",
     scrollHint: "Aşağı kaydırın",
   },
   products: {
     sectionEyebrow: "Ürün Ailesi",
-    sectionTitle: "Dreamlac Ürünleri",
-    sectionDescription:
-      "Üç ürün, tek bir özen anlayışı. Ürün bilgileri tarafınızdan iletildiğinde bu alanlar otomatik olarak güncellenecek şekilde hazırlandı.",
+    sectionTitle: "Dreamlac Ürünlerini Keşfedin",
+    sectionDescription: "Farklı gelişim dönemlerine yönelik Dreamlac ürünlerini inceleyin.",
     detailsCta: "Detayları Gör",
     addToCart: "Sepete Ekle",
     favorite: "Favorilere ekle",
     imageMissing: "Ambalaj görseli yakında",
+    fields: {
+      age: "Yaş dönemi",
+      weight: "Gramaj",
+      price: "Fiyat",
+      type: "Ürün türü",
+      base: "Süt bazı",
+    },
     placeholders: {
-      age: "Yaş bilgisi daha sonra eklenecek",
-      weight: "Gramaj bilgisi",
+      weight: "Gramaj bilgisi yakında",
       price: "Fiyat yakında",
     },
     stock: {
@@ -56,16 +67,111 @@ export const tr = {
     },
     allProducts: "Tüm Ürünler",
   },
+  story: {
+    eyebrow: "Hikâyemiz",
+    title: "Bilimle Başlayan, Özenle Devam Eden Bir Yolculuk",
+    description:
+      "2014 yılında Fransa’da başlayan bilgi ve deneyim yolculuğu, 2020 yılında Türkiye’de yerel üretim gücüyle buluştu.",
+    headline: "Her damlanın ardında, sağlıklı bir yaşam için verilen emeğin hikâyesi var.",
+    paragraphs: [
+      "Dreamlac’ın yolculuğu; bilimi, özeni ve ailelerin ihtiyaçlarını aynı noktada buluşturma hedefiyle başladı. Kulalac, modern üretim teknolojilerini uluslararası kalite yaklaşımıyla bir araya getirerek çocuk beslenmesine yönelik ürünler geliştirmektedir.",
+      "2014 yılında Fransa’da başlayan bilgi ve deneyim yolculuğu, 2020 yılında Türkiye’de yerel üretim gücüyle yeni bir aşamaya taşındı. Bugün Kula, Manisa’daki üretim tesisimizde kalite, izlenebilirlik ve ürün güvenliğini üretimin her aşamasının merkezinde tutuyoruz.",
+    ],
+    cta: "Hikâyemizi Keşfedin",
+    missionTitle: "Yalnızca ürün geliştirmiyoruz, yaşamın ilk adımlarına özenle eşlik ediyoruz.",
+    missionText:
+      "Dreamlac ürünleri; bilimsel yaklaşım, modern üretim teknolojileri ve özenle seçilen bileşenler doğrultusunda geliştirilmektedir. Üretim sürecinin her aşamasında kalite ve ürün güvenliği esas alınır.",
+  },
+  ingredients: {
+    eyebrow: "Formüller",
+    title: "Dreamlac Formüllerini Tanıyın",
+    description: "Dreamlac 1, 2 ve 3 ürünlerinde yer alan öne çıkan bileşenleri inceleyin.",
+    featuresTitle: "Formül Özellikleri",
+    features: ["Palm Yağı İçermez", "GDO İçermez"],
+    note: "Bileşenlere ilişkin ayrıntılı bilgiler ürün ambalajında yer almaktadır.",
+  },
+  chooser: {
+    eyebrow: "Ürün Karşılaştırma",
+    title: "Ürün seçeneklerini inceleyin",
+    description:
+      "Dreamlac 1, 2 ve 3 ürünlerinin genel özelliklerini yan yana görebilirsiniz. Bu alan bir öneri veya teşhis aracı değildir.",
+    disclaimer:
+      "Bu karşılaştırma genel ürün bilgisi sunmak amacıyla hazırlanmıştır. Bebeğiniz veya çocuğunuz için ürün seçmeden önce sağlık profesyonelinize danışınız.",
+    featureColumn: "Özellik",
+  },
+  journey: {
+    eyebrow: "Üretim Yolculuğu",
+    title: "Üretimin Her Aşamasında Kalite ve İzlenebilirlik",
+    description:
+      "Dreamlac ürünlerinin yolculuğu, hammaddelerin değerlendirilmesiyle başlar ve üretim, kalite kontrol, paketleme ve izlenebilirlik adımlarıyla devam eder. Amaç, her aşamada tutarlı bir kalite ve ürün güvenliği yaklaşımı sağlamaktır.",
+    steps: [
+      "Hammadde Seçimi",
+      "Üretim Süreci",
+      "Kalite Kontrol",
+      "Paketleme",
+      "İzlenebilirlik",
+      "Tüketiciye Ulaşım",
+    ],
+  },
+  quality: {
+    eyebrow: "Kalite Yaklaşımımız",
+    title: "Hammaddeden Pakete Uzanan Kalite Yaklaşımı",
+    description:
+      "Üretimin her aşamasında kalite, ürün güvenliği ve izlenebilirlik yaklaşımını merkeze alıyoruz.",
+    intro:
+      "Hammaddelerin tedarikinden ürünlerin paketlenmesine kadar tüm üretim aşamaları kalite kontrol süreçleri doğrultusunda takip edilir. Kulalac, üretim bilgisini ve modern teknolojiyi Türkiye’de bir araya getirerek güvenilir ve izlenebilir bir üretim yaklaşımı benimser.",
+    items: [
+      {
+        title: "Hammadde Kontrolü",
+        description:
+          "Üretimde kullanılan hammaddeler, tanımlanmış kalite süreçleri doğrultusunda değerlendirilir.",
+      },
+      {
+        title: "Modern Üretim Teknolojisi",
+        description:
+          "Üretim sürecinde modern teknolojilerden ve spray-drying yönteminden yararlanılır.",
+      },
+      {
+        title: "Süreç Kontrolü",
+        description:
+          "Üretimin farklı aşamalarında kalite ve uygunluk kontrolleri gerçekleştirilir.",
+      },
+      {
+        title: "Paketleme",
+        description: "Ürünler, içeriğin korunmasına yardımcı olacak ambalajlama süreçleriyle hazırlanır.",
+      },
+      {
+        title: "İzlenebilirlik",
+        description:
+          "Üretim lotlarının ve ürün hareketlerinin izlenebilirliği kalite sisteminin önemli bir parçasıdır.",
+      },
+      {
+        title: "Sürekli Gelişim",
+        description:
+          "Kalite süreçleri, mevzuat ve üretim ihtiyaçları doğrultusunda düzenli olarak değerlendirilir.",
+      },
+    ],
+    certificatesTitle: "Kalite Belgeleri",
+    certificatesNote:
+      "Kulalac, üretim ve kalite yönetimi süreçlerini uluslararası standartlara uyum hedefiyle geliştirmektedir. Sertifika ve kalite belgelerine ilişkin doğrulanmış bilgiler, gerekli kontroller tamamlandıktan sonra bu alanda yayımlanacaktır.",
+    cta: "Kalite ve Güvenlik",
+  },
+  factory: {
+    eyebrow: "Üretim Tesisi",
+    title: "Türkiye’de Üretim",
+    description:
+      "Dreamlac ürünleri, Kulalac’ın Kula, Manisa’daki üretim tesisinde üretilmektedir.",
+    visualNote: "Üretim tesisi görselleri için ayrılmış alan (yer tutucu).",
+  },
   trust: {
     eyebrow: "Neden Dreamlac?",
     title: "Sade, şeffaf ve güven veren bir deneyim",
-    description:
-      "Aşağıdaki başlıklar, onaylı metinleriniz iletildiğinde güncellenmek üzere genel ifadelerle hazırlandı.",
+    description: "Ürün bilgilerine kolay erişim ve anlaşılır bir alışveriş akışı esas alınır.",
     items: [
       {
         title: "Şeffaf Ürün Bilgileri",
         description:
-          "Ürün detayları, içindekiler ve besin değerleri açık ve okunabilir bir düzende sunulur.",
+          "Ürün bilgileri açık ve okunabilir bir düzende sunulur; ayrıntılar ürün ambalajında yer alır.",
       },
       {
         title: "Güvenli Alışveriş",
@@ -75,7 +181,7 @@ export const tr = {
       {
         title: "Özenli Paketleme",
         description:
-          "Ürünlerin size ulaşana kadar korunması için paketleme akışı öncelikli tutulur.",
+          "Ürünler, içeriğin korunmasına yardımcı olacak ambalajlama süreçleriyle hazırlanır.",
       },
       {
         title: "Müşteri Desteği",
@@ -83,40 +189,11 @@ export const tr = {
       },
     ],
   },
-  chooser: {
-    eyebrow: "Ürün Seçenekleri",
-    title: "Ürün seçeneklerini inceleyin",
-    description:
-      "Dreamlac 1, 2 ve 3 arasındaki farkları yan yana görebilirsiniz. Bu alan bir öneri aracı değildir.",
-    disclaimer: "Ürün seçimi ve kullanımıyla ilgili olarak sağlık uzmanınıza danışınız.",
-    columnLabels: {
-      stage: "Ürün",
-      age: "Yaş aralığı",
-      weight: "Gramaj",
-      pack: "Ambalaj",
-    },
-  },
-  quality: {
-    eyebrow: "Kalite ve Güvenlik",
-    title: "Kalite yaklaşımımız için ayrılmış alan",
-    description:
-      "Kalite süreçleri, izlenebilirlik ve üretim bilgileri; tarafınızdan onaylanan belgeler iletildiğinde bu bölümde yayınlanacaktır.",
-    items: [
-      { title: "Kalite Süreçleri", description: "Süreç açıklaması için hazır alan." },
-      { title: "Güvenlik Adımları", description: "Güvenlik bilgisi için hazır alan." },
-      { title: "İzlenebilirlik", description: "Parti ve izlenebilirlik bilgisi için hazır alan." },
-      { title: "Saklama Koşulları", description: "Saklama bilgisi için hazır alan." },
-      { title: "Üretim Bilgisi", description: "Üretim bilgisi için hazır alan." },
-      { title: "Belgeler", description: "Yalnızca tarafınızca iletilen belgeler yayınlanır." },
-    ],
-    note: "Bu bölümde yer alacak tüm ifadeler ve belgeler onayınıza tabidir.",
-    cta: "Kalite ve Güvenlik",
-  },
   content: {
     eyebrow: "Bilgi Merkezi",
     title: "Aileler için hazırlanan içerikler",
     description:
-      "Aşağıdaki başlıklar yer tutucudur. İçerik metinleri tarafınızdan iletildiğinde yayınlanacaktır.",
+      "Aşağıdaki başlıklar yer tutucudur. İçerik metinleri onaylandıktan sonra yayınlanacaktır.",
     readMore: "Yazıyı oku",
     allArticles: "Tüm içerikler",
     comingSoon: "İçerik hazırlanıyor",
@@ -144,9 +221,14 @@ export const tr = {
     settings: "Çerez ayarları",
     policy: "Çerez Politikası",
   },
+  contact: {
+    title: "Bizimle İletişime Geçin",
+    description:
+      "Dreamlac ürünleri, sipariş süreci veya genel bilgilendirme talepleriniz için bizimle iletişime geçebilirsiniz.",
+  },
   footer: {
     about:
-      "Dreamlac, Türkiye’deki aileler için hazırlanan bebek maması ürünlerini şeffaf bir dijital deneyimle sunmayı hedefler.",
+      "Dreamlac, Kulalac tarafından geliştirilen bebek ve devam sütü ürünlerini şeffaf bir dijital deneyimle sunar.",
     columns: {
       brand: "Dreamlac",
       shop: "Alışveriş",
@@ -175,19 +257,16 @@ export const tr = {
     },
     company: {
       title: "Şirket Bilgileri",
-      name: "Şirket unvanı bilgisi eklenecek",
-      address: "Adres bilgisi eklenecek",
-      phone: "Telefon bilgisi eklenecek",
-      email: "E-posta bilgisi eklenecek",
-      taxId: "Vergi bilgisi eklenecek",
     },
     social: {
       title: "Sosyal Medya",
       note: "Sosyal medya bağlantıları eklenecek",
     },
     rights: "Tüm hakları saklıdır.",
+    notice:
+      "Anne sütü bebekler için en uygun besindir. Ürün seçimi ve kullanımı hakkında sağlık profesyonelinize danışınız.",
     disclaimer:
-      "Bu site tanıtım amaçlı bir arayüz çalışmasıdır. Ürün bilgileri, fiyatlar ve yasal metinler onaylandıktan sonra yayınlanacaktır.",
+      "Bu site bir arayüz çalışmasıdır. Fiyatlar, gramajlar ve yasal metinler onaylandıktan sonra yayınlanacaktır.",
   },
   states: {
     loading: "Yükleniyor…",
