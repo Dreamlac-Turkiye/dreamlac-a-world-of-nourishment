@@ -1,7 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronDown, Droplets } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { LogoPlaceholder } from "@/components/brand/LogoPlaceholder";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 import { mockProducts } from "@/data/mock/products";
