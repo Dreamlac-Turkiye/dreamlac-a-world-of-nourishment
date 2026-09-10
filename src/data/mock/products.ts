@@ -1,10 +1,12 @@
 import type { Product } from "@/types";
+import dreamlac1Image from "@/assets/dreamlac-1-cutout.png";
+import dreamlac2Image from "@/assets/dreamlac-2-cutout.png";
+import dreamlac3Image from "@/assets/dreamlac-3-cutout.png";
 
 /**
  * GEÇİCİ MOCK VERİ — backend bağlanınca silinecek.
  * Fiyat / yaş / gramaj bilgileri kasıtlı olarak null bırakılmıştır.
- * Ambalaj görselleri iletildiğinde `image.src` alanına eklenecek
- * (öneri: src/assets/products/dreamlac-1.png ...).
+ * Orijinal ambalaj görselleri şeffaf arka planla bağlanmıştır.
  */
 export const mockProducts: Product[] = [
   {
@@ -19,8 +21,8 @@ export const mockProducts: Product[] = [
     weight: null,
     price: { amount: null, currency: "TRY" },
     stock: "pending",
-    image: { src: null, alt: "Dreamlac 1 ambalaj görseli" },
-    packagingNote: "Orijinal ambalaj görseli bekleniyor",
+    image: { src: dreamlac1Image, alt: "Dreamlac 1 ürün ambalajı" },
+    packagingNote: "Dreamlac 1 orijinal ambalajı",
   },
   {
     id: "p-dreamlac-2",
@@ -33,8 +35,8 @@ export const mockProducts: Product[] = [
     weight: null,
     price: { amount: null, currency: "TRY" },
     stock: "pending",
-    image: { src: null, alt: "Dreamlac 2 ambalaj görseli" },
-    packagingNote: "Orijinal ambalaj görseli bekleniyor",
+    image: { src: dreamlac2Image, alt: "Dreamlac 2 ürün ambalajı" },
+    packagingNote: "Dreamlac 2 orijinal ambalajı",
   },
   {
     id: "p-dreamlac-3",
@@ -47,7 +49,7 @@ export const mockProducts: Product[] = [
     weight: null,
     price: { amount: null, currency: "TRY" },
     stock: "pending",
-    image: { src: null, alt: "Dreamlac 3 ambalaj görseli" },
-    packagingNote: "Orijinal ambalaj görseli bekleniyor",
+    image: { src: dreamlac3Image, alt: "Dreamlac 3 ürün ambalajı" },
+    packagingNote: "Dreamlac 3 orijinal ambalajı",
   },
 ];

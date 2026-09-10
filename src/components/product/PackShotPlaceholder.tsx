@@ -31,7 +31,10 @@ export function PackShotPlaceholder({
         alt={product.image.alt}
         loading="lazy"
         decoding="async"
-        className={cn("h-full w-full object-contain", className)}
+        className={cn(
+          "h-full w-full object-contain drop-shadow-[0_24px_18px_color-mix(in_oklab,var(--primary-deep)_22%,transparent)]",
+          className,
+        )}
       />
     );
   }
