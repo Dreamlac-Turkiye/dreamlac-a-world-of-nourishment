@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      integration_settings: {
+        Row: {
+          admin_note: string | null
+          category: string
+          config: Json
+          created_at: string
+          display_name: string
+          enabled: boolean
+          id: string
+          mode: string
+          provider_key: string
+          sort_order: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          admin_note?: string | null
+          category: string
+          config?: Json
+          created_at?: string
+          display_name: string
+          enabled?: boolean
+          id?: string
+          mode?: string
+          provider_key: string
+          sort_order?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          admin_note?: string | null
+          category?: string
+          config?: Json
+          created_at?: string
+          display_name?: string
+          enabled?: boolean
+          id?: string
+          mode?: string
+          provider_key?: string
+          sort_order?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       legal_documents: {
         Row: {
           body: string
@@ -208,6 +253,42 @@ export type Database = {
           updated_at?: string
           updated_by?: string | null
           weight?: string | null
+        }
+        Relationships: []
+      }
+      shipment_events: {
+        Row: {
+          created_at: string
+          id: string
+          occurred_at: string
+          order_number: string
+          payload: Json | null
+          provider_key: string
+          status: string
+          status_detail: string | null
+          tracking_number: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          occurred_at?: string
+          order_number: string
+          payload?: Json | null
+          provider_key: string
+          status: string
+          status_detail?: string | null
+          tracking_number?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          occurred_at?: string
+          order_number?: string
+          payload?: Json | null
+          provider_key?: string
+          status?: string
+          status_detail?: string | null
+          tracking_number?: string | null
         }
         Relationships: []
       }
