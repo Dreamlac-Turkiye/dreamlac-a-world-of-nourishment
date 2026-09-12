@@ -11,6 +11,7 @@ import { mockProducts } from "@/data/mock/products";
 import { supabase } from "@/integrations/supabase/client";
 import { IntegrationsSection } from "@/components/admin/IntegrationsSection";
 import { CommerceOperationsSection } from "@/components/admin/CommerceOperationsSection";
+import { UserManagementSection } from "@/components/admin/UserManagementSection";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -107,6 +108,7 @@ function AdminPage() {
             {tr.admin.responsibility}
           </p>
           <CommerceOperationsSection />
+          <UserManagementSection />
           <div className="mt-8 space-y-6">
             {settingsQuery.data?.map((row) => (
               <ProductSettingsForm
