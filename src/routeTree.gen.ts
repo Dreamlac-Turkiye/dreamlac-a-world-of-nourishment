@@ -36,6 +36,7 @@ import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
 import { Route as UrunlerSlugRouteImport } from './routes/urunler.$slug'
 import { Route as AuthenticatedSiparislerimIndexRouteImport } from './routes/_authenticated/siparislerim.index'
 import { Route as AuthenticatedSiparislerimOrderNumberRouteImport } from './routes/_authenticated/siparislerim.$orderNumber'
+import { Route as ApiPublicKargoDurumRouteImport } from './routes/api/public/kargo-durum'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -174,6 +175,11 @@ const AuthenticatedSiparislerimOrderNumberRoute =
     path: '/siparislerim/$orderNumber',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicKargoDurumRoute = ApiPublicKargoDurumRouteImport.update({
+  id: '/api/public/kargo-durum',
+  path: '/api/public/kargo-durum',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -201,6 +207,7 @@ export interface FileRoutesByFullPath {
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
   '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/api/public/kargo-durum': typeof ApiPublicKargoDurumRoute
   '/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRoutesByTo {
@@ -229,6 +236,7 @@ export interface FileRoutesByTo {
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler': typeof UrunlerIndexRoute
   '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/api/public/kargo-durum': typeof ApiPublicKargoDurumRoute
   '/siparislerim': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRoutesById {
@@ -259,6 +267,7 @@ export interface FileRoutesById {
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
   '/_authenticated/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/api/public/kargo-durum': typeof ApiPublicKargoDurumRoute
   '/_authenticated/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
 export interface FileRouteTypes {
@@ -289,6 +298,7 @@ export interface FileRouteTypes {
     | '/urunler/$slug'
     | '/urunler/'
     | '/siparislerim/$orderNumber'
+    | '/api/public/kargo-durum'
     | '/siparislerim/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -317,6 +327,7 @@ export interface FileRouteTypes {
     | '/urunler/$slug'
     | '/urunler'
     | '/siparislerim/$orderNumber'
+    | '/api/public/kargo-durum'
     | '/siparislerim'
   id:
     | '__root__'
@@ -346,6 +357,7 @@ export interface FileRouteTypes {
     | '/urunler/$slug'
     | '/urunler/'
     | '/_authenticated/siparislerim/$orderNumber'
+    | '/api/public/kargo-durum'
     | '/_authenticated/siparislerim/'
   fileRoutesById: FileRoutesById
 }
@@ -373,6 +385,7 @@ export interface RootRouteChildren {
   UyelikSozlesmesiRoute: typeof UyelikSozlesmesiRoute
   UrunlerSlugRoute: typeof UrunlerSlugRoute
   UrunlerIndexRoute: typeof UrunlerIndexRoute
+  ApiPublicKargoDurumRoute: typeof ApiPublicKargoDurumRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -566,6 +579,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSiparislerimOrderNumberRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/kargo-durum': {
+      id: '/api/public/kargo-durum'
+      path: '/api/public/kargo-durum'
+      fullPath: '/api/public/kargo-durum'
+      preLoaderRoute: typeof ApiPublicKargoDurumRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -611,6 +631,7 @@ const rootRouteChildren: RootRouteChildren = {
   UyelikSozlesmesiRoute: UyelikSozlesmesiRoute,
   UrunlerSlugRoute: UrunlerSlugRoute,
   UrunlerIndexRoute: UrunlerIndexRoute,
+  ApiPublicKargoDurumRoute: ApiPublicKargoDurumRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
