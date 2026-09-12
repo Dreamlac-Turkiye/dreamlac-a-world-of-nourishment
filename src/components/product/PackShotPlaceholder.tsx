@@ -19,17 +19,20 @@ export function PackShotPlaceholder({
   product,
   className,
   label,
+  priority = false,
 }: {
   product: Product;
   className?: string;
   label?: string;
+  priority?: boolean;
 }) {
   if (product.image.src) {
     return (
       <img
         src={product.image.src}
         alt={product.image.alt}
-        loading="lazy"
+        loading={priority ? "eager" : "lazy"}
+        fetchPriority={priority ? "high" : "auto"}
         decoding="async"
         className={cn(
           "h-full w-full object-contain drop-shadow-[0_24px_18px_color-mix(in_oklab,var(--primary-deep)_22%,transparent)]",
