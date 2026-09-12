@@ -30,14 +30,22 @@ export const tr = {
     openMenu: "Menüyü aç",
   },
   hero: {
-    eyebrow: "Kulalac üretimi",
-    title: "Her Adımda Özenle Yanınızda",
+    eyebrow: "Dreamlac · Her gelişim dönemine özenle",
+    title: "Her gelişim dönemine özenle eşlik eder.",
     description:
-      "Dreamlac 1, 2 ve 3 ürünlerini keşfedin; ürün bilgilerine kolayca ulaşın ve güvenli bir alışveriş deneyimi yaşayın.",
-    primaryCta: "Ürünleri Keşfet",
-    secondaryCta: "Dreamlac’ı Tanıyın",
+      "Dreamlac 1, 2 ve 3 ile bebeğinizin gelişim dönemine uygun ürün bilgilerini keşfedin.",
+    primaryCta: "Ürünleri İncele",
+    secondaryCta: "Doğru Dönemi Bul",
     notice:
       "Anne sütü bebekler için en uygun besindir. Ürün kullanımı hakkında sağlık profesyonelinize danışınız.",
+    noticeLabel: "Önemli bilgilendirme",
+    stageSelectorLabel: "Dreamlac ürün aşamasını seçin",
+    trustItems: [
+      "Palm yağı içermez",
+      "GDO içermez",
+      "Türkiye’de üretim",
+      "İzlenebilir üretim yaklaşımı",
+    ],
     visualNote: "Dreamlac 1, 2 ve 3 ürün ambalajları",
     scrollHint: "Aşağı kaydırın",
   },
@@ -546,35 +554,7 @@ export const tr = {
       titleRequired: "Sayfa başlığı boş bırakılamaz.",
       bodyRequired: "Metin boş bırakılamaz.",
     },
-    integrations: {
-      title: "Entegrasyon Yönetimi",
-      description:
-        "Kargo, ödeme, e-fatura ve SMS sağlayıcılarının altyapısı hazırdır. Her sağlayıcıyı açıp test/canlı modunu seçebilirsiniz; sağlayıcı ancak API anahtarları eklendikten sonra çalışır.",
-      notice:
-        "API anahtarları bu sayfada saklanmaz ve görüntülenmez. Anahtarlar güvenli anahtar deposunda tutulur; yalnızca 'tanımlı' ya da 'eksik' durumu gösterilir.",
-      ready: "Anahtarlar tanımlı",
-      pending: "Anahtar bekleniyor",
-      missingLabel: "Eksik anahtarlar",
-      secretsTitle: "Gerekli anahtarlar",
-      optional: "isteğe bağlı",
-      enabledLabel: "Bu sağlayıcıyı kullan",
-      modeLabel: "Çalışma modu",
-      modeTest: "Test",
-      modeLive: "Canlı",
-      noteLabel: "Yönetici notu (isteğe bağlı)",
-      test: "Bağlantıyı sına",
-      testing: "Sınanıyor…",
-      docs: "Sağlayıcı belgeleri",
-      saved: "Entegrasyon ayarı kaydedildi.",
-      saveError: "Entegrasyon ayarı kaydedilemedi. Lütfen tekrar deneyin.",
-      webhookTitle: "Kargo durum bildirimi (webhook)",
-      webhookDescription:
-        "Kargo firmasının durum güncellemelerini gönderdiği adres. İmza doğrulanmadan hiçbir kayıt oluşturulmaz.",
-      webhookReady: "Doğrulama anahtarı tanımlı",
-      webhookPending: "Doğrulama anahtarı bekleniyor",
-    },
   },
-
   legal: {
     effectiveDate: "Yürürlük tarihi",
     lastUpdated: "Son güncelleme",
