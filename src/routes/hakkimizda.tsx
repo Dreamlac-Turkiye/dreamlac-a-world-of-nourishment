@@ -1,22 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/common/PagePlaceholder";
+import { FactorySection } from "@/components/home/FactorySection";
+import { StorySection } from "@/components/home/StorySection";
+import { TrustSection } from "@/components/home/TrustSection";
 
 export const Route = createFileRoute("/hakkimizda")({
   head: () => ({
     meta: [
       { title: "Hakkımızda — Dreamlac" },
-      { name: "description", content: "Dreamlac hakkında sayfası 5. aşamada tasarlanacaktır." },
+      {
+        name: "description",
+        content: "Dreamlac ve Kulalac'ın bilim, üretim ve kalite yolculuğunu keşfedin.",
+      },
       { property: "og:title", content: "Hakkımızda — Dreamlac" },
       {
         property: "og:description",
-        content: "Dreamlac hakkında sayfası 5. aşamada tasarlanacaktır.",
+        content: "Dreamlac ve Kulalac'ın bilim, üretim ve kalite yolculuğunu keşfedin.",
       },
     ],
   }),
   component: () => (
-    <PagePlaceholder
-      title="Hakkımızda"
-      description="Dreamlac hakkında sayfası 5. aşamada tasarlanacaktır."
-    />
+    <main id="main">
+      <StorySection />
+      <FactorySection />
+      <TrustSection />
+    </main>
   ),
 });

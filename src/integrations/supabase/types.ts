@@ -312,6 +312,27 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      customer_get_account: { Args: { p_user_id: string }; Returns: Json };
+      customer_upsert_profile: {
+        Args: { p_full_name: string; p_phone: string; p_user_id: string };
+        Returns: undefined;
+      };
+      customer_save_address: {
+        Args: {
+          p_address: Json;
+          p_address_id: string | null;
+          p_is_default: boolean;
+          p_label: string;
+          p_phone: string;
+          p_recipient_name: string;
+          p_user_id: string;
+        };
+        Returns: string;
+      };
+      customer_delete_address: {
+        Args: { p_address_id: string; p_user_id: string };
+        Returns: undefined;
+      };
       customer_get_commerce_order: {
         Args: { p_order_number: string; p_user_id: string };
         Returns: Json;

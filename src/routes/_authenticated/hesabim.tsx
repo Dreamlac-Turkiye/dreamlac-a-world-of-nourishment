@@ -5,6 +5,7 @@ import { Package, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 import { supabase } from "@/integrations/supabase/client";
+import { AccountDetails } from "@/components/account/AccountDetails";
 
 export const Route = createFileRoute("/_authenticated/hesabim")({
   head: () => ({
@@ -82,6 +83,7 @@ function AccountPage() {
           </Link>
         ) : null}
       </div>
+      <AccountDetails />
     </main>
   );
 }
