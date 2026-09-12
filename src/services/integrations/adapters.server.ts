@@ -55,7 +55,12 @@ function notConfigured<T>(provider: IntegrationProvider, missing: string[]): Int
 function pendingResult<T>(providerKey: string): IntegrationResult<T> {
   const provider = getProvider(providerKey);
   if (!provider) {
-    return { ok: false, data: null, error: "Tanımsız entegrasyon sağlayıcısı.", notConfigured: true };
+    return {
+      ok: false,
+      data: null,
+      error: "Tanımsız entegrasyon sağlayıcısı.",
+      notConfigured: true,
+    };
   }
   const readiness = checkSecrets(provider);
   if (!readiness.ready) return notConfigured<T>(provider, readiness.missing);

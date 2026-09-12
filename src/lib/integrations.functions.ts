@@ -84,7 +84,10 @@ export const testIntegration = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((data: unknown) => z.object({ providerKey: z.string().min(1) }).parse(data))
   .handler(
-    async ({ data, context }): Promise<{ ok: boolean; message: string; notConfigured: boolean }> => {
+    async ({
+      data,
+      context,
+    }): Promise<{ ok: boolean; message: string; notConfigured: boolean }> => {
       await assertAdmin(context);
 
       const provider = getProvider(data.providerKey);
@@ -98,14 +101,12 @@ export const testIntegration = createServerFn({ method: "POST" })
           : provider.category === "payment"
             ? await adapters.getPaymentAdapter(provider.key).verifyPayment("TEST")
             : provider.category === "invoice"
-              ? await adapters
-                  .getInvoiceAdapter(provider.key)
-                  .createInvoice({
-                    orderNumber: "TEST",
-                    customerName: "Test",
-                    customerEmail: "test@example.com",
-                    lines: [],
-                  })
+              ? await adapters.getInvoiceAdapter(provider.key).createInvoice({
+                  orderNumber: "TEST",
+                  customerName: "Test",
+                  customerEmail: "test@example.com",
+                  lines: [],
+                })
               : await adapters
                   .getSmsAdapter(provider.key)
                   .sendSms({ phone: "0000000000", message: "Test" });
