@@ -534,6 +534,33 @@ export const tr = {
     emptyPrice: "Fiyat girilmedi",
     responsibility:
       "Bu alana yalnızca resmî ürün etiketinde ve firma kayıtlarında yer alan bilgileri girin. Girilen bilgiler müşterilere gösterilir.",
+    integrations: {
+      title: "Entegrasyon Hazırlığı",
+      description:
+        "Ödeme, kargo, e-fatura ve mesajlaşma sağlayıcılarının hazırlık durumunu güvenli biçimde yönetin.",
+      notice:
+        "API anahtarları bu ekrana yazılmaz ve gösterilmez. Anahtarları yalnızca dağıtım ortamının güvenli anahtar kasasına ekleyin; canlı modu testler tamamlanmadan açmayın.",
+      webhookTitle: "Kargo Webhook Durumu",
+      webhookDescription:
+        "Kargo sağlayıcısının durum bildirimlerini göndereceği adres ve imza anahtarı hazırlığı.",
+      webhookReady: "Webhook imza anahtarı hazır",
+      webhookPending: "Webhook imza anahtarı bekleniyor",
+      ready: "Hazır",
+      pending: "Eksik yapılandırma",
+      secretsTitle: "Gerekli güvenli anahtarlar",
+      optional: "isteğe bağlı",
+      modeLabel: "Çalışma modu",
+      modeTest: "Test",
+      modeLive: "Canlı",
+      noteLabel: "Yönetici notu",
+      enabledLabel: "Bu sağlayıcıyı etkinleştir",
+      missingLabel: "Eksik anahtarlar",
+      testing: "Test ediliyor…",
+      test: "Bağlantıyı test et",
+      docs: "Dokümantasyonu aç",
+      saved: "Entegrasyon ayarı kaydedildi.",
+      saveError: "Entegrasyon ayarı kaydedilemedi.",
+    },
     legal: {
       title: "Yasal Metin Yönetimi",
       description:
