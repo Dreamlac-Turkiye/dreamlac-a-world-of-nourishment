@@ -546,7 +546,35 @@ export const tr = {
       titleRequired: "Sayfa başlığı boş bırakılamaz.",
       bodyRequired: "Metin boş bırakılamaz.",
     },
+    integrations: {
+      title: "Entegrasyon Yönetimi",
+      description:
+        "Kargo, ödeme, e-fatura ve SMS sağlayıcılarının altyapısı hazırdır. Her sağlayıcıyı açıp test/canlı modunu seçebilirsiniz; sağlayıcı ancak API anahtarları eklendikten sonra çalışır.",
+      notice:
+        "API anahtarları bu sayfada saklanmaz ve görüntülenmez. Anahtarlar güvenli anahtar deposunda tutulur; yalnızca 'tanımlı' ya da 'eksik' durumu gösterilir.",
+      ready: "Anahtarlar tanımlı",
+      pending: "Anahtar bekleniyor",
+      missingLabel: "Eksik anahtarlar",
+      secretsTitle: "Gerekli anahtarlar",
+      optional: "isteğe bağlı",
+      enabledLabel: "Bu sağlayıcıyı kullan",
+      modeLabel: "Çalışma modu",
+      modeTest: "Test",
+      modeLive: "Canlı",
+      noteLabel: "Yönetici notu (isteğe bağlı)",
+      test: "Bağlantıyı sına",
+      testing: "Sınanıyor…",
+      docs: "Sağlayıcı belgeleri",
+      saved: "Entegrasyon ayarı kaydedildi.",
+      saveError: "Entegrasyon ayarı kaydedilemedi. Lütfen tekrar deneyin.",
+      webhookTitle: "Kargo durum bildirimi (webhook)",
+      webhookDescription:
+        "Kargo firmasının durum güncellemelerini gönderdiği adres. İmza doğrulanmadan hiçbir kayıt oluşturulmaz.",
+      webhookReady: "Doğrulama anahtarı tanımlı",
+      webhookPending: "Doğrulama anahtarı bekleniyor",
+    },
   },
+
   legal: {
     effectiveDate: "Yürürlük tarihi",
     lastUpdated: "Son güncelleme",

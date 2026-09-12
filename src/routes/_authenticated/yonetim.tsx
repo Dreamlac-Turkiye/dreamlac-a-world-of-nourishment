@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { tr } from "@/content/tr";
 import { mockProducts } from "@/data/mock/products";
 import { supabase } from "@/integrations/supabase/client";
+import { IntegrationsSection } from "@/components/admin/IntegrationsSection";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -115,8 +116,9 @@ function AdminPage() {
           </div>
 
           <LegalDocumentsSection />
-        </>
 
+          <IntegrationsSection />
+        </>
       ) : (
         <div className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-6">
           <h2 className="text-lg font-semibold text-primary-deep">{tr.admin.noAccessTitle}</h2>
