@@ -12,6 +12,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { IntegrationsSection } from "@/components/admin/IntegrationsSection";
 import { CommerceOperationsSection } from "@/components/admin/CommerceOperationsSection";
 import { UserManagementSection } from "@/components/admin/UserManagementSection";
+import { InventoryManagementSection } from "@/components/admin/InventoryManagementSection";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -108,6 +109,7 @@ function AdminPage() {
             {tr.admin.responsibility}
           </p>
           <CommerceOperationsSection />
+          <InventoryManagementSection />
           <UserManagementSection />
           <div className="mt-8 space-y-6">
             {settingsQuery.data?.map((row) => (

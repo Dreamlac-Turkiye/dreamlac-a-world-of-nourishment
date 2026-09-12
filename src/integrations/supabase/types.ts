@@ -324,6 +324,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_list_inventory: {
+        Args: { p_actor_id: string; p_market_code?: string };
+        Returns: Json;
+      };
       admin_set_user_role: {
         Args: {
           p_actor_id: string;

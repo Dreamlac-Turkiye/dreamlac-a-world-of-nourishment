@@ -26,6 +26,34 @@ const adminOrderSearch = z.object({
 
 export type AdminOrderSummary = z.infer<typeof adminOrder>;
 
+const inventoryItem = z.object({
+  warehouseId: z.string().uuid(),
+  warehouseCode: z.string(),
+  warehouseName: z.string(),
+  variantId: z.string().uuid(),
+  sku: z.string(),
+  productName: z.string(),
+  onHand: z.number().int(),
+  reserved: z.number().int(),
+  available: z.number().int(),
+  updatedAt: z.string(),
+});
+
+export type AdminInventoryItem = z.infer<typeof inventoryItem>;
+
+export const listCommerceInventory = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) => z.object({ market: market.default("TR") }).parse(input))
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const result = await supabaseAdmin.rpc("admin_list_inventory", {
+      p_actor_id: context.userId,
+      p_market_code: data.market,
+    });
+    if (result.error) throw new Error(`Inventory read failed: ${result.error.code ?? "UNKNOWN"}`);
+    return z.array(inventoryItem).parse(result.data);
+  });
+
 export const searchCommerceOrders = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) =>
