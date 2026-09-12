@@ -1,14 +1,16 @@
 import { Mail } from "lucide-react";
 import { useId, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
 import { Icon3D } from "@/components/brand/Icon3D";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { tr } from "@/content/tr";
-import { subscribeToNewsletter } from "@/services/catalog";
+import { requestNewsletterSubscription } from "@/lib/newsletter.functions";
 
 export function Newsletter() {
+  const subscribe = useServerFn(requestNewsletterSubscription);
   const emailId = useId();
   const consentId = useId();
   const errorId = useId();
@@ -31,7 +33,7 @@ export function Newsletter() {
     setError(null);
     setPending(true);
     try {
-      await subscribeToNewsletter({ email, marketingConsent: consent });
+      await subscribe({ data: { email, marketingConsent: true } });
       setDone(true);
       setEmail("");
       setConsent(false);

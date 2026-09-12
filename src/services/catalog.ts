@@ -14,7 +14,6 @@ import type {
   ComparisonRow,
   FaqItem,
   IngredientCard,
-  NewsletterSubscription,
   Product,
   ProductionStep,
   QualityItem,
@@ -87,9 +86,4 @@ export function getComparisonRows(): ComparisonRow[] {
 
 export function getFaqs(): FaqItem[] {
   return mockFaqs;
-}
-
-/** TODO(backend): gerçek bülten kaydı. Şu an yalnızca arayüz doğrulaması yapar. */
-export async function subscribeToNewsletter(_input: NewsletterSubscription): Promise<void> {
-  return;
 }

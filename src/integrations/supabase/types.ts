@@ -312,6 +312,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      request_marketing_subscription: {
+        Args: { p_consent_version: string; p_email: string; p_market_code: string };
+        Returns: undefined;
+      };
       customer_get_account: { Args: { p_user_id: string }; Returns: Json };
       customer_upsert_profile: {
         Args: { p_full_name: string; p_phone: string; p_user_id: string };
