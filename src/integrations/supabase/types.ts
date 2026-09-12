@@ -56,36 +56,48 @@ export type Database = {
       legal_documents: {
         Row: {
           body: string;
+          approved_at: string | null;
+          approved_by: string | null;
           created_at: string;
           effective_date: string | null;
           id: string;
           slug: string;
+          review_status: string;
           summary: string | null;
           title: string;
           updated_at: string;
           updated_by: string | null;
+          version: number;
         };
         Insert: {
           body?: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
           created_at?: string;
           effective_date?: string | null;
           id?: string;
           slug: string;
+          review_status?: string;
           summary?: string | null;
           title: string;
           updated_at?: string;
           updated_by?: string | null;
+          version?: number;
         };
         Update: {
           body?: string;
+          approved_at?: string | null;
+          approved_by?: string | null;
           created_at?: string;
           effective_date?: string | null;
           id?: string;
           slug?: string;
+          review_status?: string;
           summary?: string | null;
           title?: string;
           updated_at?: string;
           updated_by?: string | null;
+          version?: number;
         };
         Relationships: [];
       };
@@ -312,6 +324,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      record_cookie_consent: {
+        Args: { p_anonymous_id: string; p_choice: string; p_policy_version: string };
+        Returns: undefined;
+      };
       request_marketing_subscription: {
         Args: { p_consent_version: string; p_email: string; p_market_code: string };
         Returns: undefined;

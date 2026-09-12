@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import { Icon3D } from "@/components/brand/Icon3D";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
+import { useServerFn } from "@tanstack/react-start";
+import { recordCookieConsent } from "@/lib/consent.functions";
 
 const STORAGE_KEY = "dreamlac.cookie-choice";
 
-/**
- * Çerez bildirimi. Tercih şu an yalnızca tarayıcıda tutulur;
- * backend hazır olduğunda onay kaydı sunucuya taşınmalıdır (TODO(backend)).
- */
 export function CookieBanner() {
+  const recordConsent = useServerFn(recordCookieConsent);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -23,11 +22,15 @@ export function CookieBanner() {
   }, []);
 
   const decide = (choice: "all" | "necessary") => {
+    let anonymousId: string = crypto.randomUUID();
     try {
+      anonymousId = window.localStorage.getItem(`${STORAGE_KEY}.id`) ?? anonymousId;
+      window.localStorage.setItem(`${STORAGE_KEY}.id`, anonymousId);
       window.localStorage.setItem(STORAGE_KEY, choice);
     } catch {
       /* tercih kaydedilemedi */
     }
+    void recordConsent({ data: { anonymousId, choice } });
     setVisible(false);
   };
 

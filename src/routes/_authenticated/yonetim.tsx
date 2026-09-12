@@ -300,6 +300,8 @@ interface LegalRow {
   body: string;
   effective_date: string | null;
   updated_at: string;
+  review_status: string;
+  version: number;
 }
 
 /** Yasal sayfa adresleri — yönetim panelinden ilgili sayfaya bağlantı için. */
@@ -308,6 +310,11 @@ const LEGAL_ROUTES = {
   "gizlilik-politikasi": "/gizlilik-politikasi",
   "cerez-politikasi": "/cerez-politikasi",
   "mesafeli-satis-sozlesmesi": "/mesafeli-satis-sozlesmesi",
+  "teslimat-politikasi": "/teslimat-politikasi",
+  "iade-ve-iptal-politikasi": "/iade-ve-iptal-politikasi",
+  "on-bilgilendirme-formu": "/on-bilgilendirme-formu",
+  "uyelik-sozlesmesi": "/uyelik-sozlesmesi",
+  "ticari-elektronik-ileti-onayi": "/ticari-elektronik-ileti-onayi",
 } as const;
 
 function LegalDocumentsSection() {
@@ -316,7 +323,7 @@ function LegalDocumentsSection() {
     queryFn: async (): Promise<LegalRow[]> => {
       const { data, error } = await supabase
         .from("legal_documents")
-        .select("slug, title, summary, body, effective_date, updated_at")
+        .select("slug, title, summary, body, effective_date, updated_at, review_status, version")
         .order("slug");
       if (error) throw error;
       return data ?? [];
@@ -353,6 +360,7 @@ function LegalDocumentForm({ row, onSaved }: { row: LegalRow; onSaved: () => voi
   const [summary, setSummary] = useState(row.summary ?? "");
   const [effectiveDate, setEffectiveDate] = useState(row.effective_date ?? "");
   const [body, setBody] = useState(row.body);
+  const [approved, setApproved] = useState(row.review_status === "approved");
   const [busy, setBusy] = useState(false);
 
   const href = LEGAL_ROUTES[row.slug as keyof typeof LEGAL_ROUTES];
@@ -377,6 +385,9 @@ function LegalDocumentForm({ row, onSaved }: { row: LegalRow; onSaved: () => voi
           summary: summary.trim() === "" ? null : summary.trim(),
           effective_date: effectiveDate.trim() === "" ? null : effectiveDate,
           body,
+          review_status: approved ? "approved" : "review_required",
+          approved_at: approved ? new Date().toISOString() : null,
+          approved_by: approved ? (userData.user?.id ?? null) : null,
           updated_by: userData.user?.id ?? null,
         })
         .eq("slug", row.slug);
@@ -431,6 +442,22 @@ function LegalDocumentForm({ row, onSaved }: { row: LegalRow; onSaved: () => voi
           onChange={(e) => setSummary(e.target.value)}
         />
       </div>
+
+      <label className="mt-4 flex items-start gap-3 rounded-2xl border border-border/70 p-4 text-sm">
+        <input
+          type="checkbox"
+          className="mt-0.5 size-4"
+          checked={approved}
+          onChange={(event) => setApproved(event.target.checked)}
+        />
+        <span>
+          <strong className="block text-primary-deep">Hukuk onayı alındı</strong>
+          <span className="text-xs text-muted-foreground">
+            Yalnızca yetkili hukuk danışmanının onayladığı nihai metinlerde işaretleyin. Sürüm:{" "}
+            {row.version}
+          </span>
+        </span>
+      </label>
 
       <div className="mt-4 space-y-2">
         <Label htmlFor={`${idPrefix}-body`}>{tr.admin.legal.fields.body}</Label>

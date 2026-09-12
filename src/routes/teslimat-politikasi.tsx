@@ -1,25 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/common/PagePlaceholder";
+import { LegalArticle } from "@/components/legal/LegalArticle";
+import { getLegalDocument } from "@/lib/legal.functions";
 
 export const Route = createFileRoute("/teslimat-politikasi")({
+  loader: () => getLegalDocument({ data: { slug: "teslimat-politikasi" } }),
   head: () => ({
     meta: [
       { title: "Teslimat Politikası — Dreamlac" },
       {
         name: "description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
+        content: "Dreamlac sipariş hazırlama ve teslimat süreci hakkında bilgiler.",
       },
       { property: "og:title", content: "Teslimat Politikası — Dreamlac" },
       {
         property: "og:description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
+        content: "Dreamlac sipariş hazırlama ve teslimat süreci hakkında bilgiler.",
       },
     ],
   }),
-  component: () => (
-    <PagePlaceholder
-      title="Teslimat Politikası"
-      description="Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır."
-    />
-  ),
+  component: DeliveryPolicyPage,
 });
+function DeliveryPolicyPage() {
+  return <LegalArticle document={Route.useLoaderData()} fallbackTitle="Teslimat Politikası" />;
+}

@@ -91,13 +91,21 @@ export function LegalArticle({
         </p>
       ) : null}
 
+      {document?.reviewStatus === "review_required" ? (
+        <p className="mt-5 rounded-2xl border border-champagne/50 bg-champagne/20 p-4 text-sm leading-relaxed text-champagne-foreground">
+          Bu metin operasyonel hazırlık sürümüdür ve henüz hukuk danışmanı tarafından
+          onaylanmamıştır.
+        </p>
+      ) : null}
+
       {document ? (
         <p className="mt-3 text-xs text-muted-foreground">
           {document.effectiveDate
             ? `${tr.legal.effectiveDate}: ${new Date(document.effectiveDate).toLocaleDateString("tr-TR")}`
             : null}
           {document.effectiveDate ? " · " : ""}
-          {tr.legal.lastUpdated}: {new Date(document.updatedAt).toLocaleDateString("tr-TR")}
+          {tr.legal.lastUpdated}: {new Date(document.updatedAt).toLocaleDateString("tr-TR")} · Sürüm{" "}
+          {document.version}
         </p>
       ) : null}
 

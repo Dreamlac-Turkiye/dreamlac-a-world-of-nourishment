@@ -1,25 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/common/PagePlaceholder";
+import { LegalArticle } from "@/components/legal/LegalArticle";
+import { getLegalDocument } from "@/lib/legal.functions";
 
 export const Route = createFileRoute("/iade-ve-iptal-politikasi")({
+  loader: () => getLegalDocument({ data: { slug: "iade-ve-iptal-politikasi" } }),
   head: () => ({
     meta: [
       { title: "İade ve İptal Politikası — Dreamlac" },
       {
         name: "description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
+        content: "Dreamlac siparişlerinde iade, iptal ve talep oluşturma süreci.",
       },
       { property: "og:title", content: "İade ve İptal Politikası — Dreamlac" },
       {
         property: "og:description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
+        content: "Dreamlac siparişlerinde iade, iptal ve talep oluşturma süreci.",
       },
     ],
   }),
-  component: () => (
-    <PagePlaceholder
-      title="İade ve İptal Politikası"
-      description="Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır."
-    />
-  ),
+  component: ReturnsPolicyPage,
 });
+function ReturnsPolicyPage() {
+  return <LegalArticle document={Route.useLoaderData()} fallbackTitle="İade ve İptal Politikası" />;
+}

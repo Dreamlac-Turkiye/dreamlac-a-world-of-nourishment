@@ -1,25 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PagePlaceholder } from "@/components/common/PagePlaceholder";
+import { LegalArticle } from "@/components/legal/LegalArticle";
+import { getLegalDocument } from "@/lib/legal.functions";
 
 export const Route = createFileRoute("/on-bilgilendirme-formu")({
+  loader: () => getLegalDocument({ data: { slug: "on-bilgilendirme-formu" } }),
   head: () => ({
     meta: [
       { title: "Ön Bilgilendirme Formu — Dreamlac" },
       {
         name: "description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
+        content: "Dreamlac mesafeli satış ön bilgilendirme formu ve sipariş koşulları.",
       },
       { property: "og:title", content: "Ön Bilgilendirme Formu — Dreamlac" },
       {
         property: "og:description",
-        content: "Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır.",
+        content: "Dreamlac mesafeli satış ön bilgilendirme formu ve sipariş koşulları.",
       },
     ],
   }),
-  component: () => (
-    <PagePlaceholder
-      title="Ön Bilgilendirme Formu"
-      description="Onaylı yasal metin tarafınızdan iletildiğinde yayınlanacaktır."
-    />
-  ),
+  component: PreInformationPage,
 });
+function PreInformationPage() {
+  return <LegalArticle document={Route.useLoaderData()} fallbackTitle="Ön Bilgilendirme Formu" />;
+}

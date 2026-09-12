@@ -10,6 +10,8 @@ export interface LegalDocumentRecord {
   body: string;
   effectiveDate: string | null;
   updatedAt: string;
+  reviewStatus: "review_required" | "approved";
+  version: number;
 }
 
 /** Herkese açık okuma için yayın anahtarıyla oluşturulan sunucu istemcisi. */
@@ -33,7 +35,7 @@ function createPublicClient() {
   });
 }
 
-const SELECT = "slug, title, summary, body, effective_date, updated_at";
+const SELECT = "slug, title, summary, body, effective_date, updated_at, review_status, version";
 
 type Row = {
   slug: string;
@@ -42,6 +44,8 @@ type Row = {
   body: string;
   effective_date: string | null;
   updated_at: string;
+  review_status: "review_required" | "approved";
+  version: number;
 };
 
 function toRecord(row: Row): LegalDocumentRecord {
@@ -52,6 +56,8 @@ function toRecord(row: Row): LegalDocumentRecord {
     body: row.body ?? "",
     effectiveDate: row.effective_date,
     updatedAt: row.updated_at,
+    reviewStatus: row.review_status,
+    version: row.version,
   };
 }
 

@@ -12,6 +12,11 @@ for (const route of [
   "iletisim",
   "sikca-sorulan-sorular",
   "siparis-takip",
+  "teslimat-politikasi",
+  "iade-ve-iptal-politikasi",
+  "on-bilgilendirme-formu",
+  "uyelik-sozlesmesi",
+  "ticari-elektronik-ileti-onayi",
 ]) {
   const source = readFileSync(`src/routes/${route}.tsx`, "utf8");
   if (source.includes("PagePlaceholder") || source.includes("tasarlanacaktır")) {
