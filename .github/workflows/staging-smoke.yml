@@ -1,0 +1,27 @@
+name: Staging smoke
+on:
+  workflow_dispatch:
+    inputs:
+      requests:
+        description: Safe read-only request count
+        required: true
+        default: "100"
+permissions:
+  contents: read
+concurrency:
+  group: dreamlac-staging-smoke
+  cancel-in-progress: false
+jobs:
+  smoke:
+    environment: staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+      - run: node scripts/staging-smoke.mjs
+        env:
+          STAGING_BASE_URL: \${{ secrets.STAGING_BASE_URL }}
+          ALLOW_STAGING_TEST: "true"
+          SMOKE_REQUESTS: \${{ inputs.requests }}
+          SMOKE_CONCURRENCY: "10"
