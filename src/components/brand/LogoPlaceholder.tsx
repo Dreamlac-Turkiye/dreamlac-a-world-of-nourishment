@@ -11,7 +11,7 @@ export function LogoPlaceholder({ className }: { className?: string; showNote?: 
       <img
         src={logo}
         alt={tr.brand.name}
-        className="h-7 w-auto sm:h-8"
+        className="h-6 w-auto sm:h-7 lg:h-8"
         decoding="async"
         loading="eager"
       />
