@@ -318,6 +318,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      apply_verified_payment_event: {
+        Args: {
+          p_amount_minor: number
+          p_currency_code: string
+          p_event_type: string
+          p_payload: Json
+          p_payment_status: string
+          p_provider: string
+          p_provider_event_id: string
+          p_provider_reference: string
+        }
+        Returns: Json
+      }
+      attach_payment_provider_reference: {
+        Args: { p_attempt_id: string; p_provider_reference: string }
+        Returns: undefined
+      }
       create_commerce_checkout: {
         Args: {
           p_billing_address: Json
@@ -334,9 +351,23 @@ export type Database = {
         }
         Returns: Json
       }
+      create_payment_attempt: {
+        Args: { p_idempotency_key: string; p_order_id: string; p_provider: string }
+        Returns: Json
+      }
       release_expired_inventory_reservations: {
         Args: { p_limit?: number }
         Returns: number
+      }
+      request_payment_refund: {
+        Args: {
+          p_actor_id: string | null
+          p_amount_minor: number
+          p_idempotency_key: string
+          p_order_id: string
+          p_reason: string
+        }
+        Returns: Json
       }
       has_role: {
         Args: {

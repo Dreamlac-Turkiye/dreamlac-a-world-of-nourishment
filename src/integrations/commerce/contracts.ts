@@ -22,7 +22,17 @@ export interface PaymentSessionResult {
   clientToken?: string;
   expiresAt?: string;
 }
-export interface VerifiedWebhook<TPayload = unknown> {
+export type IntegrationJsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | IntegrationJsonValue[]
+  | { [key: string]: IntegrationJsonValue };
+
+export interface VerifiedWebhook<
+  TPayload extends Record<string, IntegrationJsonValue> = Record<string, IntegrationJsonValue>,
+> {
   providerEventId: string;
   eventType: string;
   occurredAt: string;
