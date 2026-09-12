@@ -23,5 +23,6 @@ jobs:
           bun-version: latest
       - run: bun install --frozen-lockfile
       - run: bun run check:commerce
+      - run: bun run check:release
       - run: bun run typecheck
       - run: bun run build

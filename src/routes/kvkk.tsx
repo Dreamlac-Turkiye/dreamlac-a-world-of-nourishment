@@ -20,7 +20,9 @@ export const Route = createFileRoute("/kvkk")({
   }),
   errorComponent: () => <LegalArticle document={null} fallbackTitle="KVKK Aydınlatma Metni" />,
   notFoundComponent: () => <LegalArticle document={null} fallbackTitle="KVKK Aydınlatma Metni" />,
-  component: () => (
-    <LegalArticle document={Route.useLoaderData()} fallbackTitle="KVKK Aydınlatma Metni" />
-  ),
+  component: KvkkPage,
 });
+
+function KvkkPage() {
+  return <LegalArticle document={Route.useLoaderData()} fallbackTitle="KVKK Aydınlatma Metni" />;
+}

@@ -30,24 +30,40 @@ function SignInPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
+  const [recovery, setRecovery] = useState(false);
 
   useEffect(() => {
     void supabase.auth.getSession().then(({ data }) => {
-      if (data.session) void navigate({ to: "/yonetim" });
+      if (data.session) void navigate({ to: "/hesabim" });
     });
+    const { data: listener } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") setRecovery(true);
+    });
+    return () => listener.subscription.unsubscribe();
   }, [navigate]);
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
     setBusy(true);
     try {
+      if (recovery) {
+        const { error } = await supabase.auth.updateUser({ password });
+        if (error) {
+          toast.error("Şifre güncellenemedi.");
+          return;
+        }
+        toast.success("Şifreniz güncellendi.");
+        const { data } = await supabase.auth.getUser();
+        if (data.user) await navigate({ to: "/hesabim" });
+        return;
+      }
       if (mode === "signIn") {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) {
           toast.error(tr.auth.signInError);
           return;
         }
-        await navigate({ to: "/yonetim" });
+        await navigate({ to: "/hesabim" });
         return;
       }
 
@@ -66,6 +82,18 @@ function SignInPage() {
     }
   }
 
+  async function onForgotPassword() {
+    if (!email.includes("@")) {
+      toast.error("Önce e-posta adresinizi yazın.");
+      return;
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/giris`,
+    });
+    if (error) toast.error("Şifre yenileme bağlantısı gönderilemedi.");
+    else toast.success("Şifre yenileme bağlantısı e-posta adresinize gönderildi.");
+  }
+
   async function onGoogle() {
     const result = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
@@ -75,49 +103,55 @@ function SignInPage() {
       return;
     }
     if (result.redirected) return;
-    await navigate({ to: "/yonetim" });
+    await navigate({ to: "/hesabim" });
   }
 
   return (
     <main id="main" className="mx-auto max-w-md px-4 py-16 sm:px-6">
-      <h1 className="text-3xl font-semibold text-primary-deep">{tr.auth.title}</h1>
+      <h1 className="text-3xl font-semibold text-primary-deep">
+        {recovery ? "Yeni şifre belirleyin" : tr.auth.title}
+      </h1>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{tr.auth.description}</p>
 
-      <div
-        role="tablist"
-        aria-label={tr.auth.title}
-        className="mt-8 grid grid-cols-2 gap-1 rounded-full bg-secondary p-1"
-      >
-        {(["signIn", "signUp"] as const).map((value) => (
-          <button
-            key={value}
-            type="button"
-            role="tab"
-            aria-selected={mode === value}
-            onClick={() => setMode(value)}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
-              mode === value
-                ? "bg-card text-primary-deep shadow-[var(--shadow-soft)]"
-                : "text-muted-foreground"
-            }`}
-          >
-            {value === "signIn" ? tr.auth.signInTab : tr.auth.signUpTab}
-          </button>
-        ))}
-      </div>
+      {!recovery && (
+        <div
+          role="tablist"
+          aria-label={tr.auth.title}
+          className="mt-8 grid grid-cols-2 gap-1 rounded-full bg-secondary p-1"
+        >
+          {(["signIn", "signUp"] as const).map((value) => (
+            <button
+              key={value}
+              type="button"
+              role="tab"
+              aria-selected={mode === value}
+              onClick={() => setMode(value)}
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-colors ${
+                mode === value
+                  ? "bg-card text-primary-deep shadow-[var(--shadow-soft)]"
+                  : "text-muted-foreground"
+              }`}
+            >
+              {value === "signIn" ? tr.auth.signInTab : tr.auth.signUpTab}
+            </button>
+          ))}
+        </div>
+      )}
 
       <form onSubmit={onSubmit} className="mt-6 space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="auth-email">{tr.auth.email}</Label>
-          <Input
-            id="auth-email"
-            type="email"
-            autoComplete="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        {!recovery && (
+          <div className="space-y-2">
+            <Label htmlFor="auth-email">{tr.auth.email}</Label>
+            <Input
+              id="auth-email"
+              type="email"
+              autoComplete="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
+        )}
         <div className="space-y-2">
           <Label htmlFor="auth-password">{tr.auth.password}</Label>
           <Input
@@ -132,17 +166,35 @@ function SignInPage() {
           <p className="text-xs text-muted-foreground">{tr.auth.passwordHint}</p>
         </div>
         <Button type="submit" className="w-full rounded-full" disabled={busy}>
-          {busy ? tr.auth.loading : mode === "signIn" ? tr.auth.signIn : tr.auth.signUp}
+          {busy
+            ? tr.auth.loading
+            : recovery
+              ? "Şifreyi güncelle"
+              : mode === "signIn"
+                ? tr.auth.signIn
+                : tr.auth.signUp}
         </Button>
       </form>
 
-      <Button
-        variant="outline"
-        className="mt-3 w-full rounded-full"
-        onClick={() => void onGoogle()}
-      >
-        {tr.auth.google}
-      </Button>
+      {!recovery && mode === "signIn" ? (
+        <button
+          type="button"
+          className="mt-3 w-full text-center text-sm text-primary hover:underline"
+          onClick={() => void onForgotPassword()}
+        >
+          Şifremi unuttum
+        </button>
+      ) : null}
+
+      {!recovery && (
+        <Button
+          variant="outline"
+          className="mt-3 w-full rounded-full"
+          onClick={() => void onGoogle()}
+        >
+          {tr.auth.google}
+        </Button>
+      )}
     </main>
   );
 }

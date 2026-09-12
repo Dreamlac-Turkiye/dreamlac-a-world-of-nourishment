@@ -22,7 +22,11 @@ export const Route = createFileRoute("/mesafeli-satis-sozlesmesi")({
   notFoundComponent: () => (
     <LegalArticle document={null} fallbackTitle="Mesafeli Satış Sözleşmesi" />
   ),
-  component: () => (
-    <LegalArticle document={Route.useLoaderData()} fallbackTitle="Mesafeli Satış Sözleşmesi" />
-  ),
+  component: DistanceSalesPage,
 });
+
+function DistanceSalesPage() {
+  return (
+    <LegalArticle document={Route.useLoaderData()} fallbackTitle="Mesafeli Satış Sözleşmesi" />
+  );
+}

@@ -10,7 +10,9 @@ export async function consumeRateLimit(input: {
 }) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input.subject));
-  const subjectHash = Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("");
+  const subjectHash = Array.from(new Uint8Array(digest), (byte) =>
+    byte.toString(16).padStart(2, "0"),
+  ).join("");
   const result = await supabaseAdmin.rpc("consume_rate_limit", {
     p_scope: input.scope,
     p_subject_hash: subjectHash,

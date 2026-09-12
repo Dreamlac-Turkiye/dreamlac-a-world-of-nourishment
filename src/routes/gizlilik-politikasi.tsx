@@ -20,7 +20,9 @@ export const Route = createFileRoute("/gizlilik-politikasi")({
   }),
   errorComponent: () => <LegalArticle document={null} fallbackTitle="Gizlilik Politikası" />,
   notFoundComponent: () => <LegalArticle document={null} fallbackTitle="Gizlilik Politikası" />,
-  component: () => (
-    <LegalArticle document={Route.useLoaderData()} fallbackTitle="Gizlilik Politikası" />
-  ),
+  component: PrivacyPolicyPage,
 });
+
+function PrivacyPolicyPage() {
+  return <LegalArticle document={Route.useLoaderData()} fallbackTitle="Gizlilik Politikası" />;
+}

@@ -20,7 +20,9 @@ export const Route = createFileRoute("/cerez-politikasi")({
   }),
   errorComponent: () => <LegalArticle document={null} fallbackTitle="Çerez Politikası" />,
   notFoundComponent: () => <LegalArticle document={null} fallbackTitle="Çerez Politikası" />,
-  component: () => (
-    <LegalArticle document={Route.useLoaderData()} fallbackTitle="Çerez Politikası" />
-  ),
+  component: CookiePolicyPage,
 });
+
+function CookiePolicyPage() {
+  return <LegalArticle document={Route.useLoaderData()} fallbackTitle="Çerez Politikası" />;
+}

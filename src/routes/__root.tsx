@@ -86,8 +86,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "Dreamlac ürünlerini keşfedin, ürün bilgilerine kolayca ulaşın ve aileniz için güvenli bir alışveriş deneyimi yaşayın.",
       },
       { property: "og:site_name", content: "Dreamlac" },
+      { property: "og:locale", content: "tr_TR" },
+      { property: "og:image", content: "https://dreamlac.com.tr/favicon.png" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "theme-color", content: "#f8f6f0" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

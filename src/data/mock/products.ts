@@ -1,7 +1,7 @@
 import type { Product } from "@/types";
-import dreamlac1Image from "@/assets/dreamlac-1-cutout.png";
-import dreamlac2Image from "@/assets/dreamlac-2-cutout.png";
-import dreamlac3Image from "@/assets/dreamlac-3-cutout.png";
+import dreamlac1Image from "@/assets/dreamlac-1-cutout.webp";
+import dreamlac2Image from "@/assets/dreamlac-2-cutout.webp";
+import dreamlac3Image from "@/assets/dreamlac-3-cutout.webp";
 
 /**
  * Ürün verisi — metinler firmanın resmî kataloğundan alınan ONAYLI içeriklerdir.
