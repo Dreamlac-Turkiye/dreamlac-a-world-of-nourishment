@@ -68,7 +68,7 @@ export const Route = createFileRoute("/api/public/kargo-durum")({
           status,
           status_detail: payload.statusDetail?.trim() ?? null,
           occurred_at: payload.occurredAt ?? new Date().toISOString(),
-          payload: payload as unknown as Record<string, unknown>,
+          payload: JSON.parse(body),
         });
 
         if (error) {
