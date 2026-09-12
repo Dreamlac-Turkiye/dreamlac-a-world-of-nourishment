@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { searchCommerceOrders } from "@/lib/admin-commerce.functions";
 import { getOperationalHealth } from "@/lib/operations.functions";
 import { formatTry } from "@/services/checkout";
+import { listAdminOrderRequests, resolveOrderRequest } from "@/lib/order-requests.functions";
+import { toast } from "sonner";
 
 const statusLabels: Record<string, string> = {
   pending_payment: "Ödeme bekliyor",
@@ -20,6 +22,8 @@ const statusLabels: Record<string, string> = {
 export function CommerceOperationsSection() {
   const searchOrders = useServerFn(searchCommerceOrders);
   const readHealth = useServerFn(getOperationalHealth);
+  const readRequests = useServerFn(listAdminOrderRequests);
+  const updateRequest = useServerFn(resolveOrderRequest);
   const [query, setQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const orders = useQuery({
@@ -33,6 +37,24 @@ export function CommerceOperationsSection() {
     queryFn: () => readHealth(),
     refetchInterval: 60_000,
   });
+  const requests = useQuery({
+    queryKey: ["admin", "order-requests"],
+    queryFn: () => readRequests(),
+    refetchInterval: 60_000,
+  });
+
+  async function setRequestStatus(
+    requestId: string,
+    status: "reviewing" | "approved" | "rejected" | "completed",
+  ) {
+    try {
+      await updateRequest({ data: { requestId, status, resolutionNote: "" } });
+      toast.success("Talep durumu güncellendi.");
+      void requests.refetch();
+    } catch {
+      toast.error("Talep güncellenemedi.");
+    }
+  }
 
   const alerts = health.data
     ? health.data.outbox.failed +
@@ -145,6 +167,61 @@ export function CommerceOperationsSection() {
         Ödeme, kargo ve fatura eylemleri ilgili sağlayıcı anahtarları tanımlandıktan sonra
         etkinleşecektir.
       </p>
+      <div className="mt-8 border-t border-border/70 pt-6">
+        <h3 className="font-semibold text-primary-deep">İptal ve iade talepleri</h3>
+        {requests.data?.length ? (
+          <div className="mt-4 space-y-3">
+            {requests.data.map((request) => (
+              <article key={request.id} className="rounded-2xl bg-secondary/50 p-4">
+                <div className="flex flex-wrap justify-between gap-2">
+                  <div>
+                    <strong className="text-sm">
+                      {request.orderNumber} ·{" "}
+                      {request.requestType === "cancellation" ? "İptal" : "İade"}
+                    </strong>
+                    <p className="text-xs text-muted-foreground">
+                      {request.customerEmail} ·{" "}
+                      {new Date(request.createdAt).toLocaleString("tr-TR")}
+                    </p>
+                  </div>
+                  <span className="text-xs text-muted-foreground">{request.status}</span>
+                </div>
+                <p className="mt-3 text-sm text-muted-foreground">{request.reason}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {request.status === "submitted" ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => void setRequestStatus(request.id, "reviewing")}
+                    >
+                      İncele
+                    </Button>
+                  ) : null}
+                  {request.status !== "completed" ? (
+                    <>
+                      <Button
+                        size="sm"
+                        onClick={() => void setRequestStatus(request.id, "approved")}
+                      >
+                        Onayla
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => void setRequestStatus(request.id, "rejected")}
+                      >
+                        Reddet
+                      </Button>
+                    </>
+                  ) : null}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-3 text-sm text-muted-foreground">Açık müşteri talebi bulunmuyor.</p>
+        )}
+      </div>
     </section>
   );
 }

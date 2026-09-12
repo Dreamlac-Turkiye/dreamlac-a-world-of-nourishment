@@ -1,17 +1,8 @@
 import { getProducts } from "@/services/catalog";
-import type {
-  CartItem,
-  CartLine,
-  CartTotals,
-  CheckoutAddress,
-  OrderResult,
-  PaymentMethodOption,
-  ShippingOption,
-} from "@/types";
+import type { CartItem, CartLine, CartTotals, PaymentMethodOption, ShippingOption } from "@/types";
 
 /**
- * Sipariş ve kargo servis katmanı (mock).
- * Backend hazır olduğunda yalnızca bu dosyanın gövdesi değiştirilir.
+ * Sepet hesaplamaları ve henüz sağlayıcısı seçilmemiş teslimat/ödeme seçenekleri.
  * Kargo ücreti, KDV oranı ve teslimat süresi resmî bilgi gelmeden doldurulmaz.
  */
 
@@ -84,23 +75,4 @@ export function calculateTotals(items: CartItem[], shipping: number | null): Car
 export function formatTry(amount: number | null): string | null {
   if (amount === null) return null;
   return `${(amount / 100).toLocaleString("tr-TR", { minimumFractionDigits: 2 })} ₺`;
-}
-
-/**
- * Sipariş oluşturma (mock). Gerçek tahsilat veya kayıt yapılmaz;
- * yalnızca akışın son adımını göstermek için önizleme numarası üretir.
- */
-export async function createOrder(input: {
-  items: CartItem[];
-  address: CheckoutAddress;
-  shippingOptionId: string;
-  paymentMethodId: string;
-}): Promise<OrderResult> {
-  const suffix = Math.floor(100000 + Math.random() * 900000).toString();
-  return {
-    orderNumber: `DL-${new Date().getFullYear()}-${suffix}`,
-    createdAt: new Date().toISOString(),
-    itemCount: input.items.reduce((sum, item) => sum + item.quantity, 0),
-    status: "preview",
-  };
 }

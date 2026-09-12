@@ -33,4 +33,8 @@ if (!readFileSync("src/data/mock/products.ts", "utf8").includes(".webp")) {
   throw new Error("Optimized product images are not wired");
 }
 
+if (readFileSync("src/services/checkout.ts", "utf8").includes("createOrder")) {
+  throw new Error("Legacy mock order creation is still present");
+}
+
 console.log("Release validation passed.");

@@ -200,11 +200,3 @@ export interface CheckoutDraft {
   shippingOptionId: string | null;
   paymentMethodId: string | null;
 }
-
-export interface OrderResult {
-  orderNumber: string;
-  createdAt: string;
-  itemCount: number;
-  /** Ödeme entegrasyonu olmadığı için sipariş durumu her zaman önizleme. */
-  status: "preview";
-}

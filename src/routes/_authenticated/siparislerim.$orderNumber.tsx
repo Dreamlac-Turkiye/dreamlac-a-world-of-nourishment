@@ -2,10 +2,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft } from "lucide-react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import { tr } from "@/content/tr";
 import { getMyCommerceOrder } from "@/lib/customer-commerce.functions";
 import { formatTry } from "@/services/checkout";
+import { createOrderRequest, listOrderRequests } from "@/lib/order-requests.functions";
 
 export const Route = createFileRoute("/_authenticated/siparislerim/$orderNumber")({
   head: () => ({
@@ -25,6 +29,34 @@ function OrderDetailPage() {
     queryKey: ["orders", orderNumber],
     queryFn: () => fetchOrder({ data: { orderNumber } }),
   });
+  const fetchRequests = useServerFn(listOrderRequests);
+  const submitRequest = useServerFn(createOrderRequest);
+  const requests = useQuery({
+    queryKey: ["order-requests", orderNumber],
+    queryFn: () => fetchRequests({ data: { orderNumber } }),
+  });
+  const [reason, setReason] = useState("");
+  const [requestType, setRequestType] = useState<"cancellation" | "return">("cancellation");
+  const [requestBusy, setRequestBusy] = useState(false);
+
+  async function onRequestSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    setRequestBusy(true);
+    try {
+      await submitRequest({ data: { orderNumber, requestType, reason } });
+      setReason("");
+      toast.success("Talebiniz alındı.");
+      void requests.refetch();
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message.includes("OPEN_REQUEST_EXISTS")
+          ? "Bu sipariş için açık bir talep zaten var."
+          : "Talep oluşturulamadı. Sipariş durumu uygun olmayabilir.",
+      );
+    } finally {
+      setRequestBusy(false);
+    }
+  }
 
   return (
     <main id="main" className="mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:py-16">
@@ -105,6 +137,55 @@ function OrderDetailPage() {
                 </dd>
               </div>
             </dl>
+          </section>
+
+          <section className="mt-4 rounded-2xl border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
+            <h2 className="text-base font-semibold text-primary-deep">İptal ve iade talepleri</h2>
+            {requests.data?.map((request) => (
+              <div key={request.id} className="mt-3 rounded-xl bg-secondary/60 p-4 text-sm">
+                <div className="flex justify-between gap-3">
+                  <strong>
+                    {request.requestType === "cancellation" ? "İptal talebi" : "İade talebi"}
+                  </strong>
+                  <span className="text-xs text-muted-foreground">{request.status}</span>
+                </div>
+                <p className="mt-2 text-muted-foreground">{request.reason}</p>
+                {request.resolutionNote ? (
+                  <p className="mt-2 text-xs">Yanıt: {request.resolutionNote}</p>
+                ) : null}
+              </div>
+            ))}
+            <form onSubmit={onRequestSubmit} className="mt-5 space-y-3">
+              <div className="flex gap-4 text-sm">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    checked={requestType === "cancellation"}
+                    onChange={() => setRequestType("cancellation")}
+                  />{" "}
+                  İptal
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="radio"
+                    checked={requestType === "return"}
+                    onChange={() => setRequestType("return")}
+                  />{" "}
+                  İade
+                </label>
+              </div>
+              <Textarea
+                value={reason}
+                onChange={(event) => setReason(event.target.value)}
+                minLength={5}
+                maxLength={1000}
+                required
+                placeholder="Talebinizin nedenini yazın"
+              />
+              <Button disabled={requestBusy} className="rounded-full">
+                {requestBusy ? "Gönderiliyor…" : "Talep oluştur"}
+              </Button>
+            </form>
           </section>
 
           <section className="mt-4 rounded-2xl border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">

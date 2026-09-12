@@ -324,6 +324,32 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      customer_create_order_request: {
+        Args: {
+          p_order_number: string;
+          p_reason: string;
+          p_request_type: string;
+          p_user_id: string;
+        };
+        Returns: string;
+      };
+      customer_list_order_requests: {
+        Args: { p_order_number: string; p_user_id: string };
+        Returns: Json;
+      };
+      admin_list_order_requests: {
+        Args: { p_actor_id: string; p_status?: string | null };
+        Returns: Json;
+      };
+      admin_resolve_order_request: {
+        Args: {
+          p_actor_id: string;
+          p_request_id: string;
+          p_resolution_note: string;
+          p_status: string;
+        };
+        Returns: undefined;
+      };
       record_cookie_consent: {
         Args: { p_anonymous_id: string; p_choice: string; p_policy_version: string };
         Returns: undefined;
