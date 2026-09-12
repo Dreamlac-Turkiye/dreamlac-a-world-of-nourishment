@@ -116,6 +116,8 @@ function AdminPage() {
           </div>
 
           <LegalDocumentsSection />
+
+          <IntegrationsSection />
         </>
 
       ) : (
