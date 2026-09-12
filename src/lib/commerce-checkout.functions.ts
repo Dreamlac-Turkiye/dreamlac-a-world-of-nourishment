@@ -40,8 +40,6 @@ const checkoutSchema = z
       )
       .min(1)
       .max(50),
-    termsVersion: z.string().trim().min(1).max(100),
-    privacyVersion: z.string().trim().min(1).max(100),
     customerNote: z.string().trim().max(1000).optional(),
   })
   .strict()
@@ -121,6 +119,21 @@ export const createCommerceCheckout = createServerFn({ method: "POST" })
     const token = authorization?.startsWith("Bearer ") ? authorization.slice(7) : null;
     const userId = await getOptionalUserId(token);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const { data: legalRows, error: legalError } = await supabaseAdmin
+      .from("legal_documents")
+      .select("slug, version")
+      .in("slug", ["mesafeli-satis-sozlesmesi", "on-bilgilendirme-formu", "kvkk"])
+      .eq("review_status", "approved");
+    if (legalError) throw new Error(`Legal readiness failed: ${legalError.code ?? "UNKNOWN"}`);
+    const legalVersions = new Map((legalRows ?? []).map((row) => [row.slug, row.version]));
+    const distanceSales = legalVersions.get("mesafeli-satis-sozlesmesi");
+    const preInformation = legalVersions.get("on-bilgilendirme-formu");
+    const privacy = legalVersions.get("kvkk");
+    if (!distanceSales || !preInformation || !privacy) {
+      throw new Error("LEGAL_DOCUMENTS_NOT_APPROVED");
+    }
+    const termsVersion = `mesafeli-satis:v${distanceSales};on-bilgilendirme:v${preInformation}`;
+    const privacyVersion = `kvkk:v${privacy}`;
     const { data: result, error } = await supabaseAdmin.rpc("create_commerce_checkout", {
       p_market_code: data.market,
       p_user_id: userId,
@@ -129,8 +142,8 @@ export const createCommerceCheckout = createServerFn({ method: "POST" })
       p_billing_address: data.billingAddress,
       p_shipping_address: data.shippingAddress,
       p_items: data.items,
-      p_terms_version: data.termsVersion,
-      p_privacy_version: data.privacyVersion,
+      p_terms_version: termsVersion,
+      p_privacy_version: privacyVersion,
       p_idempotency_key: data.idempotencyKey,
       p_customer_note: data.customerNote ?? null,
     });

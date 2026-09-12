@@ -267,8 +267,6 @@ function CheckoutPage() {
                               variantId: item.product.id,
                               quantity: item.quantity,
                             })),
-                            termsVersion: "distance-sales-v1",
-                            privacyVersion: "kvkk-v1",
                             customerNote: draft.address.note || undefined,
                           },
                         });

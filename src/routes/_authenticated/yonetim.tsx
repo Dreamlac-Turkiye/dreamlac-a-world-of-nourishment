@@ -385,9 +385,9 @@ function LegalDocumentForm({ row, onSaved }: { row: LegalRow; onSaved: () => voi
           summary: summary.trim() === "" ? null : summary.trim(),
           effective_date: effectiveDate.trim() === "" ? null : effectiveDate,
           body,
-          review_status: approved ? "approved" : "review_required",
-          approved_at: approved ? new Date().toISOString() : null,
-          approved_by: approved ? (userData.user?.id ?? null) : null,
+          review_status: "review_required",
+          approved_at: null,
+          approved_by: null,
           updated_by: userData.user?.id ?? null,
         })
         .eq("slug", row.slug);
@@ -395,6 +395,21 @@ function LegalDocumentForm({ row, onSaved }: { row: LegalRow; onSaved: () => voi
       if (error) {
         toast.error(tr.admin.legal.saveError);
         return;
+      }
+      if (approved) {
+        const { error: approvalError } = await supabase
+          .from("legal_documents")
+          .update({
+            review_status: "approved",
+            approved_at: new Date().toISOString(),
+            approved_by: userData.user?.id ?? null,
+          })
+          .eq("slug", row.slug);
+        if (approvalError) {
+          toast.error("Metin kaydedildi ancak hukuk onayı işaretlenemedi.");
+          onSaved();
+          return;
+        }
       }
       toast.success(tr.admin.legal.saved);
       onSaved();
