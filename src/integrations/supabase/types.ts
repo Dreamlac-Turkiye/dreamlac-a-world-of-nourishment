@@ -318,6 +318,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_outbox_events: {
+        Args: { p_lease_seconds?: number; p_limit?: number; p_worker_id: string }
+        Returns: Json[]
+      }
       apply_verified_payment_event: {
         Args: {
           p_amount_minor: number
@@ -355,6 +359,10 @@ export type Database = {
         Args: { p_idempotency_key: string; p_order_id: string; p_provider: string }
         Returns: Json
       }
+      finish_outbox_event: {
+        Args: { p_error?: string | null; p_event_id: string; p_success: boolean; p_worker_id: string }
+        Returns: undefined
+      }
       release_expired_inventory_reservations: {
         Args: { p_limit?: number }
         Returns: number
@@ -367,6 +375,20 @@ export type Database = {
           p_order_id: string
           p_reason: string
         }
+        Returns: Json
+      }
+      request_order_fulfilment: {
+        Args: {
+          p_actor_id: string | null
+          p_idempotency_key: string
+          p_order_id: string
+          p_provider: string
+          p_service_code: string
+        }
+        Returns: Json
+      }
+      request_order_invoice: {
+        Args: { p_actor_id: string | null; p_order_id: string; p_provider: string }
         Returns: Json
       }
       has_role: {
