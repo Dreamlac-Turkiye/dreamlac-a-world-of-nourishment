@@ -26,7 +26,7 @@ const SHARED_FEATURES = ["Palm yağı içermez", "GDO içermez"];
 
 export const mockProducts: Product[] = [
   {
-    id: "p-dreamlac-1",
+    id: "10000000-0000-4000-8000-000000000011",
     slug: "dreamlac-1",
     sku: null,
     barcode: null,
@@ -56,7 +56,7 @@ export const mockProducts: Product[] = [
     shelfLife: null,
   },
   {
-    id: "p-dreamlac-2",
+    id: "10000000-0000-4000-8000-000000000012",
     slug: "dreamlac-2",
     sku: null,
     barcode: null,
@@ -84,7 +84,7 @@ export const mockProducts: Product[] = [
     shelfLife: null,
   },
   {
-    id: "p-dreamlac-3",
+    id: "10000000-0000-4000-8000-000000000013",
     slug: "dreamlac-3",
     sku: null,
     barcode: null,

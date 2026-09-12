@@ -10,17 +10,15 @@ import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 import { useCart } from "@/context/CartContext";
 import { useCartItems } from "@/hooks/useCartItems";
+import { calculateTotals, getPaymentMethods, getShippingOptions } from "@/services/checkout";
 import {
-  calculateTotals,
-  createOrder,
-  getPaymentMethods,
-  getShippingOptions,
-} from "@/services/checkout";
-import { supabase } from "@/integrations/supabase/client";
-import { placeOrder } from "@/lib/orders.functions";
-import type { CheckoutAddress, CheckoutDraft, OrderResult } from "@/types";
+  createCommerceCheckout,
+  type CommerceCheckoutResult,
+} from "@/lib/commerce-checkout.functions";
+import type { CheckoutAddress, CheckoutDraft } from "@/types";
 
 const DRAFT_KEY = "dreamlac.checkout.v1";
+const IDEMPOTENCY_KEY = "dreamlac.checkout.idempotency.v1";
 
 export const Route = createFileRoute("/odeme")({
   head: () => ({
@@ -58,6 +56,18 @@ function readDraft(): CheckoutDraft {
   }
 }
 
+function getCheckoutIdempotencyKey(): string {
+  try {
+    const existing = window.sessionStorage.getItem(IDEMPOTENCY_KEY);
+    if (existing) return existing;
+    const created = crypto.randomUUID();
+    window.sessionStorage.setItem(IDEMPOTENCY_KEY, created);
+    return created;
+  } catch {
+    return crypto.randomUUID();
+  }
+}
+
 function CheckoutPage() {
   const { items, isLoading } = useCartItems();
   const { clear } = useCart();
@@ -67,8 +77,7 @@ function CheckoutPage() {
   const [draft, setDraft] = useState<CheckoutDraft>(emptyDraft);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
-  const [order, setOrder] = useState<OrderResult | null>(null);
-  const [savedToAccount, setSavedToAccount] = useState(false);
+  const [order, setOrder] = useState<CommerceCheckoutResult | null>(null);
 
   useEffect(() => {
     setDraft(readDraft());
@@ -104,18 +113,12 @@ function CheckoutPage() {
             <span className="font-semibold text-primary-deep">{order.orderNumber}</span>
           </p>
           <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-            {savedToAccount ? tr.checkout.savedNotice : tr.checkout.guestNotice}
+            {tr.checkout.guestNotice}
           </p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
-            {savedToAccount ? (
-              <Button asChild className="rounded-full">
-                <Link to="/siparislerim">{tr.checkout.ordersCta}</Link>
-              </Button>
-            ) : (
-              <Button asChild className="rounded-full">
-                <Link to="/giris">{tr.checkout.signInCta}</Link>
-              </Button>
-            )}
+            <Button asChild className="rounded-full">
+              <Link to="/siparislerim">{tr.checkout.ordersCta}</Link>
+            </Button>
             <Button asChild variant="outline" className="rounded-full">
               <Link to="/siparis-takip">{tr.checkout.trackCta}</Link>
             </Button>
@@ -236,56 +239,46 @@ function CheckoutPage() {
                       if (!draft.address || !selectedShipping || !selectedPayment) return;
                       setSubmitting(true);
                       try {
-                        const result = await createOrder({
-                          items,
-                          address: draft.address,
-                          shippingOptionId: selectedShipping.id,
-                          paymentMethodId: selectedPayment.id,
+                        const result = await createCommerceCheckout({
+                          data: {
+                            market: "TR",
+                            idempotencyKey: getCheckoutIdempotencyKey(),
+                            customer: {
+                              email: draft.address.email,
+                              phone: draft.address.phone,
+                            },
+                            billingAddress: {
+                              fullName: draft.address.fullName,
+                              phone: draft.address.phone,
+                              country: "TR",
+                              city: draft.address.city,
+                              district: draft.address.district,
+                              line1: draft.address.addressLine,
+                            },
+                            shippingAddress: {
+                              fullName: draft.address.fullName,
+                              phone: draft.address.phone,
+                              country: "TR",
+                              city: draft.address.city,
+                              district: draft.address.district,
+                              line1: draft.address.addressLine,
+                            },
+                            items: items.map((item) => ({
+                              variantId: item.product.id,
+                              quantity: item.quantity,
+                            })),
+                            termsVersion: "distance-sales-v1",
+                            privacyVersion: "kvkk-v1",
+                            customerNote: draft.address.note || undefined,
+                          },
                         });
-
-                        const { data: sessionData } = await supabase.auth.getSession();
-                        let saved = false;
-                        let orderNumber = result.orderNumber;
-
-                        if (sessionData.session) {
-                          try {
-                            const record = await placeOrder({
-                              data: {
-                                address: draft.address,
-                                shipping: {
-                                  id: selectedShipping.id,
-                                  title: selectedShipping.title,
-                                  fee: selectedShipping.fee,
-                                },
-                                payment: {
-                                  id: selectedPayment.id,
-                                  title: selectedPayment.title,
-                                },
-                                subtotalKurus: totals.subtotal,
-                                totalKurus: totals.total,
-                                items: items.map((item) => ({
-                                  productId: item.product.id,
-                                  productSlug: item.product.slug,
-                                  productName: item.product.name,
-                                  stage: item.product.stage,
-                                  quantity: item.quantity,
-                                  unitPriceKurus: item.product.price.amount,
-                                  lineTotalKurus: item.lineTotal,
-                                })),
-                              },
-                            });
-                            orderNumber = record.orderNumber;
-                            saved = true;
-                          } catch {
-                            setError(tr.checkout.saveError);
-                            return;
-                          }
-                        }
 
                         clear();
                         window.sessionStorage.removeItem(DRAFT_KEY);
-                        setSavedToAccount(saved);
-                        setOrder({ ...result, orderNumber });
+                        window.sessionStorage.removeItem(IDEMPOTENCY_KEY);
+                        setOrder(result);
+                      } catch {
+                        setError(tr.checkout.saveError);
                       } finally {
                         setSubmitting(false);
                       }
