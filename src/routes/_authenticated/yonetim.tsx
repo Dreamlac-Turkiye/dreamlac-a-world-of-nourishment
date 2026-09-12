@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { tr } from "@/content/tr";
 import { mockProducts } from "@/data/mock/products";
 import { supabase } from "@/integrations/supabase/client";
+import { IntegrationsSection } from "@/components/admin/IntegrationsSection";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
