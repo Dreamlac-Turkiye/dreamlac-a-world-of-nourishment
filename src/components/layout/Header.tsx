@@ -51,7 +51,7 @@ export function Header() {
         scrolled ? "surface-glass shadow-[var(--shadow-soft)]" : "bg-transparent",
       )}
     >
-      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 sm:px-6 lg:grid-cols-[auto_1fr_auto]">
+      <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-4 py-2.5 sm:px-6 lg:grid-cols-[auto_1fr_auto] lg:py-3">
         <Link to="/" className="min-w-0" aria-label={tr.brand.name}>
           <LogoPlaceholder />
         </Link>
@@ -77,7 +77,7 @@ export function Header() {
             asChild
             variant="ghost"
             size="icon"
-            className="rounded-full"
+            className="hidden rounded-full lg:inline-flex"
             aria-label={tr.nav.search}
           >
             <Link to="/arama">
