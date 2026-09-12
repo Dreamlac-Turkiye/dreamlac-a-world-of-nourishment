@@ -4,6 +4,28 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const market = z.enum(["TR", "SA"]);
 
+const adminOrder = z.object({
+  id: z.string().uuid(),
+  orderNumber: z.string(),
+  status: z.string(),
+  currency: z.string(),
+  grandTotalMinor: z.number(),
+  customerEmail: z.string(),
+  customerPhone: z.string(),
+  createdAt: z.string(),
+  paymentStatus: z.string().nullable(),
+  shipmentStatus: z.string().nullable(),
+  invoiceStatus: z.string().nullable(),
+});
+
+const adminOrderSearch = z.object({
+  items: z.array(adminOrder),
+  limit: z.number(),
+  offset: z.number(),
+});
+
+export type AdminOrderSummary = z.infer<typeof adminOrder>;
+
 export const searchCommerceOrders = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) =>
@@ -28,7 +50,7 @@ export const searchCommerceOrders = createServerFn({ method: "GET" })
       p_offset: data.offset,
     });
     if (result.error) throw new Error(`Order search failed: ${result.error.code ?? "UNKNOWN"}`);
-    return result.data;
+    return adminOrderSearch.parse(result.data);
   });
 
 export const getCommerceOrder = createServerFn({ method: "GET" })

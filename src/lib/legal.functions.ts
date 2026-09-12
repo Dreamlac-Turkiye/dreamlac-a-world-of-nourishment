@@ -57,7 +57,7 @@ function toRecord(row: Row): LegalDocumentRecord {
 
 /** Tek bir yasal metni sayfa adresine göre getirir. Kayıt yoksa null döner. */
 export const getLegalDocument = createServerFn({ method: "GET" })
-  .inputValidator((data: unknown) => z.object({ slug: z.string().min(1) }).parse(data))
+  .validator((data: unknown) => z.object({ slug: z.string().min(1) }).parse(data))
   .handler(async ({ data }): Promise<LegalDocumentRecord | null> => {
     const client = createPublicClient();
     if (!client) return null;

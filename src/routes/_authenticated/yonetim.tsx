@@ -10,6 +10,7 @@ import { tr } from "@/content/tr";
 import { mockProducts } from "@/data/mock/products";
 import { supabase } from "@/integrations/supabase/client";
 import { IntegrationsSection } from "@/components/admin/IntegrationsSection";
+import { CommerceOperationsSection } from "@/components/admin/CommerceOperationsSection";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -105,6 +106,7 @@ function AdminPage() {
           <p className="mt-8 rounded-2xl bg-champagne/25 p-4 text-sm leading-relaxed text-champagne-foreground/90">
             {tr.admin.responsibility}
           </p>
+          <CommerceOperationsSection />
           <div className="mt-8 space-y-6">
             {settingsQuery.data?.map((row) => (
               <ProductSettingsForm

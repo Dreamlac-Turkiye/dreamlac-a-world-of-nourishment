@@ -82,7 +82,7 @@ export const getWebhookReadiness = createServerFn({ method: "GET" })
  */
 export const testIntegration = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((data: unknown) => z.object({ providerKey: z.string().min(1) }).parse(data))
+  .validator((data: unknown) => z.object({ providerKey: z.string().min(1) }).parse(data))
   .handler(
     async ({
       data,

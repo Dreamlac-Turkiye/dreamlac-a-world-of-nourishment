@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
@@ -9,6 +8,7 @@ export async function consumeRateLimit(input: {
   limit: number;
   windowSeconds: number;
 }) {
+  const { createHash } = await import("node:crypto");
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const subjectHash = createHash("sha256").update(input.subject).digest("hex");
   const result = await supabaseAdmin.rpc("consume_rate_limit", {
@@ -21,6 +21,20 @@ export async function consumeRateLimit(input: {
   return result.data as { allowed: boolean; remaining: number; retryAfterSeconds: number };
 }
 
+const operationalHealth = z.object({
+  generatedAt: z.string(),
+  outbox: z.object({
+    pending: z.number(),
+    failed: z.number(),
+    dead: z.number(),
+    oldestReadyAt: z.string().nullable(),
+  }),
+  payments: z.object({ pendingOver15m: z.number(), failed24h: z.number() }),
+  webhooks: z.object({ failed: z.number(), unprocessedOver5m: z.number() }),
+});
+
+export type OperationalHealth = z.infer<typeof operationalHealth>;
+
 export const getOperationalHealth = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
@@ -29,7 +43,7 @@ export const getOperationalHealth = createServerFn({ method: "GET" })
       p_actor_id: context.userId,
     });
     if (result.error) throw new Error(`Health read failed: ${result.error.code ?? "UNKNOWN"}`);
-    return result.data;
+    return operationalHealth.parse(result.data);
   });
 
 export const retryOutboxEvent = createServerFn({ method: "POST" })
