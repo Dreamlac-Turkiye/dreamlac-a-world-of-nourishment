@@ -318,6 +318,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_inventory: {
+        Args: { p_actor_id: string; p_idempotency_key: string; p_quantity_delta: number; p_reason: string; p_variant_id: string; p_warehouse_id: string }
+        Returns: Json
+      }
+      admin_get_order: { Args: { p_actor_id: string; p_order_number: string }; Returns: Json }
+      admin_search_orders: {
+        Args: { p_actor_id: string; p_limit?: number; p_market_code?: string; p_offset?: number; p_query?: string | null; p_status?: string | null }
+        Returns: Json
+      }
       claim_outbox_events: {
         Args: { p_lease_seconds?: number; p_limit?: number; p_worker_id: string }
         Returns: Json[]
