@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
-import { listMyOrders } from "@/lib/orders.functions";
+import { listMyCommerceOrders } from "@/lib/customer-commerce.functions";
 import { formatTry } from "@/services/checkout";
 
 export const Route = createFileRoute("/_authenticated/siparislerim/")({
@@ -28,7 +28,7 @@ function formatDate(value: string): string {
 }
 
 function OrdersPage() {
-  const fetchOrders = useServerFn(listMyOrders);
+  const fetchOrders = useServerFn(listMyCommerceOrders);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["orders", "mine"],
     queryFn: () => fetchOrders(),

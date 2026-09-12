@@ -312,6 +312,15 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      customer_get_commerce_order: {
+        Args: { p_order_number: string; p_user_id: string };
+        Returns: Json;
+      };
+      customer_list_commerce_orders: { Args: { p_user_id: string }; Returns: Json };
+      track_commerce_order: {
+        Args: { p_email: string; p_order_number: string; p_phone_last4: string };
+        Returns: Json;
+      };
       admin_operational_health: { Args: { p_actor_id: string }; Returns: Json };
       admin_retry_outbox_event: {
         Args: { p_actor_id: string; p_event_id: string };

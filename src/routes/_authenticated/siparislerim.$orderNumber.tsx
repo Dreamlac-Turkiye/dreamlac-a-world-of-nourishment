@@ -4,7 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
-import { getMyOrder } from "@/lib/orders.functions";
+import { getMyCommerceOrder } from "@/lib/customer-commerce.functions";
 import { formatTry } from "@/services/checkout";
 
 export const Route = createFileRoute("/_authenticated/siparislerim/$orderNumber")({
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/siparislerim/$orderNumber"
 
 function OrderDetailPage() {
   const { orderNumber } = Route.useParams();
-  const fetchOrder = useServerFn(getMyOrder);
+  const fetchOrder = useServerFn(getMyCommerceOrder);
   const { data, isLoading } = useQuery({
     queryKey: ["orders", orderNumber],
     queryFn: () => fetchOrder({ data: { orderNumber } }),
@@ -58,7 +58,7 @@ function OrderDetailPage() {
           <section className="mt-8 rounded-2xl border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
             <h2 className="text-base font-semibold text-primary-deep">{tr.orders.itemsTitle}</h2>
             <ul className="mt-4 space-y-3">
-              {data.items.map((item) => (
+              {(data.items ?? []).map((item) => (
                 <li
                   key={`${item.productId}-${item.productSlug}`}
                   className="flex flex-wrap items-center justify-between gap-3 border-b border-border/50 pb-3 last:border-0 last:pb-0"
@@ -89,13 +89,13 @@ function OrderDetailPage() {
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">{tr.cart.subtotal}</dt>
                 <dd className="text-primary-deep">
-                  {formatTry(data.subtotalKurus) ?? tr.cart.pendingPrice}
+                  {formatTry(data.subtotalKurus ?? null) ?? tr.cart.pendingPrice}
                 </dd>
               </div>
               <div className="flex justify-between gap-4">
                 <dt className="text-muted-foreground">{tr.cart.shipping}</dt>
                 <dd className="text-primary-deep">
-                  {formatTry(data.shippingKurus) ?? tr.cart.pendingShipping}
+                  {formatTry(data.shippingKurus ?? null) ?? tr.cart.pendingShipping}
                 </dd>
               </div>
               <div className="flex justify-between gap-4 border-t border-border/50 pt-2">
@@ -110,11 +110,11 @@ function OrderDetailPage() {
           <section className="mt-4 rounded-2xl border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
             <h2 className="text-base font-semibold text-primary-deep">{tr.orders.deliveryTitle}</h2>
             <div className="mt-3 space-y-1 text-sm text-muted-foreground">
-              <p className="text-primary-deep">{data.fullName}</p>
+              <p className="text-primary-deep">{data.fullName ?? "—"}</p>
               <p>{data.phone}</p>
               <p>{data.email}</p>
               <p>
-                {data.addressLine}, {data.district} / {data.city}
+                {data.addressLine ?? "—"}, {data.district ?? "—"} / {data.city ?? "—"}
               </p>
               {data.note ? <p>{data.note}</p> : null}
               <p className="pt-2">
