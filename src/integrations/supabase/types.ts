@@ -318,6 +318,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_commerce_checkout: {
+        Args: {
+          p_billing_address: Json
+          p_customer_email: string
+          p_customer_note?: string | null
+          p_customer_phone: string
+          p_idempotency_key: string
+          p_items: Json
+          p_market_code: string
+          p_privacy_version: string
+          p_shipping_address: Json
+          p_terms_version: string
+          p_user_id: string | null
+        }
+        Returns: Json
+      }
+      release_expired_inventory_reservations: {
+        Args: { p_limit?: number }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
