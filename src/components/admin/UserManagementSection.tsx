@@ -5,7 +5,13 @@ import { Search, ShieldCheck, Users } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { listAdminUsers, setAdminUserRole, type AppRole } from "@/lib/admin-users.functions";
+import {
+  listAdminUsers,
+  setAdminStaffRole,
+  setAdminUserRole,
+  type AppRole,
+  type StaffRole,
+} from "@/lib/admin-users.functions";
 
 const roleLabels: Record<AppRole, string> = {
   admin: "Yönetici",
@@ -13,9 +19,24 @@ const roleLabels: Record<AppRole, string> = {
   user: "Müşteri",
 };
 
+const staffRoleLabels: Record<StaffRole, string> = {
+  owner: "İşletme sahibi",
+  general_manager: "Genel müdür",
+  store_manager: "Mağaza müdürü",
+  order_agent: "Sipariş görevlisi",
+  warehouse_agent: "Depo görevlisi",
+  customer_support: "Müşteri hizmetleri",
+  accountant: "Muhasebe",
+  content_manager: "İçerik yöneticisi",
+  compliance_officer: "Uyum sorumlusu",
+  system_admin: "Sistem yöneticisi",
+  report_viewer: "Rapor görüntüleyici",
+};
+
 export function UserManagementSection() {
   const readUsers = useServerFn(listAdminUsers);
   const updateRole = useServerFn(setAdminUserRole);
+  const updateStaffRole = useServerFn(setAdminStaffRole);
   const [query, setQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [busyKey, setBusyKey] = useState<string | null>(null);
@@ -44,6 +65,29 @@ export function UserManagementSection() {
         message.includes("CANNOT_REMOVE")
           ? "Kendi yönetici rolünüzü veya son yöneticiyi kaldıramazsınız."
           : "Kullanıcı rolü güncellenemedi.",
+      );
+    } finally {
+      setBusyKey(null);
+    }
+  }
+
+  async function changeStaffRole(userId: string, staffRole: StaffRole, active = true) {
+    if (
+      staffRole === "owner" &&
+      !window.confirm("Bu kullanıcı işletme sahibi yetkisine sahip olacak. Devam edilsin mi?")
+    )
+      return;
+    setBusyKey(`${userId}:staff`);
+    try {
+      await updateStaffRole({ data: { userId, staffRole, active } });
+      toast.success("Çalışan görevi ve yetkileri güncellendi.");
+      await users.refetch();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      toast.error(
+        message.includes("PROTECTED_OWNER")
+          ? "Korunan işletme sahibi görevi kaldırılamaz."
+          : "Çalışan görevi güncellenemedi.",
       );
     } finally {
       setBusyKey(null);
@@ -125,6 +169,53 @@ export function UserManagementSection() {
                     </Button>
                   );
                 })}
+              </div>
+              <div className="mt-4 border-t border-border/60 pt-4">
+                <label
+                  className="text-xs font-medium text-muted-foreground"
+                  htmlFor={`staff-${user.id}`}
+                >
+                  Çalışan görevi ve bölüm yetkileri
+                </label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  <select
+                    id={`staff-${user.id}`}
+                    className="h-10 min-w-56 rounded-xl border border-input bg-background px-3 text-sm"
+                    value={user.staffRole ?? ""}
+                    disabled={busyKey !== null}
+                    onChange={(event) => {
+                      if (event.target.value)
+                        void changeStaffRole(user.id, event.target.value as StaffRole, true);
+                    }}
+                  >
+                    <option value="" disabled>
+                      Görev seçin
+                    </option>
+                    {Object.entries(staffRoleLabels).map(([value, label]) => (
+                      <option key={value} value={value}>
+                        {label}
+                      </option>
+                    ))}
+                  </select>
+                  {user.staffRole ? (
+                    <Button
+                      type="button"
+                      size="sm"
+                      variant={user.staffActive ? "outline" : "default"}
+                      className="rounded-full"
+                      disabled={busyKey !== null}
+                      onClick={() =>
+                        void changeStaffRole(user.id, user.staffRole!, !user.staffActive)
+                      }
+                    >
+                      {busyKey === `${user.id}:staff`
+                        ? "Kaydediliyor…"
+                        : user.staffActive
+                          ? "Görevi pasifleştir"
+                          : "Görevi etkinleştir"}
+                    </Button>
+                  ) : null}
+                </div>
               </div>
             </article>
           ))}

@@ -8,6 +8,33 @@ export type Database = {
   };
   public: {
     Tables: {
+      staff_memberships: {
+        Row: {
+          active: boolean;
+          assigned_at: string;
+          assigned_by: string | null;
+          staff_role: Database["public"]["Enums"]["staff_role"];
+          updated_at: string;
+          user_id: string;
+        };
+        Insert: {
+          active?: boolean;
+          assigned_at?: string;
+          assigned_by?: string | null;
+          staff_role: Database["public"]["Enums"]["staff_role"];
+          updated_at?: string;
+          user_id: string;
+        };
+        Update: {
+          active?: boolean;
+          assigned_at?: string;
+          assigned_by?: string | null;
+          staff_role?: Database["public"]["Enums"]["staff_role"];
+          updated_at?: string;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
       integration_settings: {
         Row: {
           admin_note: string | null;
@@ -324,6 +351,15 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_set_staff_role: {
+        Args: {
+          p_active: boolean;
+          p_actor_id: string;
+          p_staff_role: Database["public"]["Enums"]["staff_role"];
+          p_user_id: string;
+        };
+        Returns: undefined;
+      };
       admin_update_order_workflow: {
         Args: {
           p_actor_id: string;
@@ -551,6 +587,18 @@ export type Database = {
         | "cancelled"
         | "refunded"
         | "failed";
+      staff_role:
+        | "owner"
+        | "general_manager"
+        | "store_manager"
+        | "order_agent"
+        | "warehouse_agent"
+        | "customer_support"
+        | "accountant"
+        | "content_manager"
+        | "compliance_officer"
+        | "system_admin"
+        | "report_viewer";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -683,6 +731,19 @@ export const Constants = {
         "cancelled",
         "refunded",
         "failed",
+      ],
+      staff_role: [
+        "owner",
+        "general_manager",
+        "store_manager",
+        "order_agent",
+        "warehouse_agent",
+        "customer_support",
+        "accountant",
+        "content_manager",
+        "compliance_officer",
+        "system_admin",
+        "report_viewer",
       ],
     },
   },
