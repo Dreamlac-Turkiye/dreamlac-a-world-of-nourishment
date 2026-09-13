@@ -16,6 +16,7 @@ import { UserManagementSection } from "@/components/admin/UserManagementSection"
 import { InventoryManagementSection } from "@/components/admin/InventoryManagementSection";
 import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
 import { AdminOverviewSection } from "@/components/admin/AdminOverviewSection";
+import { AdminMfaGate } from "@/components/admin/AdminMfaGate";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -108,7 +109,7 @@ function AdminPage() {
       {roleQuery.isLoading ? (
         <p className="mt-10 text-sm text-muted-foreground">{tr.states.loading}</p>
       ) : roleQuery.data?.active ? (
-        <>
+        <AdminMfaGate>
           <p className="mt-8 rounded-2xl bg-champagne/25 p-4 text-sm leading-relaxed text-champagne-foreground/90">
             {tr.admin.responsibility}
           </p>
@@ -150,7 +151,7 @@ function AdminPage() {
               <IntegrationsSection />
             </div>
           ) : null}
-        </>
+        </AdminMfaGate>
       ) : (
         <div className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-6">
           <h2 className="text-lg font-semibold text-primary-deep">{tr.admin.noAccessTitle}</h2>

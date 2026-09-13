@@ -4,6 +4,10 @@ import { getRequest } from "@tanstack/react-start/server";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
 
+export function assertStaffMfa(context: { claims: { aal?: unknown } }): void {
+  if (context.claims.aal !== "aal2") throw new Error("MFA_REQUIRED");
+}
+
 function isNewSupabaseApiKey(value: string): boolean {
   return value.startsWith("sb_publishable_") || value.startsWith("sb_secret_");
 }

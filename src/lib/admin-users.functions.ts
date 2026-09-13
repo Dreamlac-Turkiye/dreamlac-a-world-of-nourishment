@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaffMfa, requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const role = z.enum(["admin", "editor", "user"]);
 const staffRole = z.enum([
@@ -78,6 +78,7 @@ export const inviteStaffUser = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) => inviteStaffInput.parse(input))
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const supabaseAdmin = await assertPermission(context.userId, "users.manage");
     const siteUrl = process.env["VITE_SITE_URL"];
     if (!siteUrl) throw new Error("SITE_URL_MISSING");
@@ -111,6 +112,7 @@ export const listAdminUsers = createServerFn({ method: "GET" })
     z.object({ query: z.string().trim().max(200).default("") }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const supabaseAdmin = await assertPermission(context.userId, "users.manage");
     const usersResult = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
     if (usersResult.error) throw new Error("USER_LIST_FAILED");
@@ -162,6 +164,7 @@ export const setAdminUserRole = createServerFn({ method: "POST" })
     z.object({ userId: z.string().uuid(), role, enabled: z.boolean() }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const supabaseAdmin = await assertAdmin(context.userId);
     const result = await supabaseAdmin.rpc("admin_set_user_role", {
       p_actor_id: context.userId,
@@ -179,6 +182,7 @@ export const setAdminStaffRole = createServerFn({ method: "POST" })
     z.object({ userId: z.string().uuid(), staffRole, active: z.boolean() }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const supabaseAdmin = await assertPermission(context.userId, "users.manage");
     const result = await supabaseAdmin.rpc("admin_set_staff_role", {
       p_actor_id: context.userId,

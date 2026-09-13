@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaffMfa, requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 export async function consumeRateLimit(input: {
   scope: string;
@@ -72,6 +72,7 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
     z.object({ market: z.enum(["TR", "SA"]).default("TR") }).parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_dashboard_summary", {
       p_actor_id: context.userId,
@@ -84,6 +85,7 @@ export const getDashboardSummary = createServerFn({ method: "GET" })
 export const getOperationalHealth = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_operational_health", {
       p_actor_id: context.userId,
@@ -96,6 +98,7 @@ export const retryOutboxEvent = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) => z.object({ eventId: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_retry_outbox_event", {
       p_actor_id: context.userId,

@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaffMfa, requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const market = z.enum(["TR", "SA"]);
 
@@ -45,6 +45,7 @@ export const listCommerceInventory = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) => z.object({ market: market.default("TR") }).parse(input))
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_list_inventory", {
       p_actor_id: context.userId,
@@ -68,6 +69,7 @@ export const searchCommerceOrders = createServerFn({ method: "GET" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_search_orders", {
       p_actor_id: context.userId,
@@ -85,6 +87,7 @@ export const getCommerceOrder = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) => z.object({ orderNumber: z.string().min(3).max(100) }).parse(input))
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_get_order", {
       p_actor_id: context.userId,
@@ -120,6 +123,7 @@ export const updateCommerceOrderWorkflow = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_update_order_workflow", {
       p_actor_id: context.userId,
@@ -150,6 +154,7 @@ export const adjustCommerceInventory = createServerFn({ method: "POST" })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("adjust_inventory", {
       p_actor_id: context.userId,

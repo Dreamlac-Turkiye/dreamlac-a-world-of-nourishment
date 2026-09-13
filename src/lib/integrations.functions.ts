@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaffMfa, requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import {
   CARGO_WEBHOOK_SECRET_ENV,
   getProvider,
@@ -47,6 +47,7 @@ async function assertIntegrationPermission(context: {
 export const listIntegrationStatus = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<IntegrationStatus[]> => {
+    assertStaffMfa(context);
     await assertIntegrationPermission(context);
     const { checkSecrets } = await import("@/services/integrations/adapters.server");
 
@@ -74,6 +75,7 @@ export const listIntegrationStatus = createServerFn({ method: "GET" })
 export const getWebhookReadiness = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<{ secretName: string; ready: boolean }> => {
+    assertStaffMfa(context);
     await assertIntegrationPermission(context);
     const value = process.env[CARGO_WEBHOOK_SECRET_ENV];
     return { secretName: CARGO_WEBHOOK_SECRET_ENV, ready: Boolean(value && value.trim() !== "") };
@@ -91,6 +93,7 @@ export const testIntegration = createServerFn({ method: "POST" })
       data,
       context,
     }): Promise<{ ok: boolean; message: string; notConfigured: boolean }> => {
+      assertStaffMfa(context);
       await assertIntegrationPermission(context);
 
       const provider = getProvider(data.providerKey);

@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { assertStaffMfa, requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 
 const requestType = z.enum(["cancellation", "return"]);
 const requestStatus = z.enum(["submitted", "reviewing", "approved", "rejected", "completed"]);
@@ -64,6 +64,7 @@ export const createOrderRequest = createServerFn({ method: "POST" })
 export const listAdminOrderRequests = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<AdminOrderRequest[]> => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_list_order_requests", {
       p_actor_id: context.userId,
@@ -86,6 +87,7 @@ export const resolveOrderRequest = createServerFn({ method: "POST" })
       .parse(value),
   )
   .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_resolve_order_request", {
       p_actor_id: context.userId,
