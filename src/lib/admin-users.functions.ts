@@ -32,6 +32,11 @@ export type AdminUser = z.infer<typeof safeUser>;
 export type AppRole = z.infer<typeof role>;
 export type StaffRole = z.infer<typeof staffRole>;
 
+const inviteStaffInput = z.object({
+  email: z.string().trim().toLowerCase().email().max(254),
+  staffRole,
+});
+
 async function assertAdmin(userId: string) {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const result = await supabaseAdmin.rpc("has_role", { _user_id: userId, _role: "admin" });
@@ -67,6 +72,37 @@ export const getCurrentStaffAccess = createServerFn({ method: "GET" })
     });
     if (result.error) throw new Error("ACCESS_READ_FAILED");
     return staffAccess.parse(result.data);
+  });
+
+export const inviteStaffUser = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) => inviteStaffInput.parse(input))
+  .handler(async ({ data, context }) => {
+    const supabaseAdmin = await assertPermission(context.userId, "users.manage");
+    const siteUrl = process.env["VITE_SITE_URL"];
+    if (!siteUrl) throw new Error("SITE_URL_MISSING");
+
+    const redirectTo = new URL("/giris", siteUrl).toString();
+    const invitation = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email, {
+      redirectTo,
+      data: { staff_invitation: true, staff_role: data.staffRole },
+    });
+    if (invitation.error || !invitation.data.user) {
+      throw new Error(invitation.error?.message ?? "INVITATION_FAILED");
+    }
+
+    const assignment = await supabaseAdmin.rpc("admin_set_staff_role", {
+      p_actor_id: context.userId,
+      p_user_id: invitation.data.user.id,
+      p_staff_role: data.staffRole,
+      p_active: true,
+    });
+    if (assignment.error) {
+      await supabaseAdmin.auth.admin.deleteUser(invitation.data.user.id);
+      throw new Error(assignment.error.message);
+    }
+
+    return { id: invitation.data.user.id, email: data.email };
   });
 
 export const listAdminUsers = createServerFn({ method: "GET" })

@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { Search, ShieldCheck, Users } from "lucide-react";
+import { Search, ShieldCheck, UserPlus, Users } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  inviteStaffUser,
   listAdminUsers,
   setAdminStaffRole,
   setAdminUserRole,
@@ -37,13 +38,37 @@ export function UserManagementSection() {
   const readUsers = useServerFn(listAdminUsers);
   const updateRole = useServerFn(setAdminUserRole);
   const updateStaffRole = useServerFn(setAdminStaffRole);
+  const inviteStaff = useServerFn(inviteStaffUser);
   const [query, setQuery] = useState("");
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteRole, setInviteRole] = useState<StaffRole>("order_agent");
   const [submittedQuery, setSubmittedQuery] = useState("");
   const [busyKey, setBusyKey] = useState<string | null>(null);
   const users = useQuery({
     queryKey: ["admin", "users", submittedQuery],
     queryFn: () => readUsers({ data: { query: submittedQuery } }),
   });
+
+  async function inviteEmployee(event: React.FormEvent) {
+    event.preventDefault();
+    if (!window.confirm(`${inviteEmail} adresine çalışan daveti gönderilsin mi?`)) return;
+    setBusyKey("invite");
+    try {
+      await inviteStaff({ data: { email: inviteEmail, staffRole: inviteRole } });
+      toast.success("Çalışan daveti gönderildi ve görevi hazırlandı.");
+      setInviteEmail("");
+      await users.refetch();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "";
+      toast.error(
+        message.toLowerCase().includes("registered") || message.toLowerCase().includes("exists")
+          ? "Bu e-posta adresiyle kayıtlı bir hesap zaten var."
+          : "Çalışan daveti gönderilemedi.",
+      );
+    } finally {
+      setBusyKey(null);
+    }
+  }
 
   async function toggleRole(userId: string, role: AppRole, enabled: boolean) {
     if (role === "admin" && enabled) {
@@ -103,6 +128,45 @@ export function UserManagementSection() {
       <p className="mt-2 text-sm text-muted-foreground">
         Kayıtlı hesapları görüntüleyin ve en az ayrıcalık ilkesiyle rollerini yönetin.
       </p>
+
+      <form
+        className="mt-5 rounded-2xl border border-primary/15 bg-secondary/35 p-4"
+        onSubmit={(event) => void inviteEmployee(event)}
+      >
+        <div className="flex items-center gap-2 text-sm font-semibold text-primary-deep">
+          <UserPlus size={17} /> Yeni çalışan davet et
+        </div>
+        <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+          Çalışana güvenli bir katılım bağlantısı gönderilir; seçilen görev davet sırasında atanır.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_minmax(12rem,0.6fr)_auto]">
+          <Input
+            type="email"
+            autoComplete="email"
+            required
+            maxLength={254}
+            aria-label="Çalışan e-posta adresi"
+            placeholder="calisan@dreamlac.com.tr"
+            value={inviteEmail}
+            onChange={(event) => setInviteEmail(event.target.value)}
+          />
+          <select
+            aria-label="Çalışan görevi"
+            className="h-10 rounded-xl border border-input bg-background px-3 text-sm"
+            value={inviteRole}
+            onChange={(event) => setInviteRole(event.target.value as StaffRole)}
+          >
+            {Object.entries(staffRoleLabels).map(([value, label]) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
+          <Button type="submit" className="rounded-full" disabled={busyKey !== null}>
+            {busyKey === "invite" ? "Gönderiliyor…" : "Davet gönder"}
+          </Button>
+        </div>
+      </form>
 
       <form
         className="mt-5 flex gap-2"
@@ -224,8 +288,8 @@ export function UserManagementSection() {
         <p className="mt-5 text-sm text-muted-foreground">Eşleşen kullanıcı bulunamadı.</p>
       )}
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-        Güvenlik: Son yönetici ve kendi yönetici rolünüz kaldırılamaz. Tüm rol değişiklikleri
-        denetim kaydına yazılır.
+        Güvenlik: Pasifleştirilen görev tüm bölüm yetkilerini hemen kapatır. Son yönetici ve korunan
+        işletme sahibi kaldırılamaz. Tüm rol değişiklikleri denetim kaydına yazılır.
       </p>
     </section>
   );
