@@ -26,25 +26,28 @@ export interface IntegrationStatus {
   requiredSecrets: { env: string; label: string; required: boolean; present: boolean }[];
 }
 
-async function assertAdmin(context: { supabase: unknown; userId: string }): Promise<void> {
+async function assertIntegrationPermission(context: {
+  supabase: unknown;
+  userId: string;
+}): Promise<void> {
   const supabase = context.supabase as {
     rpc: (
       name: string,
       args: Record<string, unknown>,
     ) => Promise<{ data: unknown; error: unknown }>;
   };
-  const { data } = await supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
+  const { data, error } = await supabase.rpc("has_permission", {
+    p_user_id: context.userId,
+    p_permission: "integrations.manage",
   });
-  if (data !== true) throw new Error("Forbidden");
+  if (error || data !== true) throw new Error("Forbidden");
 }
 
 /** Tüm sağlayıcıların anahtar hazırlık durumu (yalnızca yönetici). */
 export const listIntegrationStatus = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<IntegrationStatus[]> => {
-    await assertAdmin(context);
+    await assertIntegrationPermission(context);
     const { checkSecrets } = await import("@/services/integrations/adapters.server");
 
     return integrationProviders.map((provider) => {
@@ -71,7 +74,7 @@ export const listIntegrationStatus = createServerFn({ method: "GET" })
 export const getWebhookReadiness = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<{ secretName: string; ready: boolean }> => {
-    await assertAdmin(context);
+    await assertIntegrationPermission(context);
     const value = process.env[CARGO_WEBHOOK_SECRET_ENV];
     return { secretName: CARGO_WEBHOOK_SECRET_ENV, ready: Boolean(value && value.trim() !== "") };
   });
@@ -88,7 +91,7 @@ export const testIntegration = createServerFn({ method: "POST" })
       data,
       context,
     }): Promise<{ ok: boolean; message: string; notConfigured: boolean }> => {
-      await assertAdmin(context);
+      await assertIntegrationPermission(context);
 
       const provider = getProvider(data.providerKey);
       if (!provider) return { ok: false, message: "Tanımsız sağlayıcı.", notConfigured: true };

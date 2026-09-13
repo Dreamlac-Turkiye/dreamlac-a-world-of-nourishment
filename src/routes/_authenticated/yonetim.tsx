@@ -1,5 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
@@ -15,6 +16,7 @@ import { UserManagementSection } from "@/components/admin/UserManagementSection"
 import { InventoryManagementSection } from "@/components/admin/InventoryManagementSection";
 import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
 import { AdminOverviewSection } from "@/components/admin/AdminOverviewSection";
+import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -43,17 +45,14 @@ interface SettingRow {
 function AdminPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState<string | null>(null);
+  const readAccess = useServerFn(getCurrentStaffAccess);
 
   const roleQuery = useQuery({
     queryKey: ["admin", "role"],
     queryFn: async () => {
       const { data: userData } = await supabase.auth.getUser();
       setEmail(userData.user?.email ?? null);
-      const { data } = await supabase.rpc("has_role", {
-        _user_id: userData.user?.id ?? "",
-        _role: "admin",
-      });
-      return Boolean(data);
+      return readAccess();
     },
   });
 
@@ -69,8 +68,11 @@ function AdminPage() {
       if (error) throw error;
       return data ?? [];
     },
-    enabled: roleQuery.data === true,
+    enabled: roleQuery.data?.permissions.includes("catalog.manage") === true,
   });
+
+  const permissions = roleQuery.data?.permissions ?? [];
+  const can = (permission: string) => permissions.includes(permission);
 
   async function onSignOut() {
     await supabase.auth.signOut();
@@ -105,39 +107,49 @@ function AdminPage() {
 
       {roleQuery.isLoading ? (
         <p className="mt-10 text-sm text-muted-foreground">{tr.states.loading}</p>
-      ) : roleQuery.data ? (
+      ) : roleQuery.data?.active ? (
         <>
           <p className="mt-8 rounded-2xl bg-champagne/25 p-4 text-sm leading-relaxed text-champagne-foreground/90">
             {tr.admin.responsibility}
           </p>
-          <AdminWorkspaceNav />
-          <AdminOverviewSection />
-          <div id="operasyonlar">
-            <CommerceOperationsSection />
-          </div>
-          <div id="stok">
-            <InventoryManagementSection />
-          </div>
-          <div id="kullanicilar">
-            <UserManagementSection />
-          </div>
-          <div id="urunler" className="mt-8 scroll-mt-24 space-y-6">
-            {settingsQuery.data?.map((row) => (
-              <ProductSettingsForm
-                key={row.slug}
-                row={row}
-                onSaved={() => void settingsQuery.refetch()}
-              />
-            ))}
-          </div>
-
-          <div id="hukuk" className="scroll-mt-24">
-            <LegalDocumentsSection />
-          </div>
-
-          <div id="entegrasyonlar" className="scroll-mt-24">
-            <IntegrationsSection />
-          </div>
+          <AdminWorkspaceNav permissions={permissions} />
+          {can("operations.read") ? <AdminOverviewSection /> : null}
+          {can("orders.read") ? (
+            <div id="operasyonlar">
+              <CommerceOperationsSection />
+            </div>
+          ) : null}
+          {can("inventory.manage") ? (
+            <div id="stok">
+              <InventoryManagementSection />
+            </div>
+          ) : null}
+          {can("users.manage") ? (
+            <div id="kullanicilar">
+              <UserManagementSection />
+            </div>
+          ) : null}
+          {can("catalog.manage") ? (
+            <div id="urunler" className="mt-8 scroll-mt-24 space-y-6">
+              {settingsQuery.data?.map((row) => (
+                <ProductSettingsForm
+                  key={row.slug}
+                  row={row}
+                  onSaved={() => void settingsQuery.refetch()}
+                />
+              ))}
+            </div>
+          ) : null}
+          {can("legal.manage") ? (
+            <div id="hukuk" className="scroll-mt-24">
+              <LegalDocumentsSection />
+            </div>
+          ) : null}
+          {can("integrations.manage") ? (
+            <div id="entegrasyonlar" className="scroll-mt-24">
+              <IntegrationsSection />
+            </div>
+          ) : null}
         </>
       ) : (
         <div className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-6">

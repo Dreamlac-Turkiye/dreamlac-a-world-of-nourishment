@@ -9,16 +9,22 @@ import {
 } from "lucide-react";
 
 const sections = [
-  { href: "#genel-bakis", label: "Genel bakış", icon: Gauge },
-  { href: "#operasyonlar", label: "Operasyonlar", icon: ShoppingBag },
-  { href: "#stok", label: "Stok", icon: Boxes },
-  { href: "#kullanicilar", label: "Kullanıcılar", icon: Users },
-  { href: "#urunler", label: "Ürünler", icon: SlidersHorizontal },
-  { href: "#hukuk", label: "Hukuk", icon: FileCheck2 },
-  { href: "#entegrasyonlar", label: "Entegrasyonlar", icon: PlugZap },
+  { href: "#genel-bakis", label: "Genel bakış", icon: Gauge, permission: "operations.read" },
+  { href: "#operasyonlar", label: "Operasyonlar", icon: ShoppingBag, permission: "orders.read" },
+  { href: "#stok", label: "Stok", icon: Boxes, permission: "inventory.manage" },
+  { href: "#kullanicilar", label: "Kullanıcılar", icon: Users, permission: "users.manage" },
+  { href: "#urunler", label: "Ürünler", icon: SlidersHorizontal, permission: "catalog.manage" },
+  { href: "#hukuk", label: "Hukuk", icon: FileCheck2, permission: "legal.manage" },
+  {
+    href: "#entegrasyonlar",
+    label: "Entegrasyonlar",
+    icon: PlugZap,
+    permission: "integrations.manage",
+  },
 ] as const;
 
-export function AdminWorkspaceNav() {
+export function AdminWorkspaceNav({ permissions }: { permissions: string[] }) {
+  const visibleSections = sections.filter((section) => permissions.includes(section.permission));
   return (
     <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-primary/15 bg-primary-deep text-white shadow-[var(--shadow-lifted)]">
       <div className="grid gap-5 px-5 py-6 sm:px-7 lg:grid-cols-[1fr_auto] lg:items-end">
@@ -37,7 +43,7 @@ export function AdminWorkspaceNav() {
       </div>
       <nav aria-label="Yönetim bölümleri" className="border-t border-white/10 px-3 py-3">
         <ul className="flex gap-2 overflow-x-auto pb-1">
-          {sections.map(({ href, label, icon: Icon }) => (
+          {visibleSections.map(({ href, label, icon: Icon }) => (
             <li key={href}>
               <a
                 href={href}

@@ -39,13 +39,43 @@ async function assertAdmin(userId: string) {
   return supabaseAdmin;
 }
 
+async function assertPermission(userId: string, permission: string) {
+  const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+  const result = await supabaseAdmin.rpc("has_permission", {
+    p_user_id: userId,
+    p_permission: permission,
+  });
+  if (result.error || !result.data) throw new Error("FORBIDDEN");
+  return supabaseAdmin;
+}
+
+const staffAccess = z.object({
+  isAdmin: z.boolean(),
+  staffRole: staffRole.nullable(),
+  active: z.boolean(),
+  permissions: z.array(z.string()),
+});
+
+export type StaffAccess = z.infer<typeof staffAccess>;
+
+export const getCurrentStaffAccess = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const result = await supabaseAdmin.rpc("admin_get_staff_access", {
+      p_actor_id: context.userId,
+    });
+    if (result.error) throw new Error("ACCESS_READ_FAILED");
+    return staffAccess.parse(result.data);
+  });
+
 export const listAdminUsers = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) =>
     z.object({ query: z.string().trim().max(200).default("") }).parse(input),
   )
   .handler(async ({ data, context }) => {
-    const supabaseAdmin = await assertAdmin(context.userId);
+    const supabaseAdmin = await assertPermission(context.userId, "users.manage");
     const usersResult = await supabaseAdmin.auth.admin.listUsers({ page: 1, perPage: 200 });
     if (usersResult.error) throw new Error("USER_LIST_FAILED");
 
@@ -113,7 +143,7 @@ export const setAdminStaffRole = createServerFn({ method: "POST" })
     z.object({ userId: z.string().uuid(), staffRole, active: z.boolean() }).parse(input),
   )
   .handler(async ({ data, context }) => {
-    const supabaseAdmin = await assertAdmin(context.userId);
+    const supabaseAdmin = await assertPermission(context.userId, "users.manage");
     const result = await supabaseAdmin.rpc("admin_set_staff_role", {
       p_actor_id: context.userId,
       p_user_id: data.userId,

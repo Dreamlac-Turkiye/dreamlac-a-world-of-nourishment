@@ -351,6 +351,12 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_get_staff_access: { Args: { p_actor_id: string }; Returns: Json };
+      current_user_has_permission: { Args: { p_permission: string }; Returns: boolean };
+      has_permission: {
+        Args: { p_permission: string; p_user_id: string };
+        Returns: boolean;
+      };
       admin_set_staff_role: {
         Args: {
           p_active: boolean;
