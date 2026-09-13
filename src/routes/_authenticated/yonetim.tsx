@@ -14,6 +14,7 @@ import { CommerceOperationsSection } from "@/components/admin/CommerceOperations
 import { UserManagementSection } from "@/components/admin/UserManagementSection";
 import { InventoryManagementSection } from "@/components/admin/InventoryManagementSection";
 import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
+import { AdminOverviewSection } from "@/components/admin/AdminOverviewSection";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -110,6 +111,7 @@ function AdminPage() {
             {tr.admin.responsibility}
           </p>
           <AdminWorkspaceNav />
+          <AdminOverviewSection />
           <div id="operasyonlar">
             <CommerceOperationsSection />
           </div>

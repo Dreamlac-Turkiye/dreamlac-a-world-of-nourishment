@@ -37,6 +37,50 @@ const operationalHealth = z.object({
 
 export type OperationalHealth = z.infer<typeof operationalHealth>;
 
+const dashboardSummary = z.object({
+  generatedAt: z.string(),
+  marketCode: z.string(),
+  currency: z.string(),
+  today: z.object({
+    orders: z.number(),
+    revenueMinor: z.number(),
+    newCustomers: z.number(),
+  }),
+  attention: z.object({
+    awaitingPayment: z.number(),
+    toFulfil: z.number(),
+    openRequests: z.number(),
+    lowStock: z.number(),
+    failedOperations: z.number(),
+  }),
+  recentOrders: z.array(
+    z.object({
+      orderNumber: z.string(),
+      status: z.string(),
+      customerEmail: z.string(),
+      grandTotalMinor: z.number(),
+      createdAt: z.string(),
+    }),
+  ),
+});
+
+export type DashboardSummary = z.infer<typeof dashboardSummary>;
+
+export const getDashboardSummary = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    z.object({ market: z.enum(["TR", "SA"]).default("TR") }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const result = await supabaseAdmin.rpc("admin_dashboard_summary", {
+      p_actor_id: context.userId,
+      p_market_code: data.market,
+    });
+    if (result.error) throw new Error(`Dashboard read failed: ${result.error.code ?? "UNKNOWN"}`);
+    return dashboardSummary.parse(result.data);
+  });
+
 export const getOperationalHealth = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {

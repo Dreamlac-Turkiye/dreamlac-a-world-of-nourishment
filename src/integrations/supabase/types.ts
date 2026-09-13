@@ -324,6 +324,10 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_dashboard_summary: {
+        Args: { p_actor_id: string; p_market_code?: string };
+        Returns: Json;
+      };
       admin_list_inventory: {
         Args: { p_actor_id: string; p_market_code?: string };
         Returns: Json;
