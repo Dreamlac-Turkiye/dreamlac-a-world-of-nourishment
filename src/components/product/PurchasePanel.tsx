@@ -27,12 +27,17 @@ export function PurchasePanel({ product }: { product: Product }) {
   const previewMode = !product.directSaleEnabled || priceLabel === null;
 
   return (
-    <div className="rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)]">
+    <div className="border-t border-border/70 pt-6">
+      <div className="flex flex-wrap items-end gap-x-4 gap-y-1">
       {priceLabel ? (
-        <p className="text-2xl font-semibold text-primary-deep">{priceLabel}</p>
+        <p className="text-4xl font-medium text-primary-deep tabular-nums">{priceLabel}</p>
       ) : (
         <p className="text-sm font-medium text-muted-foreground">{tr.productDetail.pricePending}</p>
       )}
+        {product.weight ? (
+          <p className="pb-1 text-sm font-medium text-muted-foreground">{product.weight}</p>
+        ) : null}
+      </div>
 
       {outOfStock ? (
         <>
@@ -50,19 +55,20 @@ export function PurchasePanel({ product }: { product: Product }) {
         </>
       ) : (
         <>
-          <div className="mt-4">
-            <QuantityStepper value={quantity} onChange={setQuantity} />
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-end">
+            <QuantityStepper value={quantity} onChange={setQuantity} hideNote />
+            <Button
+              size="lg"
+              className="h-12 flex-1 rounded-full shadow-[var(--shadow-lifted)]"
+              onClick={() => {
+                add(product.id, Math.min(quantity, MAX_QUANTITY));
+                toast.success(tr.cart.added);
+              }}
+            >
+              <ShoppingBag aria-hidden="true" />
+              {tr.products.addToCart}
+            </Button>
           </div>
-          <Button
-            className="mt-4 w-full rounded-full"
-            onClick={() => {
-              add(product.id, Math.min(quantity, MAX_QUANTITY));
-              toast.success(tr.cart.added);
-            }}
-          >
-            <ShoppingBag aria-hidden="true" />
-            {tr.products.addToCart}
-          </Button>
         </>
       )}
 

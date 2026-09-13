@@ -37,21 +37,21 @@ function InfoRow({ label, value }: { label: string; value: string | null }) {
 export function ProductTabs({ product }: { product: Product }) {
   return (
     <Tabs defaultValue="details" className="w-full">
-      <TabsList className="h-auto w-full flex-wrap justify-start gap-1 rounded-full bg-secondary/70 p-1">
-        <TabsTrigger value="details" className="rounded-full px-4 py-2 text-sm">
+      <TabsList className="h-auto w-full justify-start gap-6 overflow-x-auto rounded-none border-b border-border/70 bg-transparent p-0">
+        <TabsTrigger value="details" className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none">
           {t.tabs.details}
         </TabsTrigger>
-        <TabsTrigger value="preparation" className="rounded-full px-4 py-2 text-sm">
+        <TabsTrigger value="preparation" className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none">
           {t.tabs.preparation}
         </TabsTrigger>
-        <TabsTrigger value="nutrition" className="rounded-full px-4 py-2 text-sm">
+        <TabsTrigger value="nutrition" className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none">
           {t.tabs.nutrition}
         </TabsTrigger>
       </TabsList>
 
       {/* 1 — Ürün detayı */}
-      <TabsContent value="details" className="mt-6 space-y-6">
-        <p className="max-w-3xl text-sm leading-relaxed text-primary-deep/85">
+      <TabsContent value="details" className="mt-8 space-y-8">
+        <p className="max-w-4xl text-base leading-8 text-primary-deep/85">
           {product.description}
         </p>
 
