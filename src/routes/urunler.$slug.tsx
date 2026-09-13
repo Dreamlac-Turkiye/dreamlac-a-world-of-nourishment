@@ -1,5 +1,5 @@
 import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Scale } from "lucide-react";
 import { PackShotPlaceholder } from "@/components/product/PackShotPlaceholder";
 import { ProductTabs } from "@/components/product/ProductTabs";
 import { PurchasePanel } from "@/components/product/PurchasePanel";
@@ -92,8 +92,10 @@ function ProductDetailPage() {
   const { product, others } = Route.useLoaderData();
 
   return (
-    <main id="main" className="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
-      <nav aria-label="Breadcrumb" className="py-6 text-xs text-muted-foreground">
+    <main id="main" className="overflow-hidden pb-20">
+      <section className="relative bg-background">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+      <nav aria-label="Breadcrumb" className="py-5 text-[0.7rem] font-semibold text-muted-foreground uppercase">
         <ol className="flex flex-wrap items-center gap-1.5">
           <li>
             <Link to="/" className="hover:text-primary-deep">
@@ -113,57 +115,83 @@ function ProductDetailPage() {
         </ol>
       </nav>
 
-      <div className="grid gap-10 lg:grid-cols-[1.05fr_1fr] lg:gap-14">
+      <div className="grid min-h-[calc(100svh-9rem)] gap-10 pb-10 lg:grid-cols-12 lg:items-center lg:gap-20 lg:pb-16">
         <div
           className={cn(
-            "grain relative overflow-hidden rounded-[2.5rem] p-6 sm:p-10",
+            "grain relative lg:col-span-7",
             stageBg[product.stage],
           )}
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute -top-16 -right-10 size-56 rounded-full bg-[oklch(1_0_0/0.45)] blur-3xl"
+            className="pointer-events-none absolute inset-x-[12%] bottom-3 h-12 rounded-full bg-primary-deep/15 blur-2xl"
           />
-          <div className="relative mx-auto aspect-4/5 w-full max-w-sm">
-            <PackShotPlaceholder product={product} />
+          <div className="relative aspect-[5/4] overflow-hidden rounded-[2rem] border border-card/70 bg-card/45 shadow-[var(--shadow-deep)] sm:aspect-[6/5] lg:aspect-[5/6] lg:max-h-[690px]">
+            <div className="absolute top-5 left-5 z-10 flex flex-col items-start gap-2 sm:top-8 sm:left-8">
+              <span className="surface-glass rounded-full px-4 py-2 text-[0.65rem] font-bold text-primary-deep uppercase shadow-[var(--shadow-soft)]">
+                {product.technicalName}
+              </span>
+              <span className="rounded-full bg-primary-deep px-4 py-2 text-[0.65rem] font-bold text-primary-foreground uppercase shadow-[var(--shadow-soft)]">
+                {product.ageRange}
+              </span>
+            </div>
+            <div className="hero-product-enter relative mx-auto h-full w-[76%] p-8 sm:w-[68%] sm:p-12 lg:w-[78%] lg:p-16">
+              <PackShotPlaceholder product={product} className="animate-float-product" priority />
+            </div>
+            <div className="absolute right-5 bottom-5 hidden items-center gap-3 rounded-lg border border-card/80 bg-card/85 px-4 py-3 shadow-[var(--shadow-lifted)] backdrop-blur-md sm:flex">
+              <Scale size={18} className="text-champagne-foreground" aria-hidden="true" />
+              <span className="text-xs font-semibold text-primary-deep">{product.weight}</span>
+            </div>
           </div>
         </div>
 
-        <div className="min-w-0">
+        <div className="min-w-0 lg:col-span-5 lg:py-10">
           <div className="flex flex-wrap items-center gap-3">
             <StockPill stock={product.stock} />
-            <span className="text-xs font-medium text-primary">{product.technicalName}</span>
+            <span className="text-xs font-semibold text-champagne-foreground">Dreamlac</span>
           </div>
-          <h1 className="mt-4 text-3xl leading-tight font-semibold text-balance text-primary-deep sm:text-4xl">
+          <h1 className="mt-5 text-4xl leading-[1.08] font-medium text-primary-deep sm:text-6xl lg:text-7xl">
             {product.name}
           </h1>
-          <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground sm:text-base">
+          <p className="mt-6 max-w-xl text-base leading-8 text-muted-foreground sm:text-lg">
             {product.shortDescription}
           </p>
-          <p className="mt-4 text-sm text-primary-deep/80">
-            <span className="text-muted-foreground">{tr.products.fields.age}: </span>
-            {product.ageRange}
-          </p>
+
+          <ul className="mt-8 grid grid-cols-2 gap-3">
+            {product.formulaFeatures.slice(0, 2).map((item) => (
+              <li key={item} className="flex min-h-24 flex-col justify-between rounded-lg border border-border/70 bg-card p-4 shadow-[var(--shadow-soft)]">
+                <Check size={18} className="text-primary" aria-hidden="true" />
+                <span className="mt-4 text-xs font-semibold text-primary-deep">{item}</span>
+              </li>
+            ))}
+          </ul>
 
           <div className="mt-6">
             <PurchasePanel product={product} />
           </div>
         </div>
       </div>
-
-      <section className="mt-14">
-        <ProductTabs product={product} />
+      </div>
       </section>
 
-      <section className="mt-16">
-        <h2 className="text-xl font-semibold text-primary-deep">{tr.productDetail.relatedTitle}</h2>
-        <ul className="mt-5 grid gap-4 sm:grid-cols-2">
+      <section className="border-y border-border/60 bg-card/55 py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <ProductTabs product={product} />
+        </div>
+      </section>
+
+      <section className="mx-auto mt-16 max-w-7xl px-4 sm:px-6">
+        <div className="flex items-end justify-between gap-4">
+          <h2 className="max-w-lg text-2xl font-medium text-primary-deep sm:text-3xl">{tr.productDetail.relatedTitle}</h2>
+          <span className="hidden text-xs font-semibold text-muted-foreground uppercase sm:block">Dreamlac 1 · 2 · 3</span>
+        </div>
+        <ul className="mt-7 grid gap-4 sm:grid-cols-2">
           {others.map((item) => (
             <li key={item.id}>
               <Link
                 to="/urunler/$slug"
                 params={{ slug: item.slug }}
-                className="lift-hover flex items-center gap-4 rounded-[1.75rem] border border-border/70 bg-card p-4"
+                className="lift-hover flex items-center gap-4 rounded-lg border border-border/70 bg-card p-4"
               >
                 <span
                   className={cn(

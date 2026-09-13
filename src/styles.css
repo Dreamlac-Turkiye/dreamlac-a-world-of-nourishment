@@ -21,8 +21,8 @@
   --radius-3xl: calc(var(--radius) + 24px);
   --radius-4xl: calc(var(--radius) + 40px);
 
-  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
-  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -64,9 +64,9 @@
 :root {
   --radius: 1rem;
 
-  /* Warm milky white canvas */
-  --background: oklch(0.988 0.006 95);
-  --foreground: oklch(0.28 0.055 258);
+  /* Bright aquatic canvas — selected Dreamlac direction */
+  --background: oklch(0.98424 0.00577 153.78);
+  --foreground: oklch(0.39821 0.06641 227.39);
 
   --card: oklch(1 0.002 95);
   --card-foreground: oklch(0.28 0.055 258);
@@ -74,12 +74,12 @@
   --popover-foreground: oklch(0.28 0.055 258);
 
   /* Calm sky blue — trust */
-  --primary: oklch(0.66 0.105 238);
+  --primary: oklch(0.39821 0.06641 227.39);
   --primary-foreground: oklch(0.99 0.004 240);
-  --primary-soft: oklch(0.93 0.032 235);
-  --primary-deep: oklch(0.34 0.075 254);
+  --primary-soft: oklch(0.95991 0.01398 185.96);
+  --primary-deep: oklch(0.39821 0.06641 227.39);
 
-  --secondary: oklch(0.962 0.012 235);
+  --secondary: oklch(0.95991 0.01398 185.96);
   --secondary-foreground: oklch(0.34 0.075 254);
 
   --muted: oklch(0.965 0.008 240);
@@ -89,7 +89,7 @@
   --accent-foreground: oklch(0.32 0.07 254);
 
   /* Very light champagne / gold detail */
-  --champagne: oklch(0.9 0.045 88);
+  --champagne: oklch(0.80345 0.10956 84.2);
   --champagne-foreground: oklch(0.38 0.06 75);
 
   --destructive: oklch(0.575 0.19 25);
@@ -159,7 +159,7 @@
   h3,
   h4 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
+    letter-spacing: 0;
     text-wrap: balance;
   }
 
