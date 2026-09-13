@@ -324,6 +324,17 @@ export type Database = {
       [_ in never]: never;
     };
     Functions: {
+      admin_update_order_workflow: {
+        Args: {
+          p_actor_id: string;
+          p_assigned_to?: string | null;
+          p_assignment_action?: string;
+          p_next_status?: Database["public"]["Enums"]["commerce_order_status"] | null;
+          p_note?: string | null;
+          p_order_number: string;
+        };
+        Returns: undefined;
+      };
       admin_dashboard_summary: {
         Args: { p_actor_id: string; p_market_code?: string };
         Returns: Json;
@@ -530,6 +541,16 @@ export type Database = {
     };
     Enums: {
       app_role: "admin" | "editor" | "user";
+      commerce_order_status:
+        | "draft"
+        | "awaiting_payment"
+        | "payment_processing"
+        | "paid"
+        | "fulfilment_pending"
+        | "fulfilled"
+        | "cancelled"
+        | "refunded"
+        | "failed";
     };
     CompositeTypes: {
       [_ in never]: never;
@@ -652,6 +673,17 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "editor", "user"],
+      commerce_order_status: [
+        "draft",
+        "awaiting_payment",
+        "payment_processing",
+        "paid",
+        "fulfilment_pending",
+        "fulfilled",
+        "cancelled",
+        "refunded",
+        "failed",
+      ],
     },
   },
 } as const;

@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { AlertTriangle, ClipboardList, RefreshCw } from "lucide-react";
+import { AlertTriangle, ClipboardList, RefreshCw, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { searchCommerceOrders } from "@/lib/admin-commerce.functions";
+import {
+  getCommerceOrder,
+  searchCommerceOrders,
+  updateCommerceOrderWorkflow,
+} from "@/lib/admin-commerce.functions";
 import { getOperationalHealth } from "@/lib/operations.functions";
 import { formatTry } from "@/services/checkout";
 import { listAdminOrderRequests, resolveOrderRequest } from "@/lib/order-requests.functions";
 import { toast } from "sonner";
+import { Textarea } from "@/components/ui/textarea";
+import { listAdminUsers } from "@/lib/admin-users.functions";
 
 const statusLabels: Record<string, string> = {
-  pending_payment: "Ödeme bekliyor",
+  awaiting_payment: "Ödeme bekliyor",
+  payment_processing: "Ödeme işleniyor",
   paid: "Ödendi",
   fulfilment_pending: "Hazırlanıyor",
   fulfilled: "Tamamlandı",
@@ -26,6 +33,7 @@ export function CommerceOperationsSection() {
   const updateRequest = useServerFn(resolveOrderRequest);
   const [query, setQuery] = useState("");
   const [submittedQuery, setSubmittedQuery] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState<string | null>(null);
   const orders = useQuery({
     queryKey: ["admin", "commerce-orders", submittedQuery],
     queryFn: () =>
@@ -131,6 +139,7 @@ export function CommerceOperationsSection() {
                 <th className="px-2 py-3">Durum</th>
                 <th className="px-2 py-3">Ödeme / Kargo</th>
                 <th className="px-2 py-3 text-right">Toplam</th>
+                <th className="px-2 py-3 text-right">İşlem</th>
               </tr>
             </thead>
             <tbody>
@@ -157,12 +166,29 @@ export function CommerceOperationsSection() {
                   <td className="px-2 py-4 text-right font-medium">
                     {formatTry(order.grandTotalMinor)}
                   </td>
+                  <td className="px-2 py-4 text-right">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="rounded-full"
+                      onClick={() => setSelectedOrder(order.orderNumber)}
+                    >
+                      Aç
+                    </Button>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       )}
+      {selectedOrder ? (
+        <OrderWorkspace
+          orderNumber={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
+          onUpdated={() => void orders.refetch()}
+        />
+      ) : null}
       <p className="mt-5 text-xs text-muted-foreground">
         Ödeme, kargo ve fatura eylemleri ilgili sağlayıcı anahtarları tanımlandıktan sonra
         etkinleşecektir.
@@ -223,6 +249,283 @@ export function CommerceOperationsSection() {
         )}
       </div>
     </section>
+  );
+}
+
+interface OrderWorkspaceData {
+  order: {
+    order_number: string;
+    status: string;
+    customer_email: string;
+    customer_phone: string;
+    grand_total_minor: number;
+    assigned_to: string | null;
+    created_at: string;
+  };
+  shippingAddress: Record<string, unknown>;
+  items: Array<{
+    id: string;
+    product_name: string;
+    sku: string;
+    quantity: number;
+    line_total_minor: number;
+  }>;
+  history: Array<{
+    id: number;
+    to_status: string;
+    actor_type: string;
+    reason: string | null;
+    created_at: string;
+  }>;
+  internalNotes: Array<{
+    id: string;
+    body: string;
+    authorId: string;
+    createdAt: string;
+  }>;
+}
+
+const nextStatuses: Record<string, string[]> = {
+  awaiting_payment: ["payment_processing", "cancelled", "failed"],
+  payment_processing: ["cancelled", "failed"],
+  paid: ["fulfilment_pending"],
+  fulfilment_pending: ["fulfilled"],
+};
+
+function OrderWorkspace({
+  orderNumber,
+  onClose,
+  onUpdated,
+}: {
+  orderNumber: string;
+  onClose: () => void;
+  onUpdated: () => void;
+}) {
+  const readOrder = useServerFn(getCommerceOrder);
+  const updateWorkflow = useServerFn(updateCommerceOrderWorkflow);
+  const readUsers = useServerFn(listAdminUsers);
+  const [note, setNote] = useState("");
+  const [nextStatus, setNextStatus] = useState("");
+  const [assignee, setAssignee] = useState("");
+  const [busy, setBusy] = useState(false);
+  const detail = useQuery({
+    queryKey: ["admin", "commerce-order", orderNumber],
+    queryFn: () => readOrder({ data: { orderNumber } }),
+  });
+  const staff = useQuery({
+    queryKey: ["admin", "staff-for-assignment"],
+    queryFn: () => readUsers({ data: { query: "" } }),
+  });
+  const data = detail.data as OrderWorkspaceData | null | undefined;
+  const staffMembers = (staff.data ?? []).filter((user) =>
+    user.roles.some((role) => role === "admin" || role === "editor"),
+  );
+
+  useEffect(() => {
+    if (data) setAssignee(data.order.assigned_to ?? "");
+  }, [data]);
+
+  async function save(input: {
+    nextStatus?: string;
+    assignmentAction?: "keep" | "set" | "clear";
+    assignedTo?: string | null;
+    note?: string | null;
+  }) {
+    setBusy(true);
+    try {
+      await updateWorkflow({
+        data: {
+          orderNumber,
+          nextStatus: (input.nextStatus || null) as
+            | "draft"
+            | "awaiting_payment"
+            | "payment_processing"
+            | "paid"
+            | "fulfilment_pending"
+            | "fulfilled"
+            | "cancelled"
+            | "refunded"
+            | "failed"
+            | null,
+          assignmentAction: input.assignmentAction ?? "keep",
+          assignedTo: input.assignedTo ?? null,
+          note: input.note ?? null,
+        },
+      });
+      toast.success("Sipariş çalışma kaydı güncellendi.");
+      setNote("");
+      setNextStatus("");
+      await detail.refetch();
+      onUpdated();
+    } catch (error) {
+      toast.error(
+        error instanceof Error && error.message.includes("INVALID_ORDER_STATUS_TRANSITION")
+          ? "Bu durum geçişine izin verilmiyor."
+          : "Sipariş güncellenemedi.",
+      );
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="mt-6 rounded-[1.5rem] border border-primary/20 bg-background p-4 sm:p-6">
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-primary">
+            Sipariş çalışma alanı
+          </p>
+          <h3 className="mt-1 text-xl font-semibold text-primary-deep">{orderNumber}</h3>
+        </div>
+        <Button
+          size="icon"
+          variant="ghost"
+          className="rounded-full"
+          onClick={onClose}
+          aria-label="Kapat"
+        >
+          <X size={18} />
+        </Button>
+      </div>
+
+      {detail.isLoading ? (
+        <p className="mt-5 text-sm text-muted-foreground">Sipariş yükleniyor…</p>
+      ) : !data ? (
+        <p className="mt-5 text-sm text-destructive">Sipariş ayrıntısı alınamadı.</p>
+      ) : (
+        <>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <InfoBox label="Durum" value={statusLabels[data.order.status] ?? data.order.status} />
+            <InfoBox label="Müşteri" value={data.order.customer_email} />
+            <InfoBox label="Toplam" value={formatTry(data.order.grand_total_minor) ?? "—"} />
+          </div>
+
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            <div className="rounded-2xl border border-border/60 p-4">
+              <h4 className="font-semibold text-primary-deep">Ürünler</h4>
+              <div className="mt-3 divide-y divide-border/60">
+                {data.items.map((item) => (
+                  <div key={item.id} className="flex justify-between gap-3 py-3 text-sm">
+                    <span>
+                      {item.product_name} × {item.quantity}
+                    </span>
+                    <span className="font-medium">{formatTry(item.line_total_minor) ?? "—"}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-border/60 p-4">
+              <h4 className="font-semibold text-primary-deep">Sorumlu çalışan</h4>
+              <select
+                className="mt-3 h-10 w-full rounded-xl border border-input bg-background px-3 text-sm"
+                value={assignee}
+                onChange={(event) => setAssignee(event.target.value)}
+              >
+                <option value="">Atanmamış</option>
+                {staffMembers.map((user) => (
+                  <option key={user.id} value={user.id}>
+                    {user.email}
+                  </option>
+                ))}
+              </select>
+              <Button
+                size="sm"
+                variant="outline"
+                className="mt-3 rounded-full"
+                disabled={busy}
+                onClick={() =>
+                  void save({
+                    assignmentAction: assignee ? "set" : "clear",
+                    assignedTo: assignee || null,
+                  })
+                }
+              >
+                Atamayı kaydet
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-border/60 p-4">
+            <h4 className="font-semibold text-primary-deep">Durumu ilerlet</h4>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <select
+                className="h-10 min-w-56 rounded-xl border border-input bg-background px-3 text-sm"
+                value={nextStatus}
+                onChange={(event) => setNextStatus(event.target.value)}
+              >
+                <option value="">Sonraki durumu seçin</option>
+                {(nextStatuses[data.order.status] ?? []).map((status) => (
+                  <option key={status} value={status}>
+                    {statusLabels[status] ?? status}
+                  </option>
+                ))}
+              </select>
+              <Button
+                className="rounded-full"
+                disabled={busy || !nextStatus}
+                onClick={() => void save({ nextStatus })}
+              >
+                Durumu güncelle
+              </Button>
+            </div>
+          </div>
+
+          <div className="mt-5 grid gap-5 lg:grid-cols-2">
+            <div className="rounded-2xl border border-border/60 p-4">
+              <h4 className="font-semibold text-primary-deep">İç not ekle</h4>
+              <Textarea
+                className="mt-3"
+                value={note}
+                onChange={(event) => setNote(event.target.value)}
+                maxLength={2000}
+                placeholder="Bu not yalnızca çalışanlar tarafından görülür."
+              />
+              <Button
+                className="mt-3 rounded-full"
+                disabled={busy || note.trim().length < 2}
+                onClick={() => void save({ note: note.trim() })}
+              >
+                Notu kaydet
+              </Button>
+              <div className="mt-4 space-y-2">
+                {data.internalNotes.map((entry) => (
+                  <div key={entry.id} className="rounded-xl bg-secondary/60 p-3 text-sm">
+                    <p>{entry.body}</p>
+                    <span className="mt-1 block text-xs text-muted-foreground">
+                      {new Date(entry.createdAt).toLocaleString("tr-TR")}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-2xl border border-border/60 p-4">
+              <h4 className="font-semibold text-primary-deep">Durum geçmişi</h4>
+              <ol className="mt-3 space-y-3">
+                {data.history.map((entry) => (
+                  <li key={entry.id} className="border-l-2 border-primary/25 pl-3 text-sm">
+                    <strong className="text-primary-deep">
+                      {statusLabels[entry.to_status] ?? entry.to_status}
+                    </strong>
+                    <span className="block text-xs text-muted-foreground">
+                      {new Date(entry.created_at).toLocaleString("tr-TR")} · {entry.actor_type}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </>
+      )}
+    </section>
+  );
+}
+
+function InfoBox({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="rounded-xl bg-secondary/60 p-3">
+      <span className="text-xs text-muted-foreground">{label}</span>
+      <strong className="mt-1 block truncate text-sm text-primary-deep">{value}</strong>
+    </div>
   );
 }
 

@@ -94,6 +94,45 @@ export const getCommerceOrder = createServerFn({ method: "GET" })
     return result.data;
   });
 
+const orderStatus = z.enum([
+  "draft",
+  "awaiting_payment",
+  "payment_processing",
+  "paid",
+  "fulfilment_pending",
+  "fulfilled",
+  "cancelled",
+  "refunded",
+  "failed",
+]);
+
+export const updateCommerceOrderWorkflow = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    z
+      .object({
+        orderNumber: z.string().min(3).max(100),
+        nextStatus: orderStatus.nullable().default(null),
+        assignmentAction: z.enum(["keep", "set", "clear"]).default("keep"),
+        assignedTo: z.string().uuid().nullable().default(null),
+        note: z.string().trim().max(2000).nullable().default(null),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const result = await supabaseAdmin.rpc("admin_update_order_workflow", {
+      p_actor_id: context.userId,
+      p_order_number: data.orderNumber,
+      p_next_status: data.nextStatus,
+      p_assignment_action: data.assignmentAction,
+      p_assigned_to: data.assignedTo,
+      p_note: data.note,
+    });
+    if (result.error) throw new Error(result.error.message);
+    return { ok: true };
+  });
+
 export const adjustCommerceInventory = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .validator((input: unknown) =>
