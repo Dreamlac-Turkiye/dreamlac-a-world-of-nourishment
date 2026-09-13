@@ -13,6 +13,7 @@ import { IntegrationsSection } from "@/components/admin/IntegrationsSection";
 import { CommerceOperationsSection } from "@/components/admin/CommerceOperationsSection";
 import { UserManagementSection } from "@/components/admin/UserManagementSection";
 import { InventoryManagementSection } from "@/components/admin/InventoryManagementSection";
+import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
   head: () => ({
@@ -76,7 +77,7 @@ function AdminPage() {
   }
 
   return (
-    <main id="main" className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:py-16">
+    <main id="main" className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:py-16">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0">
           <h1 className="text-3xl font-semibold text-primary-deep sm:text-4xl">{tr.admin.title}</h1>
@@ -108,10 +109,17 @@ function AdminPage() {
           <p className="mt-8 rounded-2xl bg-champagne/25 p-4 text-sm leading-relaxed text-champagne-foreground/90">
             {tr.admin.responsibility}
           </p>
-          <CommerceOperationsSection />
-          <InventoryManagementSection />
-          <UserManagementSection />
-          <div className="mt-8 space-y-6">
+          <AdminWorkspaceNav />
+          <div id="operasyonlar">
+            <CommerceOperationsSection />
+          </div>
+          <div id="stok">
+            <InventoryManagementSection />
+          </div>
+          <div id="kullanicilar">
+            <UserManagementSection />
+          </div>
+          <div id="urunler" className="mt-8 scroll-mt-24 space-y-6">
             {settingsQuery.data?.map((row) => (
               <ProductSettingsForm
                 key={row.slug}
@@ -121,9 +129,13 @@ function AdminPage() {
             ))}
           </div>
 
-          <LegalDocumentsSection />
+          <div id="hukuk" className="scroll-mt-24">
+            <LegalDocumentsSection />
+          </div>
 
-          <IntegrationsSection />
+          <div id="entegrasyonlar" className="scroll-mt-24">
+            <IntegrationsSection />
+          </div>
         </>
       ) : (
         <div className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-6">

@@ -8,7 +8,7 @@ if (duplicates.length)
 
 const required = [
   "markets",
-  "orders",
+  "commerce_orders",
   "inventory",
   "payment_attempts",
   "outbox_events",
