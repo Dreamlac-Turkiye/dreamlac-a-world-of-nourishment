@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { BadgePercent, Pencil, Plus, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -63,9 +64,13 @@ export function PromotionsManagementSection() {
         />
       ) : null}
       {query.isLoading ? (
-        <p className="mt-5 text-sm text-muted-foreground">Kampanyalar yükleniyor…</p>
+        <AdminState kind="loading" message="Kampanyalar yükleniyor…" />
       ) : query.isError ? (
-        <p className="mt-5 text-sm text-destructive">Kampanyalar alınamadı.</p>
+        <AdminState
+          kind="error"
+          message="Kampanyalar alınamadı."
+          onRetry={() => void query.refetch()}
+        />
       ) : query.data?.length ? (
         <div className="mt-5 grid gap-3 lg:grid-cols-2">
           {query.data.map((item) => (
@@ -114,7 +119,7 @@ export function PromotionsManagementSection() {
           ))}
         </div>
       ) : (
-        <p className="mt-5 text-sm text-muted-foreground">Henüz kampanya tanımlanmadı.</p>
+        <AdminState kind="empty" message="Henüz kampanya tanımlanmadı." />
       )}
     </section>
   );
