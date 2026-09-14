@@ -165,16 +165,26 @@ function PromotionForm({
       minimum = Number(form.minimum.replace(",", ".")),
       maximum = form.maximum ? Number(form.maximum.replace(",", ".")) : null,
       total = form.totalLimit ? Number(form.totalLimit) : null,
-      customer = Number(form.customerLimit);
+      customer = Number(form.customerLimit),
+      startsAt = new Date(form.startsAt),
+      endsAt = new Date(form.endsAt);
     if (
+      !form.code.trim() ||
+      !form.name.trim() ||
       !Number.isFinite(discount) ||
       discount <= 0 ||
+      (form.discountType === "percentage" && discount > 100) ||
       !Number.isFinite(minimum) ||
       minimum < 0 ||
+      (maximum !== null && (!Number.isFinite(maximum) || maximum < 0)) ||
+      (total !== null && (!Number.isInteger(total) || total < 1)) ||
       !Number.isInteger(customer) ||
-      customer < 1
+      customer < 1 ||
+      Number.isNaN(startsAt.getTime()) ||
+      Number.isNaN(endsAt.getTime()) ||
+      endsAt <= startsAt
     ) {
-      toast.error("Kampanya değerlerini kontrol edin.");
+      toast.error("Kod, tutar ve tarihleri kontrol edin. Yüzde indirimi %100'ü geçemez.");
       return;
     }
     setBusy(true);
@@ -194,8 +204,8 @@ function PromotionForm({
           maximumDiscountMinor: maximum === null ? null : Math.round(maximum * 100),
           totalUsageLimit: total,
           perCustomerLimit: customer,
-          startsAt: new Date(form.startsAt).toISOString(),
-          endsAt: new Date(form.endsAt).toISOString(),
+          startsAt: startsAt.toISOString(),
+          endsAt: endsAt.toISOString(),
           active: form.active,
         },
       });
