@@ -5,6 +5,7 @@ import {
   FileCheck2,
   FileText,
   Gauge,
+  Globe2,
   Headphones,
   UserRound,
   PlugZap,
@@ -24,6 +25,7 @@ const sections = [
   { href: "#musteriler", label: "Müşteriler", icon: UserRound, permission: "customers.read" },
   { href: "#raporlar", label: "Raporlar", icon: BarChart3, permission: "reports.read" },
   { href: "#sistem", label: "Sistem sağlığı", icon: Siren, permission: "operations.read" },
+  { href: "#pazarlar", label: "Pazarlar", icon: Globe2, permission: "integrations.manage" },
   { href: "#urunler", label: "Ürünler", icon: SlidersHorizontal, permission: "catalog.manage" },
   { href: "#icerik", label: "İçerik", icon: FileText, permission: "content.manage" },
   {

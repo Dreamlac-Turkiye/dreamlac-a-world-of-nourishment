@@ -91,6 +91,29 @@ function AdminPreviewPage() {
         </p>
       </section>
 
+      <section
+        id="pazarlar"
+        className="mt-5 scroll-mt-24 rounded-[1.75rem] border border-border/70 bg-card p-5 sm:p-6"
+      >
+        <h2 className="text-xl font-semibold text-primary-deep">Ülke ve pazar şablonları</h2>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          <div className="rounded-2xl border p-4">
+            <strong>TR · Türkiye</strong>
+            <p className="mt-2 text-sm text-muted-foreground">dreamlac.com.tr · TRY · tr-TR</p>
+            <span className="mt-2 inline-block text-xs text-emerald-700">Etkin pazar</span>
+          </div>
+          <div className="rounded-2xl border p-4">
+            <strong>SA · Saudi Arabia</strong>
+            <p className="mt-2 text-sm text-muted-foreground">
+              dreamlac.com.sa · SAR · ar-SA, en-SA
+            </p>
+            <span className="mt-2 inline-block text-xs text-muted-foreground">
+              Hazırlık aşamasında
+            </span>
+          </div>
+        </div>
+      </section>
+
       <section id="genel-bakis" className="mt-8 scroll-mt-24">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {metrics.map(({ label, value, note, icon: Icon }) => (

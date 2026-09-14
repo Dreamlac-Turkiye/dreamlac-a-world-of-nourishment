@@ -24,6 +24,7 @@ import { AdminReportsSection } from "@/components/admin/AdminReportsSection";
 import { ContentManagementSection } from "@/components/admin/ContentManagementSection";
 import { LaunchReadinessSection } from "@/components/admin/LaunchReadinessSection";
 import { IncidentManagementSection } from "@/components/admin/IncidentManagementSection";
+import { MarketManagementSection } from "@/components/admin/MarketManagementSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -174,6 +175,7 @@ function AdminPage() {
           ) : null}
           {can("integrations.manage") ? (
             <div id="entegrasyonlar" className="scroll-mt-24">
+              <MarketManagementSection />
               <IntegrationsSection />
             </div>
           ) : null}
