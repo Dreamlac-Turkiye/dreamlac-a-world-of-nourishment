@@ -26,6 +26,7 @@ import { LaunchReadinessSection } from "@/components/admin/LaunchReadinessSectio
 import { IncidentManagementSection } from "@/components/admin/IncidentManagementSection";
 import { MarketManagementSection } from "@/components/admin/MarketManagementSection";
 import { AdminState } from "@/components/admin/AdminState";
+import { AdminAuditLogSection } from "@/components/admin/AdminAuditLogSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -162,6 +163,7 @@ function AdminPage() {
             </div>
           ) : null}
           {can("reports.read") ? <AdminReportsSection /> : null}
+          {can("operations.read") ? <AdminAuditLogSection /> : null}
           {can("catalog.manage") ? (
             <div id="urunler" className="mt-8 scroll-mt-24 space-y-6">
               {settingsQuery.isLoading ? (

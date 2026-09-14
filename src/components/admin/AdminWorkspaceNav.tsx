@@ -1,5 +1,6 @@
 import {
   Boxes,
+  ClipboardList,
   BadgePercent,
   BarChart3,
   FileCheck2,
@@ -35,6 +36,7 @@ const sections = [
     permission: "promotions.manage",
   },
   { href: "#hukuk", label: "Hukuk", icon: FileCheck2, permission: "legal.manage" },
+  { href: "#denetim", label: "İşlem geçmişi", icon: ClipboardList, permission: "operations.read" },
   {
     href: "#entegrasyonlar",
     label: "Entegrasyonlar",
