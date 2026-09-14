@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { FileText, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -171,24 +172,33 @@ export function ContentManagementSection() {
         </form>
       ) : null}
       <div className="mt-5 space-y-2">
-        {q.data?.map((x) => (
-          <button
-            key={x.id}
-            onClick={() => open(x)}
-            className="flex w-full justify-between rounded-2xl border p-4 text-left"
-          >
-            <span>
-              <strong className="block text-primary-deep">{x.title}</strong>
-              <small className="text-muted-foreground">
-                /{x.slug} · v{x.version}
-              </small>
-            </span>
-            <span className="text-xs text-primary">{x.status}</span>
-          </button>
-        ))}
-        {!q.isLoading && !q.data?.length ? (
-          <p className="text-sm text-muted-foreground">Henüz içerik bulunmuyor.</p>
-        ) : null}
+        {q.isLoading ? (
+          <AdminState kind="loading" message="İçerikler yükleniyor…" />
+        ) : q.isError ? (
+          <AdminState
+            kind="error"
+            message="İçerik listesi alınamadı."
+            onRetry={() => void q.refetch()}
+          />
+        ) : q.data?.length ? (
+          q.data.map((x) => (
+            <button
+              key={x.id}
+              onClick={() => open(x)}
+              className="flex w-full justify-between rounded-2xl border p-4 text-left"
+            >
+              <span>
+                <strong className="block text-primary-deep">{x.title}</strong>
+                <small className="text-muted-foreground">
+                  /{x.slug} · v{x.version}
+                </small>
+              </span>
+              <span className="text-xs text-primary">{x.status}</span>
+            </button>
+          ))
+        ) : (
+          <AdminState kind="empty" message="Henüz içerik bulunmuyor." />
+        )}
       </div>
     </section>
   );
