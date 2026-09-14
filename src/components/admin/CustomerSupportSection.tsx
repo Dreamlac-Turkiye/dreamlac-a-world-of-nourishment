@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { Headphones, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { AdminState } from "@/components/admin/AdminState";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -74,9 +75,9 @@ export function CustomerSupportSection() {
         </Button>
       </form>
       {tickets.isLoading ? (
-        <p className="mt-5 text-sm text-muted-foreground">Destek kuyruğu yükleniyor…</p>
+        <AdminState kind="loading" message="Destek kuyruğu yükleniyor…" />
       ) : tickets.isError ? (
-        <p className="mt-5 text-sm text-destructive">Destek kuyruğu alınamadı.</p>
+        <AdminState kind="error" message="Destek kuyruğu alınamadı." onRetry={() => void tickets.refetch()} />
       ) : tickets.data?.length ? (
         <div className="mt-5 space-y-4">
           {tickets.data.map((ticket) => (
@@ -89,9 +90,7 @@ export function CustomerSupportSection() {
           ))}
         </div>
       ) : (
-        <p className="mt-5 text-sm text-muted-foreground">
-          Bu filtreyle eşleşen destek talebi bulunmuyor.
-        </p>
+        <AdminState kind="empty" message="Bu filtreyle eşleşen destek talebi bulunmuyor." />
       )}
     </section>
   );

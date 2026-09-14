@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { ChevronLeft, ChevronRight, Search, UserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AdminState } from "@/components/admin/AdminState";
 import { Input } from "@/components/ui/input";
 import {
   getAdminCustomer360,
@@ -56,13 +57,13 @@ export function CustomerProfilesSection() {
         </Button>
       </form>
       {customers.isLoading ? (
-        <p className="mt-5 text-sm text-muted-foreground">Müşteriler yükleniyor…</p>
+        <AdminState kind="loading" message="Müşteriler yükleniyor…" />
       ) : customers.isError ? (
-        <p className="mt-5 text-sm text-destructive">Müşteri listesi alınamadı.</p>
+        <AdminState kind="error" message="Müşteri listesi alınamadı." onRetry={() => void customers.refetch()} />
       ) : (
         <>
           <div className="mt-5 grid gap-3 lg:grid-cols-2">
-            {customers.data?.items.map((c) => (
+            {customers.data?.items.length ? customers.data.items.map((c) => (
               <button
                 type="button"
                 key={c.id}
@@ -81,7 +82,7 @@ export function CustomerProfilesSection() {
                   <Metric label="Açık destek" value={String(c.openTicketCount)} />
                 </div>
               </button>
-            ))}
+            )) : <AdminState kind="empty" message="Bu arama ile eşleşen müşteri bulunamadı." />}
           </div>
           <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
             <span>{customers.data?.total ?? 0} müşteri</span>

@@ -4,6 +4,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, Boxes, History, RefreshCw, Search } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { AdminState } from "@/components/admin/AdminState";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -57,9 +58,9 @@ export function InventoryManagementSection() {
       </div>
 
       {inventory.isLoading ? (
-        <p className="mt-5 text-sm text-muted-foreground">Stoklar yükleniyor…</p>
+        <AdminState kind="loading" message="Stoklar yükleniyor…" />
       ) : inventory.isError ? (
-        <p className="mt-5 text-sm text-destructive">Stok verileri alınamadı.</p>
+        <AdminState kind="error" message="Stok verileri alınamadı." onRetry={() => void inventory.refetch()} />
       ) : inventory.data?.length ? (
         <div className="mt-5 space-y-4">
           {inventory.data.map((item) => (
@@ -74,7 +75,7 @@ export function InventoryManagementSection() {
           ))}
         </div>
       ) : (
-        <p className="mt-5 text-sm text-muted-foreground">Tanımlı depo stoğu bulunamadı.</p>
+        <AdminState kind="empty" message="Tanımlı depo stoğu bulunamadı." />
       )}
 
       <div className="mt-8 border-t border-border/60 pt-6">
@@ -100,9 +101,9 @@ export function InventoryManagementSection() {
           </Button>
         </form>
         {movements.isLoading ? (
-          <p className="mt-4 text-sm text-muted-foreground">Hareketler yükleniyor…</p>
+          <AdminState kind="loading" message="Hareketler yükleniyor…" />
         ) : movements.isError ? (
-          <p className="mt-4 text-sm text-destructive">Stok hareketleri alınamadı.</p>
+          <AdminState kind="error" message="Stok hareketleri alınamadı." onRetry={() => void movements.refetch()} />
         ) : movements.data?.length ? (
           <div className="mt-4 divide-y divide-border/60 rounded-2xl border border-border/60 px-4">
             {movements.data.map((movement) => (
@@ -126,7 +127,7 @@ export function InventoryManagementSection() {
             ))}
           </div>
         ) : (
-          <p className="mt-4 text-sm text-muted-foreground">Kayıtlı stok hareketi bulunmuyor.</p>
+          <AdminState kind="empty" message="Kayıtlı stok hareketi bulunmuyor." />
         )}
       </div>
     </section>
