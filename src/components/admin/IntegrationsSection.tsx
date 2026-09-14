@@ -172,7 +172,7 @@ function IntegrationCard({
 
   async function onSave() {
     if (enabled && mode === "live") {
-      const confirmed = window.confirm("Bu sağlayıcı canlı moda geçirilecek. مفاتيح الإنتاج يجب أن تكون مضبوطة وآمنة. هل تريد المتابعة؟");
+      const confirmed = window.confirm("Bu sağlayıcı canlı moda geçirilecek. Üretim anahtarlarının güvenli ve doğru ayarlandığından emin olun. Devam edilsin mi?");
       if (!confirmed) return;
     }
     setBusy(true);
