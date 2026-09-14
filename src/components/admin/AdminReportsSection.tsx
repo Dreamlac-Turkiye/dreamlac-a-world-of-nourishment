@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { BarChart3, CalendarRange, Download, RefreshCw } from "lucide-react";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -135,12 +136,18 @@ export function AdminReportsSection({ preview = false }: { preview?: boolean }) 
         {preview ? <span className="mb-2 text-xs text-amber-700">Örnek veri</span> : null}
       </div>
       {query.isLoading && !preview ? (
-        <p className="mt-5 text-sm text-muted-foreground">Rapor hazırlanıyor…</p>
+        <AdminState kind="loading" message="Rapor hazırlanıyor…" />
       ) : query.isError && !preview ? (
-        <p className="mt-5 text-sm text-destructive">Rapor alınamadı.</p>
+        <AdminState
+          kind="error"
+          message="Rapor alınamadı."
+          onRetry={() => void query.refetch()}
+        />
       ) : data ? (
         <ReportBody data={data} />
-      ) : null}
+      ) : (
+        <AdminState kind="empty" message="Seçilen tarih aralığında rapor verisi bulunmuyor." />
+      )
     </section>
   );
 }

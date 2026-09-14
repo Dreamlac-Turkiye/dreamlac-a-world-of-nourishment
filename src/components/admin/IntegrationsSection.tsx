@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -77,7 +78,15 @@ export function IntegrationsSection() {
       </p>
 
       {settingsQuery.isLoading ? (
-        <p className="mt-8 text-sm text-muted-foreground">{tr.states.loading}</p>
+        <AdminState kind="loading" message={tr.states.loading} />
+      ) : settingsQuery.isError ? (
+        <AdminState
+          kind="error"
+          message="Entegrasyon ayarları yüklenemedi."
+          onRetry={() => void settingsQuery.refetch()}
+        />
+      ) : rows.length === 0 ? (
+        <AdminState kind="empty" message="Henüz entegrasyon ayarı tanımlanmadı." />
       ) : (
         CATEGORY_ORDER.map((category) => {
           const categoryRows = rows.filter((row) => row.category === category);
@@ -117,9 +126,15 @@ export function IntegrationsSection() {
           POST /api/public/kargo-durum
         </p>
         <p className="mt-3 text-xs text-muted-foreground">
-          {webhookQuery.data?.ready
-            ? tr.admin.integrations.webhookReady
-            : tr.admin.integrations.webhookPending}
+          {webhookQuery.isLoading ? (
+            tr.states.loading
+          ) : webhookQuery.isError ? (
+            "Webhook durumu alınamadı."
+          ) : webhookQuery.data?.ready ? (
+            tr.admin.integrations.webhookReady
+          ) : (
+            tr.admin.integrations.webhookPending
+          )}
           {webhookQuery.data ? ` — ${webhookQuery.data.secretName}` : ""}
         </p>
       </article>
