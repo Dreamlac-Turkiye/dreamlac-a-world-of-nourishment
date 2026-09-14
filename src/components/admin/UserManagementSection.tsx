@@ -71,6 +71,10 @@ export function UserManagementSection() {
   }
 
   async function toggleRole(userId: string, role: AppRole, enabled: boolean) {
+    if (!enabled) {
+      const confirmed = window.confirm("Bu rol kaldırılacak ve ilgili yetkiler hemen kapanacak. Devam edilsin mi?");
+      if (!confirmed) return;
+    }
     if (role === "admin" && enabled) {
       const confirmed = window.confirm(
         "Bu kullanıcı tüm yönetim yetkilerine sahip olacak. Devam etmek istiyor musunuz?",
