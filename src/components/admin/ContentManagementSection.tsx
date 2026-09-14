@@ -8,6 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+const slugify = (value: string) =>
+  value
+    .toLocaleLowerCase("tr-TR")
+    .normalize("NFKD")
+    .replace(/[^\\p{L}\\p{N}\\s-]/gu, "")
+    .trim()
+    .replace(/\\s+/g, "-")
+    .replace(/-+/g, "-");
+
 import {
   listAdminContent,
   saveAdminContent,
@@ -58,7 +67,7 @@ export function ContentManagementSection() {
           market: "TR",
           locale: "tr-TR",
           contentType: "article",
-          slug: f.slug,
+          slug: slugify(f.slug),
           title: f.title,
           excerpt: f.excerpt,
           body: f.body,
@@ -112,7 +121,8 @@ export function ContentManagementSection() {
           <F l="URL adı">
             <Input
               value={f.slug}
-              onChange={(e) => setF({ ...f, slug: e.target.value.toLowerCase() })}
+              onChange={(e) => setF({ ...f, slug: slugify(e.target.value) })}
+              maxLength={120}
               required
             />
           </F>
