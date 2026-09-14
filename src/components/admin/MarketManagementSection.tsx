@@ -4,6 +4,7 @@ import { Globe2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { AdminState } from "@/components/admin/AdminState";
 import {
   listAdminMarkets,
   updateAdminMarket,
@@ -25,10 +26,20 @@ export function MarketManagementSection() {
         Her ülkenin alan adı, dili, para birimi ve yayın durumu ayrı tutulur.
       </p>
       <div className="mt-5 space-y-4">
+        {q.isLoading ? <AdminState kind="loading" message="Pazarlar yükleniyor…" /> : null}
+        {q.isError ? (
+          <AdminState
+            kind="error"
+            message="Pazarlar yüklenemedi."
+            onRetry={() => void q.refetch()}
+          />
+        ) : null}
+        {!q.isLoading && !q.isError && !q.data?.length ? (
+          <AdminState kind="empty" message="Henüz pazar tanımlanmamış." />
+        ) : null}
         {q.data?.map((x) => (
           <MarketCard key={x.id} market={x} saved={() => void q.refetch()} />
         ))}
-        {q.isLoading ? <p className="text-sm text-muted-foreground">Pazarlar yükleniyor…</p> : null}
       </div>
     </section>
   );

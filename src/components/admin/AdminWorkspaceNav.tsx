@@ -46,7 +46,7 @@ const sections = [
 export function AdminWorkspaceNav({ permissions }: { permissions: string[] }) {
   const visibleSections = sections.filter((section) => permissions.includes(section.permission));
   return (
-    <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-primary/15 bg-primary-deep text-white shadow-[var(--shadow-lifted)]">
+    <section className="mt-8 overflow-hidden rounded-[1.75rem] border border-primary/15 bg-primary-deep text-white shadow-[var(--shadow-lifted)] lg:sticky lg:top-6 lg:z-10">
       <div className="grid gap-5 px-5 py-6 sm:px-7 lg:grid-cols-[1fr_auto] lg:items-end">
         <div>
           <span className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/65">

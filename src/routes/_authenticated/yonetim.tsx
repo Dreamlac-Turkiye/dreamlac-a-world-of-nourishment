@@ -25,6 +25,7 @@ import { ContentManagementSection } from "@/components/admin/ContentManagementSe
 import { LaunchReadinessSection } from "@/components/admin/LaunchReadinessSection";
 import { IncidentManagementSection } from "@/components/admin/IncidentManagementSection";
 import { MarketManagementSection } from "@/components/admin/MarketManagementSection";
+import { AdminState } from "@/components/admin/AdminState";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -115,7 +116,17 @@ function AdminPage() {
       </div>
 
       {roleQuery.isLoading ? (
-        <p className="mt-10 text-sm text-muted-foreground">{tr.states.loading}</p>
+        <div className="mt-10">
+          <AdminState kind="loading" message={tr.states.loading} />
+        </div>
+      ) : roleQuery.isError ? (
+        <div className="mt-10">
+          <AdminState
+            kind="error"
+            message="Yönetim erişimi yüklenemedi."
+            onRetry={() => void roleQuery.refetch()}
+          />
+        </div>
       ) : roleQuery.data?.active ? (
         <AdminMfaGate>
           <p className="mt-8 rounded-2xl bg-champagne/25 p-4 text-sm leading-relaxed text-champagne-foreground/90">
