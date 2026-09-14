@@ -7,7 +7,7 @@ import {
   mockQualityItems,
   mockTrustItems,
 } from "@/data/mock/content";
-import { mockProducts } from "@/data/mock/products";
+import { catalogProducts } from "@/data/catalog/products";
 import { listProductSettings, type ProductSettingRecord } from "@/lib/product-settings.functions";
 import type {
   Article,
@@ -27,7 +27,7 @@ import type {
  */
 
 /**
- * Ürünün onaylı katalog metinleri mock veriden gelir; ticari alanlar
+ * Ürünün onaylı katalog metinleri katalog kaynağından gelir; ticari alanlar
  * (fiyat, gramaj, bileşen listesi, stok, satış durumu) yönetim panelinden
  * girilen kayıtlarla birleştirilir. Yönetimde veri yoksa alan boş kalır.
  */
@@ -47,11 +47,11 @@ function mergeSettings(product: Product, setting?: ProductSettingRecord): Produc
 export async function getProducts(): Promise<Product[]> {
   const settings = await listProductSettings();
   const bySlug = new Map(settings.map((s) => [s.slug, s]));
-  return mockProducts.map((product) => mergeSettings(product, bySlug.get(product.slug)));
+  return catalogProducts.map((product) => mergeSettings(product, bySlug.get(product.slug)));
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
-  const product = mockProducts.find((p) => p.slug === slug);
+  const product = catalogProducts.find((p) => p.slug === slug);
   if (!product) return null;
   const settings = await listProductSettings();
   return mergeSettings(
