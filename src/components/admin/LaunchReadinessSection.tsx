@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { CheckCircle2, CircleAlert, Rocket } from "lucide-react";
 import { toast } from "sonner";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import {
   getLaunchReadiness,
@@ -66,7 +67,13 @@ export function LaunchReadinessSection({ preview = false }: { preview?: boolean 
         ) : null}
       </div>
       {q.isLoading && !preview ? (
-        <p className="mt-5 text-sm text-muted-foreground">Kontroller çalıştırılıyor…</p>
+        <AdminState kind="loading" message="Kontroller çalıştırılıyor…" />
+      ) : q.isError && !preview ? (
+        <AdminState
+          kind="error"
+          message="Yayına hazırlık kontrolleri alınamadı."
+          onRetry={() => void q.refetch()}
+        />
       ) : data ? (
         <>
           <div className="mt-5 grid gap-2 sm:grid-cols-2">

@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Siren, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -122,28 +123,37 @@ export function IncidentManagementSection() {
         </form>
       ) : null}
       <div className="mt-5 space-y-2">
-        {q.data?.map((x) => (
-          <button
-            key={x.id}
-            onClick={() => open(x)}
-            className="flex w-full items-center justify-between rounded-2xl border p-4 text-left"
-          >
-            <span>
-              <strong className="block text-primary-deep">{x.title}</strong>
-              <small className="text-muted-foreground">
-                {x.source} · {new Date(x.updatedAt).toLocaleString("tr-TR")}
-              </small>
-            </span>
-            <span
-              className={`rounded-full px-2 py-1 text-xs ${x.severity === "critical" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"}`}
+        {q.isLoading ? (
+          <AdminState kind="loading" message="Olay kayıtları yükleniyor…" />
+        ) : q.isError ? (
+          <AdminState
+            kind="error"
+            message="Olay kayıtları alınamadı."
+            onRetry={() => void q.refetch()}
+          />
+        ) : q.data?.length ? (
+          q.data.map((x) => (
+            <button
+              key={x.id}
+              onClick={() => open(x)}
+              className="flex w-full items-center justify-between rounded-2xl border p-4 text-left"
             >
-              {x.severity} · {x.status}
-            </span>
-          </button>
-        ))}
-        {!q.isLoading && !q.data?.length ? (
-          <p className="text-sm text-emerald-700">Açık operasyon olayı bulunmuyor.</p>
-        ) : null}
+              <span>
+                <strong className="block text-primary-deep">{x.title}</strong>
+                <small className="text-muted-foreground">
+                  {x.source} · {new Date(x.updatedAt).toLocaleString("tr-TR")}
+                </small>
+              </span>
+              <span
+                className={`rounded-full px-2 py-1 text-xs ${x.severity === "critical" ? "bg-red-100 text-red-800" : "bg-amber-100 text-amber-800"}`}
+              >
+                {x.severity} · {x.status}
+              </span>
+            </button>
+          ))
+        ) : (
+          <AdminState kind="empty" message="Açık operasyon olayı bulunmuyor." />
+        )}
       </div>
     </section>
   );
