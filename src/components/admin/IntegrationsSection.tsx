@@ -171,6 +171,10 @@ function IntegrationCard({
   const [testing, setTesting] = useState(false);
 
   async function onSave() {
+    if (enabled && mode === "live") {
+      const confirmed = window.confirm("Bu sağlayıcı canlı moda geçirilecek. مفاتيح الإنتاج يجب أن تكون مضبوطة وآمنة. هل تريد المتابعة؟");
+      if (!confirmed) return;
+    }
     setBusy(true);
     try {
       const { data: userData } = await supabase.auth.getUser();
