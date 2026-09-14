@@ -37,9 +37,73 @@ const inventoryItem = z.object({
   reserved: z.number().int(),
   available: z.number().int(),
   updatedAt: z.string(),
+  reorderPoint: z.number().int(),
+  lowStock: z.boolean(),
 });
 
 export type AdminInventoryItem = z.infer<typeof inventoryItem>;
+
+const inventoryMovement = z.object({
+  id: z.string().uuid(),
+  operationType: z.string(),
+  quantityDelta: z.number().int(),
+  reason: z.string(),
+  createdAt: z.string(),
+  sku: z.string(),
+  productName: z.string(),
+  warehouseName: z.string(),
+});
+export type AdminInventoryMovement = z.infer<typeof inventoryMovement>;
+
+export const listInventoryMovements = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    z.object({ query: z.string().trim().max(200).default("") }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const result = await supabaseAdmin.rpc("admin_list_inventory_movements", {
+      p_actor_id: context.userId,
+      p_market_code: "TR",
+      p_query: data.query || null,
+      p_limit: 50,
+    });
+    if (result.error) throw new Error(result.error.message);
+    return z.array(inventoryMovement).parse(result.data);
+  });
+
+export const recordInventoryOperation = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .validator((input: unknown) =>
+    z
+      .object({
+        warehouseId: z.string().uuid(),
+        variantId: z.string().uuid(),
+        operationType: z.enum(["receipt", "adjustment", "count", "return", "damage"]),
+        quantity: z.number().int(),
+        reason: z.string().trim().min(3).max(500),
+        reorderPoint: z.number().int().min(0),
+        idempotencyKey: z.string().min(16).max(200),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    assertStaffMfa(context);
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const result = await supabaseAdmin.rpc("admin_record_inventory_operation", {
+      p_actor_id: context.userId,
+      p_warehouse_id: data.warehouseId,
+      p_variant_id: data.variantId,
+      p_operation_type: data.operationType,
+      p_quantity: data.quantity,
+      p_reason: data.reason,
+      p_reorder_point: data.reorderPoint,
+      p_idempotency_key: data.idempotencyKey,
+    });
+    if (result.error) throw new Error(result.error.message);
+    return result.data;
+  });
 
 export const listCommerceInventory = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
