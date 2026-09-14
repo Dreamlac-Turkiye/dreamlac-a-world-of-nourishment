@@ -19,6 +19,7 @@ import { AdminOverviewSection } from "@/components/admin/AdminOverviewSection";
 import { AdminMfaGate } from "@/components/admin/AdminMfaGate";
 import { CustomerSupportSection } from "@/components/admin/CustomerSupportSection";
 import { CustomerProfilesSection } from "@/components/admin/CustomerProfilesSection";
+import { PromotionsManagementSection } from "@/components/admin/PromotionsManagementSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -151,6 +152,11 @@ function AdminPage() {
                   onSaved={() => void settingsQuery.refetch()}
                 />
               ))}
+            </div>
+          ) : null}
+          {can("promotions.manage") ? (
+            <div id="kampanyalar">
+              <PromotionsManagementSection />
             </div>
           ) : null}
           {can("legal.manage") ? (

@@ -507,6 +507,38 @@ export type Database = {
         Returns: Json;
       };
       admin_get_customer_360: { Args: { p_actor_id: string; p_user_id: string }; Returns: Json };
+      admin_list_promotions: {
+        Args: { p_actor_id: string; p_market_code?: string };
+        Returns: Json;
+      };
+      admin_upsert_promotion: {
+        Args: {
+          p_actor_id: string;
+          p_id: string | null;
+          p_market_code: string;
+          p_code: string;
+          p_name: string;
+          p_discount_type: string;
+          p_discount_value: number;
+          p_minimum_subtotal_minor: number;
+          p_maximum_discount_minor: number | null;
+          p_total_usage_limit: number | null;
+          p_per_customer_limit: number;
+          p_starts_at: string;
+          p_ends_at: string;
+          p_active: boolean;
+        };
+        Returns: string;
+      };
+      quote_promotion: {
+        Args: {
+          p_market_code: string;
+          p_code: string;
+          p_subtotal_minor: number;
+          p_customer_email?: string | null;
+        };
+        Returns: Json;
+      };
       customer_get_commerce_order: {
         Args: { p_order_number: string; p_user_id: string };
         Returns: Json;
