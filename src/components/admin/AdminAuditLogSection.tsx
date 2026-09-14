@@ -4,9 +4,10 @@ import { AdminState } from "@/components/admin/AdminState";
 import { listAdminAuditEvents } from "@/lib/admin-audit.functions";
 
 export function AdminAuditLogSection() {
+  const load = useServerFn(listAdminAuditEvents);
   const query = useQuery({
     queryKey: ["admin", "audit-events"],
-    queryFn: () => useServerFn(listAdminAuditEvents)({ data: { limit: 50 } }),
+    queryFn: () => load({ data: { limit: 50 } }),
   });
 
   return (
