@@ -25,4 +25,5 @@ jobs:
       - run: bun run check:commerce
       - run: bun run check:release
       - run: bun run typecheck
+      - run: bun run lint
       - run: bun run build
