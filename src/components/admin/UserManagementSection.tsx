@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { Search, ShieldCheck, UserPlus, Users } from "lucide-react";
 import { toast } from "sonner";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -191,9 +192,13 @@ export function UserManagementSection() {
       </form>
 
       {users.isLoading ? (
-        <p className="mt-5 text-sm text-muted-foreground">Kullanıcılar yükleniyor…</p>
+        <AdminState kind="loading" message="Kullanıcılar yükleniyor…" />
       ) : users.isError ? (
-        <p className="mt-5 text-sm text-destructive">Kullanıcı listesi alınamadı.</p>
+        <AdminState
+          kind="error"
+          message="Kullanıcı listesi alınamadı."
+          onRetry={() => void users.refetch()}
+        />
       ) : users.data?.length ? (
         <div className="mt-5 space-y-3">
           {users.data.map((user) => (
@@ -289,7 +294,7 @@ export function UserManagementSection() {
           ))}
         </div>
       ) : (
-        <p className="mt-5 text-sm text-muted-foreground">Eşleşen kullanıcı bulunamadı.</p>
+        <AdminState kind="empty" message="Eşleşen kullanıcı bulunamadı." />
       )}
       <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
         Güvenlik: Pasifleştirilen görev tüm bölüm yetkilerini hemen kapatır. Son yönetici ve korunan
