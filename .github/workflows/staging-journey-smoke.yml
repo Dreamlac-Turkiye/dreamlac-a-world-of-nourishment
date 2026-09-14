@@ -1,0 +1,19 @@
+name: Staging journey smoke
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: dreamlac-staging-journey-smoke
+  cancel-in-progress: false
+jobs:
+  journey:
+    environment: staging
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/staging-journey-smoke.mjs
+        env:
+          STAGING_BASE_URL: ${{ secrets.STAGING_BASE_URL }}
+          ALLOW_STAGING_TEST: "true"
