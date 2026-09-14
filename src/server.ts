@@ -63,7 +63,21 @@ export default {
     const requestId = request.headers.get("x-request-id") ?? crypto.randomUUID();
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set("x-request-id", requestId);
-    const tracedRequest = new Request(request, { headers: requestHeaders });
+    // Lovable's Vite preview and Node may provide Request objects from different
+    // undici realms. Passing that object directly to another Request constructor
+    // accesses incompatible private fields and crashes SSR. Rebuild from public
+    // primitives instead, preserving the streaming body for non-GET requests.
+    const requestInit: RequestInit & { duplex?: "half" } = {
+      method: request.method,
+      headers: requestHeaders,
+      redirect: request.redirect,
+      signal: request.signal,
+    };
+    if (request.method !== "GET" && request.method !== "HEAD") {
+      requestInit.body = request.body;
+      requestInit.duplex = "half";
+    }
+    const tracedRequest = new Request(request.url, requestInit);
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(tracedRequest, env, ctx);
