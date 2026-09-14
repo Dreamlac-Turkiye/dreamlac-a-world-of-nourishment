@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 import { supabase } from "@/integrations/supabase/client";
 import { AccountDetails } from "@/components/account/AccountDetails";
+import { SupportCenter } from "@/components/account/SupportCenter";
 
 export const Route = createFileRoute("/_authenticated/hesabim")({
   head: () => ({
@@ -84,6 +85,7 @@ function AccountPage() {
         ) : null}
       </div>
       <AccountDetails />
+      <SupportCenter />
     </main>
   );
 }

@@ -471,6 +471,37 @@ export type Database = {
         Args: { p_address_id: string; p_user_id: string };
         Returns: undefined;
       };
+      customer_create_support_ticket: {
+        Args: {
+          p_user_id: string;
+          p_subject: string;
+          p_category: string;
+          p_body: string;
+          p_order_number?: string | null;
+        };
+        Returns: string;
+      };
+      customer_list_support_tickets: { Args: { p_user_id: string }; Returns: Json };
+      customer_reply_support_ticket: {
+        Args: { p_user_id: string; p_ticket_number: string; p_body: string };
+        Returns: undefined;
+      };
+      admin_list_support_tickets: {
+        Args: { p_actor_id: string; p_query?: string | null; p_status?: string | null };
+        Returns: Json;
+      };
+      admin_update_support_ticket: {
+        Args: {
+          p_actor_id: string;
+          p_ticket_id: string;
+          p_status: string;
+          p_priority: string;
+          p_assigned_to: string | null;
+          p_message: string;
+          p_internal?: boolean;
+        };
+        Returns: undefined;
+      };
       customer_get_commerce_order: {
         Args: { p_order_number: string; p_user_id: string };
         Returns: Json;

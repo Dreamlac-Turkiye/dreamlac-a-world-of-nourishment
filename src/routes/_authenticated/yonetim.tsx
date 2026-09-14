@@ -17,6 +17,7 @@ import { InventoryManagementSection } from "@/components/admin/InventoryManageme
 import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
 import { AdminOverviewSection } from "@/components/admin/AdminOverviewSection";
 import { AdminMfaGate } from "@/components/admin/AdminMfaGate";
+import { CustomerSupportSection } from "@/components/admin/CustomerSupportSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -128,6 +129,11 @@ function AdminPage() {
           {can("users.manage") ? (
             <div id="kullanicilar">
               <UserManagementSection />
+            </div>
+          ) : null}
+          {can("support.manage") ? (
+            <div id="destek">
+              <CustomerSupportSection />
             </div>
           ) : null}
           {can("catalog.manage") ? (
