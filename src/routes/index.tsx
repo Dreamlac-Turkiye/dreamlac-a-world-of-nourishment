@@ -13,7 +13,7 @@ import { TrustSection } from "@/components/home/TrustSection";
 
 const title = "Dreamlac | Bebek ve Devam Sütleri";
 const description =
-  "Dreamlac 1, Dreamlac 2 ve Dreamlac 3 ürünlerini inceleyin. Kulalac’ın Türkiye’deki üretim yaklaşımı, kalite süreçleri ve ürün bilgileri hakkında bilgi edinin.";
+  "Dreamlac 1, Dreamlac 2 ve Dreamlac 3 ürünlerini inceleyin. Dreamlac’ın kalite yaklaşımı ve ürün bilgileri hakkında bilgi edinin.";
 
 export const Route = createFileRoute("/")({
   head: () => ({
