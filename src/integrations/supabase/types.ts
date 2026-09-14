@@ -502,6 +502,11 @@ export type Database = {
         };
         Returns: undefined;
       };
+      admin_search_customers: {
+        Args: { p_actor_id: string; p_query?: string | null; p_limit?: number; p_offset?: number };
+        Returns: Json;
+      };
+      admin_get_customer_360: { Args: { p_actor_id: string; p_user_id: string }; Returns: Json };
       customer_get_commerce_order: {
         Args: { p_order_number: string; p_user_id: string };
         Returns: Json;

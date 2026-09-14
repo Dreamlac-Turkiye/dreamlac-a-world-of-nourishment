@@ -18,6 +18,7 @@ import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
 import { AdminOverviewSection } from "@/components/admin/AdminOverviewSection";
 import { AdminMfaGate } from "@/components/admin/AdminMfaGate";
 import { CustomerSupportSection } from "@/components/admin/CustomerSupportSection";
+import { CustomerProfilesSection } from "@/components/admin/CustomerProfilesSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -134,6 +135,11 @@ function AdminPage() {
           {can("support.manage") ? (
             <div id="destek">
               <CustomerSupportSection />
+            </div>
+          ) : null}
+          {can("customers.read") ? (
+            <div id="musteriler">
+              <CustomerProfilesSection />
             </div>
           ) : null}
           {can("catalog.manage") ? (

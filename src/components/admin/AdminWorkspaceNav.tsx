@@ -3,6 +3,7 @@ import {
   FileCheck2,
   Gauge,
   Headphones,
+  UserRound,
   PlugZap,
   ShoppingBag,
   SlidersHorizontal,
@@ -15,6 +16,7 @@ const sections = [
   { href: "#stok", label: "Stok", icon: Boxes, permission: "inventory.manage" },
   { href: "#kullanicilar", label: "Kullanıcılar", icon: Users, permission: "users.manage" },
   { href: "#destek", label: "Müşteri desteği", icon: Headphones, permission: "support.manage" },
+  { href: "#musteriler", label: "Müşteriler", icon: UserRound, permission: "customers.read" },
   { href: "#urunler", label: "Ürünler", icon: SlidersHorizontal, permission: "catalog.manage" },
   { href: "#hukuk", label: "Hukuk", icon: FileCheck2, permission: "legal.manage" },
   {
