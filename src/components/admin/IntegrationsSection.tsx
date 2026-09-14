@@ -115,6 +115,18 @@ export function IntegrationsSection() {
         })
       )}
 
+      {statusQuery.isError ? (
+        <div className="mt-8">
+          <AdminState
+            kind="error"
+            message="Sağlayıcı durumları alınamadı; ayarlar yine de düzenlenebilir."
+            onRetry={() => void statusQuery.refetch()}
+          />
+        </div>
+      ) : statusQuery.isLoading ? (
+        <p className="mt-8 text-sm text-muted-foreground">Sağlayıcı durumları kontrol ediliyor…</p>
+      ) : null}
+
       <article className="mt-10 rounded-[1.75rem] border border-border/70 bg-card p-5 shadow-[var(--shadow-soft)] sm:p-6">
         <h3 className="text-lg font-semibold text-primary-deep">
           {tr.admin.integrations.webhookTitle}
