@@ -30,6 +30,7 @@ import { Route as SiparisTakipRouteImport } from './routes/siparis-takip'
 import { Route as TeslimatPolitikasiRouteImport } from './routes/teslimat-politikasi'
 import { Route as TicariElektronikIletiOnayiRouteImport } from './routes/ticari-elektronik-ileti-onayi'
 import { Route as UyelikSozlesmesiRouteImport } from './routes/uyelik-sozlesmesi'
+import { Route as YonetimOnizlemeRouteImport } from './routes/yonetim-onizleme'
 import { Route as AuthenticatedHesabimRouteImport } from './routes/_authenticated/hesabim'
 import { Route as AuthenticatedYonetimRouteImport } from './routes/_authenticated/yonetim'
 import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
@@ -143,6 +144,11 @@ const UyelikSozlesmesiRoute = UyelikSozlesmesiRouteImport.update({
   path: '/uyelik-sozlesmesi',
   getParentRoute: () => rootRouteImport,
 } as any)
+const YonetimOnizlemeRoute = YonetimOnizlemeRouteImport.update({
+  id: '/yonetim-onizleme',
+  path: '/yonetim-onizleme',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedHesabimRoute = AuthenticatedHesabimRouteImport.update({
   id: '/hesabim',
   path: '/hesabim',
@@ -202,6 +208,7 @@ export interface FileRoutesByFullPath {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/yonetim-onizleme': typeof YonetimOnizlemeRoute
   '/hesabim': typeof AuthenticatedHesabimRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
@@ -231,6 +238,7 @@ export interface FileRoutesByTo {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/yonetim-onizleme': typeof YonetimOnizlemeRoute
   '/hesabim': typeof AuthenticatedHesabimRoute
   '/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
@@ -262,6 +270,7 @@ export interface FileRoutesById {
   '/teslimat-politikasi': typeof TeslimatPolitikasiRoute
   '/ticari-elektronik-ileti-onayi': typeof TicariElektronikIletiOnayiRoute
   '/uyelik-sozlesmesi': typeof UyelikSozlesmesiRoute
+  '/yonetim-onizleme': typeof YonetimOnizlemeRoute
   '/_authenticated/hesabim': typeof AuthenticatedHesabimRoute
   '/_authenticated/yonetim': typeof AuthenticatedYonetimRoute
   '/urunler/$slug': typeof UrunlerSlugRoute
@@ -293,6 +302,7 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/yonetim-onizleme'
     | '/hesabim'
     | '/yonetim'
     | '/urunler/$slug'
@@ -322,6 +332,7 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/yonetim-onizleme'
     | '/hesabim'
     | '/yonetim'
     | '/urunler/$slug'
@@ -352,6 +363,7 @@ export interface FileRouteTypes {
     | '/teslimat-politikasi'
     | '/ticari-elektronik-ileti-onayi'
     | '/uyelik-sozlesmesi'
+    | '/yonetim-onizleme'
     | '/_authenticated/hesabim'
     | '/_authenticated/yonetim'
     | '/urunler/$slug'
@@ -383,6 +395,7 @@ export interface RootRouteChildren {
   TeslimatPolitikasiRoute: typeof TeslimatPolitikasiRoute
   TicariElektronikIletiOnayiRoute: typeof TicariElektronikIletiOnayiRoute
   UyelikSozlesmesiRoute: typeof UyelikSozlesmesiRoute
+  YonetimOnizlemeRoute: typeof YonetimOnizlemeRoute
   UrunlerSlugRoute: typeof UrunlerSlugRoute
   UrunlerIndexRoute: typeof UrunlerIndexRoute
   ApiPublicKargoDurumRoute: typeof ApiPublicKargoDurumRoute
@@ -537,6 +550,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UyelikSozlesmesiRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/yonetim-onizleme': {
+      id: '/yonetim-onizleme'
+      path: '/yonetim-onizleme'
+      fullPath: '/yonetim-onizleme'
+      preLoaderRoute: typeof YonetimOnizlemeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/hesabim': {
       id: '/_authenticated/hesabim'
       path: '/hesabim'
@@ -629,6 +649,7 @@ const rootRouteChildren: RootRouteChildren = {
   TeslimatPolitikasiRoute: TeslimatPolitikasiRoute,
   TicariElektronikIletiOnayiRoute: TicariElektronikIletiOnayiRoute,
   UyelikSozlesmesiRoute: UyelikSozlesmesiRoute,
+  YonetimOnizlemeRoute: YonetimOnizlemeRoute,
   UrunlerSlugRoute: UrunlerSlugRoute,
   UrunlerIndexRoute: UrunlerIndexRoute,
   ApiPublicKargoDurumRoute: ApiPublicKargoDurumRoute,

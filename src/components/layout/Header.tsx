@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
+import { Gauge, Heart, Menu, Search, ShoppingBag, User, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { LogoPlaceholder } from "@/components/brand/LogoPlaceholder";
 import { Button } from "@/components/ui/button";
@@ -73,6 +73,16 @@ export function Header() {
         </nav>
 
         <div className="flex items-center justify-end gap-1">
+          <Button
+            asChild
+            variant="outline"
+            size="sm"
+            className="hidden rounded-full border-primary/25 text-primary-deep xl:inline-flex"
+          >
+            <Link to="/yonetim-onizleme">
+              <Gauge aria-hidden="true" /> Yönetim önizleme
+            </Link>
+          </Button>
           <Button
             asChild
             variant="ghost"
@@ -159,6 +169,11 @@ export function Header() {
               </Link>
             </Button>
           </div>
+          <Button asChild variant="secondary" className="mt-2 w-full rounded-full">
+            <Link to="/yonetim-onizleme" onClick={() => setOpen(false)}>
+              <Gauge aria-hidden="true" /> Yönetim paneli önizleme
+            </Link>
+          </Button>
         </nav>
       </div>
     </header>
