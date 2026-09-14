@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
+import { AdminReportsSection } from "@/components/admin/AdminReportsSection";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/yonetim-onizleme")({
@@ -30,6 +31,7 @@ const previewPermissions = [
   "users.manage",
   "support.manage",
   "customers.read",
+  "reports.read",
   "catalog.manage",
   "promotions.manage",
   "legal.manage",
@@ -175,6 +177,7 @@ function AdminPreviewPage() {
           text="Ortalama ilk yanıt"
         />
       </section>
+      <AdminReportsSection preview />
     </main>
   );
 }

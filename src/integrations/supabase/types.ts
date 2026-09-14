@@ -507,6 +507,15 @@ export type Database = {
         Returns: Json;
       };
       admin_get_customer_360: { Args: { p_actor_id: string; p_user_id: string }; Returns: Json };
+      admin_get_reports: {
+        Args: {
+          p_actor_id: string;
+          p_market_code?: string;
+          p_from_date?: string;
+          p_to_date?: string;
+        };
+        Returns: Json;
+      };
       admin_list_promotions: {
         Args: { p_actor_id: string; p_market_code?: string };
         Returns: Json;

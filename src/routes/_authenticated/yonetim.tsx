@@ -20,6 +20,7 @@ import { AdminMfaGate } from "@/components/admin/AdminMfaGate";
 import { CustomerSupportSection } from "@/components/admin/CustomerSupportSection";
 import { CustomerProfilesSection } from "@/components/admin/CustomerProfilesSection";
 import { PromotionsManagementSection } from "@/components/admin/PromotionsManagementSection";
+import { AdminReportsSection } from "@/components/admin/AdminReportsSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -143,6 +144,7 @@ function AdminPage() {
               <CustomerProfilesSection />
             </div>
           ) : null}
+          {can("reports.read") ? <AdminReportsSection /> : null}
           {can("catalog.manage") ? (
             <div id="urunler" className="mt-8 scroll-mt-24 space-y-6">
               {settingsQuery.data?.map((row) => (
