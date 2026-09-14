@@ -61,10 +61,11 @@ const previewReport: AdminReport = {
 export function AdminReportsSection({ preview = false }: { preview?: boolean }) {
   const load = useServerFn(getAdminReports);
   const [range, setRange] = useState({ from: monthAgo(), to: today() });
+  const validRange = range.from <= range.to;
   const query = useQuery({
     queryKey: ["admin", "reports", "TR", range],
     queryFn: () => load({ data: { market: "TR", fromDate: range.from, toDate: range.to } }),
-    enabled: !preview,
+    enabled: !preview && validRange,
   });
   const data = preview ? previewReport : query.data;
   function exportCsv() {
@@ -135,7 +136,9 @@ export function AdminReportsSection({ preview = false }: { preview?: boolean }) 
         />
         {preview ? <span className="mb-2 text-xs text-amber-700">Örnek veri</span> : null}
       </div>
-      {query.isLoading && !preview ? (
+      {!validRange && !preview ? (
+        <AdminState kind="error" message="Başlangıç tarihi bitiş tarihinden önce olmalıdır." />
+      ) : query.isLoading && !preview ? (
         <AdminState kind="loading" message="Rapor hazırlanıyor…" />
       ) : query.isError && !preview ? (
         <AdminState
