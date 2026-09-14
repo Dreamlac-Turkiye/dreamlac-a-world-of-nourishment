@@ -520,6 +520,20 @@ export type Database = {
         Args: { p_actor_id: string; p_market_code?: string };
         Returns: Json;
       };
+      admin_list_incidents: { Args: { p_actor_id: string; p_market_code?: string }; Returns: Json };
+      admin_save_incident: {
+        Args: {
+          p_actor_id: string;
+          p_incident_id: string | null;
+          p_market_code: string;
+          p_title: string;
+          p_severity: string;
+          p_status: string;
+          p_description: string;
+          p_note?: string | null;
+        };
+        Returns: string;
+      };
       admin_set_checkout_enabled: {
         Args: { p_actor_id: string; p_market_code: string; p_enabled: boolean };
         Returns: Json;

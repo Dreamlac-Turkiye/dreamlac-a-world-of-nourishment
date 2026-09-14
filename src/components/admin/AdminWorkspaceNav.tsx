@@ -10,6 +10,7 @@ import {
   PlugZap,
   ShoppingBag,
   SlidersHorizontal,
+  Siren,
   Users,
 } from "lucide-react";
 
@@ -22,6 +23,7 @@ const sections = [
   { href: "#destek", label: "Müşteri desteği", icon: Headphones, permission: "support.manage" },
   { href: "#musteriler", label: "Müşteriler", icon: UserRound, permission: "customers.read" },
   { href: "#raporlar", label: "Raporlar", icon: BarChart3, permission: "reports.read" },
+  { href: "#sistem", label: "Sistem sağlığı", icon: Siren, permission: "operations.read" },
   { href: "#urunler", label: "Ürünler", icon: SlidersHorizontal, permission: "catalog.manage" },
   { href: "#icerik", label: "İçerik", icon: FileText, permission: "content.manage" },
   {

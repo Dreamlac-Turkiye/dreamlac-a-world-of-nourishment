@@ -81,6 +81,15 @@ function AdminPreviewPage() {
 
       <AdminWorkspaceNav permissions={previewPermissions} />
       <LaunchReadinessSection preview />
+      <section
+        id="sistem"
+        className="mt-5 scroll-mt-24 rounded-[1.75rem] border border-border/70 bg-card p-5 sm:p-6"
+      >
+        <h2 className="text-xl font-semibold text-primary-deep">Sistem sağlığı ve olaylar</h2>
+        <p className="mt-2 text-sm text-emerald-700">
+          Tüm kritik servisler çalışıyor · Açık kritik olay yok
+        </p>
+      </section>
 
       <section id="genel-bakis" className="mt-8 scroll-mt-24">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
