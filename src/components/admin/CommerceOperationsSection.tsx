@@ -392,9 +392,13 @@ function OrderWorkspace({
       </div>
 
       {detail.isLoading ? (
-        <p className="mt-5 text-sm text-muted-foreground">Sipariş yükleniyor…</p>
-      ) : !data ? (
-        <p className="mt-5 text-sm text-destructive">Sipariş ayrıntısı alınamadı.</p>
+        <AdminState kind="loading" message="Sipariş yükleniyor…" />
+      ) : detail.isError || !data ? (
+        <AdminState
+          kind="error"
+          message="Sipariş ayrıntısı alınamadı."
+          onRetry={() => void detail.refetch()}
+        />
       ) : (
         <>
           <div className="mt-5 grid gap-3 sm:grid-cols-3">

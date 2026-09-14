@@ -112,9 +112,13 @@ export function CustomerProfilesSection() {
       {selected ? (
         <div className="mt-6 border-t border-border/60 pt-6">
           {detail.isLoading ? (
-            <p className="text-sm text-muted-foreground">Müşteri dosyası hazırlanıyor…</p>
+            <AdminState kind="loading" message="Müşteri dosyası hazırlanıyor…" />
           ) : detail.isError ? (
-            <p className="text-sm text-destructive">Müşteri dosyası alınamadı.</p>
+            <AdminState
+              kind="error"
+              message="Müşteri dosyası alınamadı."
+              onRetry={() => void detail.refetch()}
+            />
           ) : detail.data ? (
             <CustomerDetail data={detail.data} />
           ) : null}
