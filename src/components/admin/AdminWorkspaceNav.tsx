@@ -15,6 +15,7 @@ import {
 
 const sections = [
   { href: "#genel-bakis", label: "Genel bakış", icon: Gauge, permission: "operations.read" },
+  { href: "#lansman", label: "Yayına hazırlık", icon: Gauge, permission: "operations.read" },
   { href: "#operasyonlar", label: "Operasyonlar", icon: ShoppingBag, permission: "orders.read" },
   { href: "#stok", label: "Stok", icon: Boxes, permission: "inventory.manage" },
   { href: "#kullanicilar", label: "Kullanıcılar", icon: Users, permission: "users.manage" },

@@ -516,6 +516,14 @@ export type Database = {
         };
         Returns: Json;
       };
+      admin_launch_readiness: {
+        Args: { p_actor_id: string; p_market_code?: string };
+        Returns: Json;
+      };
+      admin_set_checkout_enabled: {
+        Args: { p_actor_id: string; p_market_code: string; p_enabled: boolean };
+        Returns: Json;
+      };
       admin_list_content: { Args: { p_actor_id: string; p_market_code?: string }; Returns: Json };
       admin_save_content: {
         Args: {

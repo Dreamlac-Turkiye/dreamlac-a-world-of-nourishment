@@ -1,0 +1,19 @@
+CREATE OR REPLACE FUNCTION public.admin_launch_readiness(p_actor_id uuid,p_market_code text DEFAULT 'TR') RETURNS jsonb LANGUAGE plpgsql STABLE SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE m public.markets%ROWTYPE; checks jsonb;ready boolean; BEGIN
+ IF NOT public.has_permission(p_actor_id,'operations.read') THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='FORBIDDEN';END IF;
+ SELECT * INTO m FROM public.markets WHERE code=upper(p_market_code);IF NOT FOUND THEN RAISE EXCEPTION USING ERRCODE='P0002',MESSAGE='MARKET_NOT_FOUND';END IF;
+ checks:=jsonb_build_array(
+  jsonb_build_object('key','company','label','Şirket ve vergi bilgileri','ready',EXISTS(SELECT 1 FROM public.legal_entities e WHERE e.market_id=m.id AND e.active AND e.tax_identifier IS NOT NULL AND e.registered_address<>'{}'::jsonb)),
+  jsonb_build_object('key','catalog','label','Ürün fiyatları ve yayın durumu','ready',(SELECT count(*)=3 AND bool_and(ml.sale_enabled AND ml.unit_price_minor>0 AND ml.published_at IS NOT NULL) FROM public.market_listings ml WHERE ml.market_id=m.id)),
+  jsonb_build_object('key','inventory','label','Satılabilir depo stoğu','ready',(SELECT count(DISTINCT b.variant_id)>=3 FROM public.inventory_balances b JOIN public.warehouses w ON w.id=b.warehouse_id WHERE w.market_id=m.id AND w.active AND b.on_hand-b.reserved>0)),
+  jsonb_build_object('key','legal','label','Zorunlu sözleşme onayları','ready',(SELECT count(*)=3 FROM public.legal_documents WHERE slug IN('mesafeli-satis-sozlesmesi','on-bilgilendirme-formu','kvkk') AND review_status='approved')),
+  jsonb_build_object('key','payment','label','Canlı ödeme sağlayıcısı','ready',EXISTS(SELECT 1 FROM public.integration_settings WHERE category='payment' AND enabled AND mode='live')),
+  jsonb_build_object('key','cargo','label','Canlı kargo sağlayıcısı','ready',EXISTS(SELECT 1 FROM public.integration_settings WHERE category='cargo' AND enabled AND mode='live')),
+  jsonb_build_object('key','invoice','label','Canlı fatura sağlayıcısı','ready',EXISTS(SELECT 1 FROM public.integration_settings WHERE category='invoice' AND enabled AND mode='live'))
+ );
+ SELECT bool_and((x->>'ready')::boolean) INTO ready FROM jsonb_array_elements(checks)x;
+ RETURN jsonb_build_object('market',m.code,'ready',coalesce(ready,false),'checkoutEnabled',coalesce((m.settings->>'checkout_enabled')::boolean,false),'checks',checks,'checkedAt',now());
+END $$;
+CREATE OR REPLACE FUNCTION public.admin_set_checkout_enabled(p_actor_id uuid,p_market_code text,p_enabled boolean) RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path=public,pg_temp AS $$
+DECLARE r jsonb;m_id uuid;BEGIN IF NOT public.has_permission(p_actor_id,'integrations.manage') THEN RAISE EXCEPTION USING ERRCODE='42501',MESSAGE='FORBIDDEN';END IF;r:=public.admin_launch_readiness(p_actor_id,p_market_code);IF p_enabled AND NOT(r->>'ready')::boolean THEN RAISE EXCEPTION USING ERRCODE='55000',MESSAGE='LAUNCH_REQUIREMENTS_INCOMPLETE';END IF;SELECT id INTO m_id FROM public.markets WHERE code=upper(p_market_code) FOR UPDATE;UPDATE public.markets SET settings=jsonb_set(jsonb_set(settings,'{providers_ready}',to_jsonb(p_enabled),true),'{checkout_enabled}',to_jsonb(p_enabled),true),updated_at=now() WHERE id=m_id;INSERT INTO public.audit_events(market_id,actor_id,actor_type,action,resource_type,resource_id,metadata)VALUES(m_id,p_actor_id,'admin','checkout.toggle','market',p_market_code,jsonb_build_object('enabled',p_enabled));RETURN public.admin_launch_readiness(p_actor_id,p_market_code);END $$;
+REVOKE ALL ON FUNCTION public.admin_launch_readiness(uuid,text),public.admin_set_checkout_enabled(uuid,text,boolean) FROM PUBLIC,anon,authenticated;GRANT EXECUTE ON FUNCTION public.admin_launch_readiness(uuid,text),public.admin_set_checkout_enabled(uuid,text,boolean) TO service_role;

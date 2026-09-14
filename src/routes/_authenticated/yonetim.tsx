@@ -22,6 +22,7 @@ import { CustomerProfilesSection } from "@/components/admin/CustomerProfilesSect
 import { PromotionsManagementSection } from "@/components/admin/PromotionsManagementSection";
 import { AdminReportsSection } from "@/components/admin/AdminReportsSection";
 import { ContentManagementSection } from "@/components/admin/ContentManagementSection";
+import { LaunchReadinessSection } from "@/components/admin/LaunchReadinessSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -120,6 +121,7 @@ function AdminPage() {
           </p>
           <AdminWorkspaceNav permissions={permissions} />
           {can("operations.read") ? <AdminOverviewSection /> : null}
+          {can("operations.read") ? <LaunchReadinessSection /> : null}
           {can("orders.read") ? (
             <div id="operasyonlar">
               <CommerceOperationsSection />

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { AdminWorkspaceNav } from "@/components/admin/AdminWorkspaceNav";
 import { AdminReportsSection } from "@/components/admin/AdminReportsSection";
+import { LaunchReadinessSection } from "@/components/admin/LaunchReadinessSection";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/yonetim-onizleme")({
@@ -79,6 +80,7 @@ function AdminPreviewPage() {
       </div>
 
       <AdminWorkspaceNav permissions={previewPermissions} />
+      <LaunchReadinessSection preview />
 
       <section id="genel-bakis" className="mt-8 scroll-mt-24">
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
