@@ -164,13 +164,25 @@ function AdminPage() {
           {can("reports.read") ? <AdminReportsSection /> : null}
           {can("catalog.manage") ? (
             <div id="urunler" className="mt-8 scroll-mt-24 space-y-6">
-              {settingsQuery.data?.map((row) => (
-                <ProductSettingsForm
-                  key={row.slug}
-                  row={row}
-                  onSaved={() => void settingsQuery.refetch()}
+              {settingsQuery.isLoading ? (
+                <AdminState kind="loading" message={tr.states.loading} />
+              ) : settingsQuery.isError ? (
+                <AdminState
+                  kind="error"
+                  message="Ürün ayarları yüklenemedi."
+                  onRetry={() => void settingsQuery.refetch()}
                 />
-              ))}
+              ) : settingsQuery.data?.length ? (
+                settingsQuery.data.map((row) => (
+                  <ProductSettingsForm
+                    key={row.slug}
+                    row={row}
+                    onSaved={() => void settingsQuery.refetch()}
+                  />
+                ))
+              ) : (
+                <AdminState kind="empty" message="Henüz ürün ayarı bulunmuyor." />
+              )
             </div>
           ) : null}
           {can("content.manage") ? <ContentManagementSection /> : null}
@@ -414,11 +426,19 @@ function LegalDocumentsSection() {
 
       <div className="mt-8 space-y-6">
         {legalQuery.isLoading ? (
-          <p className="text-sm text-muted-foreground">{tr.states.loading}</p>
-        ) : (
-          legalQuery.data?.map((row) => (
+          <AdminState kind="loading" message={tr.states.loading} />
+        ) : legalQuery.isError ? (
+          <AdminState
+            kind="error"
+            message="Belgeler yüklenemedi."
+            onRetry={() => void legalQuery.refetch()}
+          />
+        ) : legalQuery.data?.length ? (
+          legalQuery.data.map((row) => (
             <LegalDocumentForm key={row.slug} row={row} onSaved={() => void legalQuery.refetch()} />
           ))
+        ) : (
+          <AdminState kind="empty" message="Henüz yasal belge bulunmuyor." />
         )}
       </div>
     </section>
