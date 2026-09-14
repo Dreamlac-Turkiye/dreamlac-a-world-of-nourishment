@@ -516,6 +516,27 @@ export type Database = {
         };
         Returns: Json;
       };
+      admin_list_content: { Args: { p_actor_id: string; p_market_code?: string }; Returns: Json };
+      admin_save_content: {
+        Args: {
+          p_actor_id: string;
+          p_id: string | null;
+          p_market_code: string;
+          p_locale: string;
+          p_content_type: string;
+          p_slug: string;
+          p_title: string;
+          p_excerpt: string;
+          p_body: string;
+          p_category: string;
+          p_seo_title: string | null;
+          p_seo_description: string | null;
+          p_canonical_path: string | null;
+          p_cover_image_url: string | null;
+          p_status: string;
+        };
+        Returns: string;
+      };
       admin_list_promotions: {
         Args: { p_actor_id: string; p_market_code?: string };
         Returns: Json;

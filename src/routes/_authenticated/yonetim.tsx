@@ -21,6 +21,7 @@ import { CustomerSupportSection } from "@/components/admin/CustomerSupportSectio
 import { CustomerProfilesSection } from "@/components/admin/CustomerProfilesSection";
 import { PromotionsManagementSection } from "@/components/admin/PromotionsManagementSection";
 import { AdminReportsSection } from "@/components/admin/AdminReportsSection";
+import { ContentManagementSection } from "@/components/admin/ContentManagementSection";
 import { getCurrentStaffAccess } from "@/lib/admin-users.functions";
 
 export const Route = createFileRoute("/_authenticated/yonetim")({
@@ -156,6 +157,7 @@ function AdminPage() {
               ))}
             </div>
           ) : null}
+          {can("content.manage") ? <ContentManagementSection /> : null}
           {can("promotions.manage") ? (
             <div id="kampanyalar">
               <PromotionsManagementSection />

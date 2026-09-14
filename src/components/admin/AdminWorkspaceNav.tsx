@@ -3,6 +3,7 @@ import {
   BadgePercent,
   BarChart3,
   FileCheck2,
+  FileText,
   Gauge,
   Headphones,
   UserRound,
@@ -21,6 +22,7 @@ const sections = [
   { href: "#musteriler", label: "Müşteriler", icon: UserRound, permission: "customers.read" },
   { href: "#raporlar", label: "Raporlar", icon: BarChart3, permission: "reports.read" },
   { href: "#urunler", label: "Ürünler", icon: SlidersHorizontal, permission: "catalog.manage" },
+  { href: "#icerik", label: "İçerik", icon: FileText, permission: "content.manage" },
   {
     href: "#kampanyalar",
     label: "Kampanyalar",

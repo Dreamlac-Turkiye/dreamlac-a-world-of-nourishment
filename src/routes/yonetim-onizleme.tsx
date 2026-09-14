@@ -33,6 +33,7 @@ const previewPermissions = [
   "customers.read",
   "reports.read",
   "catalog.manage",
+  "content.manage",
   "promotions.manage",
   "legal.manage",
   "integrations.manage",
@@ -178,6 +179,32 @@ function AdminPreviewPage() {
         />
       </section>
       <AdminReportsSection preview />
+      <section
+        id="icerik"
+        className="mt-5 scroll-mt-24 rounded-[1.75rem] border border-border/70 bg-card p-5 sm:p-6"
+      >
+        <h2 className="text-xl font-semibold text-primary-deep">İçerik ve SEO</h2>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Taslak → inceleme → yayın akışı; SEO başlığı, meta açıklama ve içerik sürümleri.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <MiniPanel id="taslak" icon={PackageCheck} title="Taslak" value="6" text="Düzenleniyor" />
+          <MiniPanel
+            id="inceleme"
+            icon={AlertTriangle}
+            title="İncelemede"
+            value="2"
+            text="Onay bekliyor"
+          />
+          <MiniPanel
+            id="yayinda"
+            icon={TrendingUp}
+            title="Yayında"
+            value="18"
+            text="Türkiye içeriği"
+          />
+        </div>
+      </section>
     </main>
   );
 }
