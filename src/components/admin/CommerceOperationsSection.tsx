@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { AlertTriangle, ClipboardList, RefreshCw, X } from "lucide-react";
+import { AdminState } from "@/components/admin/AdminState";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -122,13 +123,15 @@ export function CommerceOperationsSection() {
       </form>
 
       {orders.isLoading ? (
-        <p className="mt-6 text-sm text-muted-foreground">Siparişler yükleniyor…</p>
+        <AdminState kind="loading" message="Siparişler yükleniyor…" />
       ) : orders.isError ? (
-        <p className="mt-6 flex items-center gap-2 text-sm text-destructive">
-          <AlertTriangle size={16} /> Sipariş verileri alınamadı.
-        </p>
+        <AdminState
+          kind="error"
+          message="Sipariş verileri alınamadı."
+          onRetry={() => void orders.refetch()}
+        />
       ) : orders.data?.items.length === 0 ? (
-        <p className="mt-6 text-sm text-muted-foreground">Henüz eşleşen sipariş yok.</p>
+        <AdminState kind="empty" message="Henüz eşleşen sipariş yok." />
       ) : (
         <div className="mt-6 overflow-x-auto">
           <table className="w-full min-w-[720px] text-left text-sm">

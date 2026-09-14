@@ -8,6 +8,7 @@ import {
   ShoppingCart,
   UserRoundPlus,
 } from "lucide-react";
+import { AdminState } from "@/components/admin/AdminState";
 import { getDashboardSummary } from "@/lib/operations.functions";
 import { formatTry } from "@/services/checkout";
 
@@ -32,22 +33,13 @@ export function AdminOverviewSection() {
 
   if (summary.isLoading) {
     return (
-      <section id="genel-bakis" className="mt-8 rounded-[1.75rem] border bg-card p-6">
-        <p className="text-sm text-muted-foreground">Operasyon özeti hazırlanıyor…</p>
-      </section>
+      <section id="genel-bakis" className="mt-8"><AdminState kind="loading" message="Operasyon özeti hazırlanıyor…" /></section>
     );
   }
 
   if (summary.isError || !summary.data) {
     return (
-      <section
-        id="genel-bakis"
-        className="mt-8 rounded-[1.75rem] border border-destructive/25 bg-card p-6"
-      >
-        <p className="flex items-center gap-2 text-sm text-destructive">
-          <AlertTriangle size={16} /> Operasyon özeti alınamadı.
-        </p>
-      </section>
+      <section id="genel-bakis" className="mt-8"><AdminState kind="error" message="Operasyon özeti alınamadı." onRetry={() => void summary.refetch()} /></section>
     );
   }
 
