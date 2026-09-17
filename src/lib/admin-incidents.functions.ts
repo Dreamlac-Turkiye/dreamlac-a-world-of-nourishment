@@ -47,7 +47,7 @@ export const saveAdminIncident = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const r = await supabaseAdmin.rpc("admin_save_incident", {
       p_actor_id: context.userId,
-      ...(data.id != null ? { p_incident_id: data.id } : {}),
+      p_incident_id: data.id!,
       p_market_code: data.market,
       p_title: data.title,
       p_severity: data.severity,

@@ -118,7 +118,7 @@ export const updateAdminSupportTicket = createServerFn({ method: "POST" })
       p_ticket_id: data.ticketId,
       p_status: data.status,
       p_priority: data.priority,
-      ...(data.assignedTo != null ? { p_assigned_to: data.assignedTo } : {}),
+      p_assigned_to: data.assignedTo!,
       p_message: data.message,
       p_internal: data.internal,
     });

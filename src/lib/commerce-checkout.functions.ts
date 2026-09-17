@@ -136,7 +136,7 @@ export const createCommerceCheckout = createServerFn({ method: "POST" })
     const privacyVersion = `kvkk:v${privacy}`;
     const { data: result, error } = await supabaseAdmin.rpc("create_commerce_checkout", {
       p_market_code: data.market,
-      ...(userId != null ? { p_user_id: userId } : {}),
+      p_user_id: userId!,
       p_customer_email: data.customer.email,
       p_customer_phone: data.customer.phone,
       p_billing_address: data.billingAddress,
