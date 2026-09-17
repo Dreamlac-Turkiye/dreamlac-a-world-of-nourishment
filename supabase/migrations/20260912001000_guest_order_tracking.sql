@@ -16,7 +16,7 @@ as $$
     'status', o.status,
     'createdAt', o.created_at,
     'updatedAt', o.updated_at,
-    'totalKurus', o.total_kurus,
+    'totalKurus', o.grand_total_minor,
     'itemCount', coalesce((select sum(oi.quantity) from public.commerce_order_items oi where oi.order_id = o.id), 0),
     'shipmentStatus', s.status,
     'carrierName', s.provider,
