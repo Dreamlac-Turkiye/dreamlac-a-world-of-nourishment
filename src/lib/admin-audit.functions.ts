@@ -32,12 +32,14 @@ export const listAdminAuditEvents = createServerFn({ method: "GET" })
       .order("created_at", { ascending: false })
       .limit(data.limit);
     if (result.error) throw new Error("AUDIT_LIST_FAILED");
-    return z.array(auditEvent).parse((result.data ?? []).map((row) => ({
-      id: row.id,
-      actorId: row.actor_id,
-      action: row.action,
-      tableName: row.table_name,
-      recordId: row.record_id,
-      createdAt: row.created_at,
-    })));
+    return z.array(auditEvent).parse(
+      (result.data ?? []).map((row) => ({
+        id: row.id,
+        actorId: row.actor_id,
+        action: row.action,
+        tableName: row.table_name,
+        recordId: row.record_id,
+        createdAt: row.created_at,
+      })),
+    );
   });
