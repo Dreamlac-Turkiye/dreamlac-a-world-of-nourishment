@@ -72,15 +72,15 @@ export const saveAdminPromotion = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_upsert_promotion", {
       p_actor_id: context.userId,
-      p_id: data.id,
+      p_id: data.id ?? undefined,
       p_market_code: data.market,
       p_code: data.code,
       p_name: data.name,
       p_discount_type: data.discountType,
       p_discount_value: data.discountValue,
       p_minimum_subtotal_minor: data.minimumSubtotalMinor,
-      p_maximum_discount_minor: data.maximumDiscountMinor,
-      p_total_usage_limit: data.totalUsageLimit,
+      p_maximum_discount_minor: data.maximumDiscountMinor ?? undefined,
+      p_total_usage_limit: data.totalUsageLimit ?? undefined,
       p_per_customer_limit: data.perCustomerLimit,
       p_starts_at: data.startsAt,
       p_ends_at: data.endsAt,

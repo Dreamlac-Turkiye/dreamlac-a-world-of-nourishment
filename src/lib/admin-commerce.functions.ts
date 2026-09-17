@@ -66,7 +66,7 @@ export const listInventoryMovements = createServerFn({ method: "GET" })
     const result = await supabaseAdmin.rpc("admin_list_inventory_movements", {
       p_actor_id: context.userId,
       p_market_code: "TR",
-      p_query: data.query || null,
+      p_query: data.query ?? undefined,
       p_limit: 50,
     });
     if (result.error) throw new Error(result.error.message);
@@ -138,8 +138,8 @@ export const searchCommerceOrders = createServerFn({ method: "GET" })
     const result = await supabaseAdmin.rpc("admin_search_orders", {
       p_actor_id: context.userId,
       p_market_code: data.market,
-      p_status: data.status ?? null,
-      p_query: data.query ?? null,
+      p_status: data.status ?? undefined,
+      p_query: data.query ?? undefined,
       p_limit: data.limit,
       p_offset: data.offset,
     });
@@ -192,10 +192,10 @@ export const updateCommerceOrderWorkflow = createServerFn({ method: "POST" })
     const result = await supabaseAdmin.rpc("admin_update_order_workflow", {
       p_actor_id: context.userId,
       p_order_number: data.orderNumber,
-      p_next_status: data.nextStatus,
+      p_next_status: data.nextStatus ?? undefined,
       p_assignment_action: data.assignmentAction,
-      p_assigned_to: data.assignedTo,
-      p_note: data.note,
+      p_assigned_to: data.assignedTo ?? undefined,
+      p_note: data.note ?? undefined,
     });
     if (result.error) throw new Error(result.error.message);
     return { ok: true };
