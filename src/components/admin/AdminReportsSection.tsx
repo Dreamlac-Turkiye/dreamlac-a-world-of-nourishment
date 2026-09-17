@@ -150,7 +150,7 @@ export function AdminReportsSection({ preview = false }: { preview?: boolean }) 
         <ReportBody data={data} />
       ) : (
         <AdminState kind="empty" message="Seçilen tarih aralığında rapor verisi bulunmuyor." />
-      )
+      )}
     </section>
   );
 }
