@@ -184,7 +184,7 @@ function AdminPage() {
                 ))
               ) : (
                 <AdminState kind="empty" message="Henüz ürün ayarı bulunmuyor." />
-              )
+              )}
             </div>
           ) : null}
           {can("content.manage") ? <ContentManagementSection /> : null}
