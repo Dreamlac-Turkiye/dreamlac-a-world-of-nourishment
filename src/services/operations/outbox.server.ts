@@ -42,7 +42,7 @@ export async function finishOutboxEvent(input: {
     p_event_id: parsed.eventId,
     p_worker_id: parsed.workerId,
     p_success: parsed.success,
-    p_error: parsed.error ?? null,
+    ...(parsed.error != null ? { p_error: parsed.error } : {}),
   });
   if (error) throw new Error(`Outbox finish failed: ${error.code ?? "UNKNOWN"}`);
 }

@@ -68,7 +68,6 @@ export const listAdminOrderRequests = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_list_order_requests", {
       p_actor_id: context.userId,
-      p_status: null,
     });
     if (result.error)
       throw new Error(`Admin order requests failed: ${result.error.code ?? "UNKNOWN"}`);

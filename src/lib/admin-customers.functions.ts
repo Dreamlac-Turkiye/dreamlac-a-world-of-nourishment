@@ -93,7 +93,7 @@ export const searchAdminCustomers = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_search_customers", {
       p_actor_id: context.userId,
-      p_query: data.query || null,
+      ...(data.query != null ? { p_query: data.query } : {}),
       p_limit: 25,
       p_offset: data.offset,
     });
