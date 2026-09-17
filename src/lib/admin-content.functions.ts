@@ -57,7 +57,7 @@ export const saveAdminContent = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const r = await supabaseAdmin.rpc("admin_save_content", {
       p_actor_id: context.userId,
-      p_id: data.id ?? undefined,
+      ...(data.id != null ? { p_id: data.id } : {}),
       p_market_code: data.market,
       p_locale: data.locale,
       p_content_type: data.contentType,
@@ -66,10 +66,10 @@ export const saveAdminContent = createServerFn({ method: "POST" })
       p_excerpt: data.excerpt,
       p_body: data.body,
       p_category: data.category,
-      p_seo_title: data.seoTitle ?? undefined,
-      p_seo_description: data.seoDescription ?? undefined,
-      p_canonical_path: data.canonicalPath ?? undefined,
-      p_cover_image_url: data.coverImageUrl ?? undefined,
+      ...(data.seoTitle != null ? { p_seo_title: data.seoTitle } : {}),
+      ...(data.seoDescription != null ? { p_seo_description: data.seoDescription } : {}),
+      ...(data.canonicalPath != null ? { p_canonical_path: data.canonicalPath } : {}),
+      ...(data.coverImageUrl != null ? { p_cover_image_url: data.coverImageUrl } : {}),
       p_status: data.status,
     });
     if (r.error) throw new Error(r.error.message);

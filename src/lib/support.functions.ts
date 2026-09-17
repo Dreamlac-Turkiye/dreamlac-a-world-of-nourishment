@@ -48,7 +48,7 @@ export const createSupportTicket = createServerFn({ method: "POST" })
       p_subject: data.subject,
       p_category: data.category,
       p_body: data.body,
-      p_order_number: data.orderNumber ?? undefined,
+      ...(data.orderNumber != null ? { p_order_number: data.orderNumber } : {}),
     });
     if (result.error) throw new Error(result.error.message);
     return { ticketNumber: z.string().parse(result.data) };
@@ -90,8 +90,8 @@ export const listAdminSupportTickets = createServerFn({ method: "GET" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("admin_list_support_tickets", {
       p_actor_id: context.userId,
-      p_query: data.query ?? undefined,
-      p_status: data.status ?? undefined,
+      ...(data.query != null ? { p_query: data.query } : {}),
+      ...(data.status != null ? { p_status: data.status } : {}),
     });
     if (result.error) throw new Error(result.error.message);
     return z.array(ticket).parse(result.data);
@@ -118,7 +118,7 @@ export const updateAdminSupportTicket = createServerFn({ method: "POST" })
       p_ticket_id: data.ticketId,
       p_status: data.status,
       p_priority: data.priority,
-      p_assigned_to: data.assignedTo ?? undefined,
+      ...(data.assignedTo != null ? { p_assigned_to: data.assignedTo } : {}),
       p_message: data.message,
       p_internal: data.internal,
     });

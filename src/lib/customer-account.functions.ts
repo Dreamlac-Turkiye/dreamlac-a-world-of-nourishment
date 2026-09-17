@@ -76,7 +76,7 @@ export const saveCustomerAddress = createServerFn({ method: "POST" })
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const result = await supabaseAdmin.rpc("customer_save_address", {
       p_user_id: context.userId,
-      p_address_id: data.id ?? undefined,
+      ...(data.id != null ? { p_address_id: data.id } : {}),
       p_label: data.label,
       p_recipient_name: data.recipientName,
       p_phone: data.phone,

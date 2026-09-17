@@ -136,7 +136,7 @@ export const createCommerceCheckout = createServerFn({ method: "POST" })
     const privacyVersion = `kvkk:v${privacy}`;
     const { data: result, error } = await supabaseAdmin.rpc("create_commerce_checkout", {
       p_market_code: data.market,
-      p_user_id: userId ?? undefined,
+      ...(userId != null ? { p_user_id: userId } : {}),
       p_customer_email: data.customer.email,
       p_customer_phone: data.customer.phone,
       p_billing_address: data.billingAddress,
@@ -145,7 +145,7 @@ export const createCommerceCheckout = createServerFn({ method: "POST" })
       p_terms_version: termsVersion,
       p_privacy_version: privacyVersion,
       p_idempotency_key: data.idempotencyKey,
-      p_customer_note: data.customerNote ?? undefined,
+      ...(data.customerNote != null ? { p_customer_note: data.customerNote } : {}),
     });
     if (error) throw new Error(`Checkout failed: ${error.code ?? "UNKNOWN"}`);
     assertResult(result);
