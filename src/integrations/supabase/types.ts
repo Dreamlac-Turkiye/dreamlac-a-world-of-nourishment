@@ -318,6 +318,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      __apply_pending_migration: { Args: { sql: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
