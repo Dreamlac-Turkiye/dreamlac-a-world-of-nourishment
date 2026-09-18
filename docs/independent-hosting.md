@@ -7,7 +7,8 @@ Do not rewrite pushed history. Merge this branch only after reviewing the previe
 ## Local and Lovable preview
 
 Use Node 24 and Bun. Run `bun install --frozen-lockfile`, then `bun run dev`.
-With no public Supabase variables the development server uses offline demo mode.
+The development server defaults to offline demo mode even if an editor injects
+old public Supabase variables. Live development requires `VITE_DATA_MODE=supabase`.
 To force offline preview even when the editor injects existing variables, set
 `VITE_DATA_MODE=demo` in its environment. No connection or reconnection to
 Lovable Cloud is required. A partial live configuration fails explicitly instead
