@@ -16,7 +16,10 @@ dist-ssr
 .nitro
 *.local
 
-# Environment variables
+# Environment variables. Local dev/preview config (Supabase URL and
+# publishable key) is injected via the platform's own environment/secret
+# manager — e.g. reconnect Supabase from the "Lovable Cloud" panel in the
+# editor — never by committing a .env file, even with public-safe values.
 .env
 .env.local
 .env.*.local
