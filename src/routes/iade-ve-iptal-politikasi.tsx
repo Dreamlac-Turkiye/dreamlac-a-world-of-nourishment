@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { LegalArticle } from "@/components/legal/LegalArticle";
-import { getLegalDocument } from "@/lib/legal.functions";
+import { getLegalDocument } from "@/services/legal";
 
 export const Route = createFileRoute("/iade-ve-iptal-politikasi")({
   loader: () => getLegalDocument({ data: { slug: "iade-ve-iptal-politikasi" } }),

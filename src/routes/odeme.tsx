@@ -16,6 +16,7 @@ import {
   type CommerceCheckoutResult,
 } from "@/lib/commerce-checkout.functions";
 import type { CheckoutAddress, CheckoutDraft } from "@/types";
+import { isDemoMode, demoMessage } from "@/config/env";
 
 const DRAFT_KEY = "dreamlac.checkout.v1";
 const IDEMPOTENCY_KEY = "dreamlac.checkout.idempotency.v1";
@@ -236,6 +237,10 @@ function CheckoutPage() {
                     submitting={submitting}
                     onBack={() => setDraft((d) => ({ ...d, step: 2 }))}
                     onSubmit={async () => {
+                      if (isDemoMode) {
+                        setError(demoMessage);
+                        return;
+                      }
                       if (!draft.address || !selectedShipping || !selectedPayment) return;
                       setSubmitting(true);
                       try {

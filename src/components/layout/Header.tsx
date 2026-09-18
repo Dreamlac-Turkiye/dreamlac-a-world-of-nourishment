@@ -7,6 +7,7 @@ import { tr } from "@/content/tr";
 import { useCart } from "@/context/CartContext";
 import { supabase } from "@/integrations/supabase/client";
 import { cn } from "@/lib/utils";
+import { isDemoMode } from "@/config/env";
 
 const navItems = [
   { to: "/urunler", label: tr.nav.products },
@@ -23,6 +24,7 @@ export function Header() {
   const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
+    if (isDemoMode) return;
     void supabase.auth.getSession().then(({ data }) => setSignedIn(Boolean(data.session)));
     const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
       setSignedIn(Boolean(session));

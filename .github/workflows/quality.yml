@@ -26,4 +26,9 @@ jobs:
       - run: bun run check:release
       - run: bun run typecheck
       - run: bun run lint
-      - run: bun run build
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - run: bun run check:environment
+      - run: bun run build:preview
+      - run: bun run check:preview

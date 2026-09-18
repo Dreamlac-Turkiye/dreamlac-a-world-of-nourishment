@@ -2,6 +2,7 @@ import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
+import { isDemoMode } from "@/config/env";
 
 export interface LegalDocumentRecord {
   slug: string;
@@ -16,6 +17,7 @@ export interface LegalDocumentRecord {
 
 /** Herkese açık okuma için yayın anahtarıyla oluşturulan sunucu istemcisi. */
 function createPublicClient() {
+  if (isDemoMode) return null;
   const url = process.env["SUPABASE_URL"];
   const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
   if (!url || !key) return null;
