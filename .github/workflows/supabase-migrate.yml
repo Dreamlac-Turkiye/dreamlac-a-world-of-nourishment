@@ -1,0 +1,32 @@
+name: Apply Supabase migrations
+
+# Deliberately manual. Applies supabase/migrations to the linked project so the
+# schema can be provisioned without a local CLI (e.g. from a phone).
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: supabase-migrate
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+      # The project ref is public and tracked in supabase/config.toml.
+      - run: supabase link --project-ref "$(grep -oP '(?<=project_id = ")[^"]+' supabase/config.toml)"
+      # Lists the pending migrations and stops before applying anything.
+      - run: supabase migration list
+      - run: supabase db push
