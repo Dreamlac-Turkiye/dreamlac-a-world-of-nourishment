@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/integrations/supabase/types";
+import { isDemoMode } from "@/config/env";
 
 export interface ProductSettingRecord {
   slug: string;
@@ -19,6 +20,7 @@ export interface ProductSettingRecord {
  */
 export const listProductSettings = createServerFn({ method: "GET" }).handler(
   async (): Promise<ProductSettingRecord[]> => {
+    if (isDemoMode) return [];
     const url = process.env["SUPABASE_URL"];
     const key = process.env["SUPABASE_PUBLISHABLE_KEY"];
     if (!url || !key) return [];

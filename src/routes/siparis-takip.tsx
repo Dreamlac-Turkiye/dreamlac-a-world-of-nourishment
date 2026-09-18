@@ -37,6 +37,8 @@ const statusLabels: Record<string, string> = {
   refunded: "İade edildi",
 };
 
+import { isDemoMode, demoMessage } from "@/config/env";
+
 function OrderTrackingPage() {
   const trackOrder = useServerFn(trackCommerceOrder);
   const [busy, setBusy] = useState(false);
@@ -44,6 +46,10 @@ function OrderTrackingPage() {
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (isDemoMode) {
+      toast.info(demoMessage);
+      return;
+    }
     const form = new FormData(event.currentTarget);
     setBusy(true);
     try {

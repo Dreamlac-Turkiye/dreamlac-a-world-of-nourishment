@@ -8,6 +8,7 @@ import {
   mockTrustItems,
 } from "@/data/mock/content";
 import { catalogProducts } from "@/data/catalog/products";
+import { isDemoMode } from "@/config/env";
 import { listProductSettings, type ProductSettingRecord } from "@/lib/product-settings.functions";
 import type {
   Article,
@@ -45,6 +46,7 @@ function mergeSettings(product: Product, setting?: ProductSettingRecord): Produc
 }
 
 export async function getProducts(): Promise<Product[]> {
+  if (isDemoMode) return catalogProducts;
   const settings = await listProductSettings();
   const bySlug = new Map(settings.map((s) => [s.slug, s]));
   return catalogProducts.map((product) => mergeSettings(product, bySlug.get(product.slug)));
@@ -53,6 +55,7 @@ export async function getProducts(): Promise<Product[]> {
 export async function getProductBySlug(slug: string): Promise<Product | null> {
   const product = catalogProducts.find((p) => p.slug === slug);
   if (!product) return null;
+  if (isDemoMode) return product;
   const settings = await listProductSettings();
   return mergeSettings(
     product,

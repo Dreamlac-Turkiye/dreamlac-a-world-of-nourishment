@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { tr } from "@/content/tr";
 import { useServerFn } from "@tanstack/react-start";
 import { recordCookieConsent } from "@/lib/consent.functions";
+import { isDemoMode } from "@/config/env";
 
 const STORAGE_KEY = "dreamlac.cookie-choice";
 
@@ -30,7 +31,10 @@ export function CookieBanner() {
     } catch {
       /* tercih kaydedilemedi */
     }
-    void recordConsent({ data: { anonymousId, choice } });
+    if (!isDemoMode)
+      void recordConsent({ data: { anonymousId, choice } }).catch(() => {
+        console.warn("Cookie consent could not be recorded remotely");
+      });
     setVisible(false);
   };
 

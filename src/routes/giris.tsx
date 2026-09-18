@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { tr } from "@/content/tr";
-import { lovable } from "@/integrations/lovable";
+import { isDemoMode, demoMessage } from "@/config/env";
 import { supabase } from "@/integrations/supabase/client";
 
 const title = "Giriş Yap — Dreamlac";
@@ -33,6 +33,7 @@ function SignInPage() {
   const [recovery, setRecovery] = useState(false);
 
   useEffect(() => {
+    if (isDemoMode) return;
     void supabase.auth.getSession().then(({ data }) => {
       if (data.session) void navigate({ to: "/hesabim" });
     });
@@ -44,6 +45,10 @@ function SignInPage() {
 
   async function onSubmit(event: React.FormEvent) {
     event.preventDefault();
+    if (isDemoMode) {
+      toast.info(demoMessage);
+      return;
+    }
     setBusy(true);
     try {
       if (recovery) {
@@ -83,6 +88,10 @@ function SignInPage() {
   }
 
   async function onForgotPassword() {
+    if (isDemoMode) {
+      toast.info(demoMessage);
+      return;
+    }
     if (!email.includes("@")) {
       toast.error("Önce e-posta adresinizi yazın.");
       return;
@@ -95,15 +104,18 @@ function SignInPage() {
   }
 
   async function onGoogle() {
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    if (isDemoMode) {
+      toast.info(demoMessage);
+      return;
+    }
+    const result = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/giris` },
     });
     if (result.error) {
       toast.error(tr.auth.signInError);
       return;
     }
-    if (result.redirected) return;
-    await navigate({ to: "/hesabim" });
   }
 
   return (

@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { tr } from "@/content/tr";
 import { requestNewsletterSubscription } from "@/lib/newsletter.functions";
+import { isDemoMode, demoMessage } from "@/config/env";
 
 export function Newsletter() {
   const subscribe = useServerFn(requestNewsletterSubscription);
@@ -22,6 +23,10 @@ export function Newsletter() {
 
   const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    if (isDemoMode) {
+      setError(demoMessage);
+      return;
+    }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
       setError(tr.newsletter.invalidEmail);
       return;

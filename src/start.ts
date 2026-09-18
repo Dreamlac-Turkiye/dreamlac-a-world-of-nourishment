@@ -2,6 +2,13 @@ import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/r
 
 import { renderErrorPage } from "./lib/error-page";
 import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
+import { isDemoMode, demoMessage } from "@/config/env";
+
+// Enforce preview isolation on the server too, even for handcrafted RPC calls.
+const previewGuard = createMiddleware({ type: "function" }).server(async ({ next }) => {
+  if (isDemoMode) throw new Error(demoMessage);
+  return next();
+});
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
@@ -26,6 +33,6 @@ const csrfMiddleware = createCsrfMiddleware({
 });
 
 export const startInstance = createStart(() => ({
-  functionMiddleware: [attachSupabaseAuth],
+  functionMiddleware: [previewGuard, attachSupabaseAuth],
   requestMiddleware: [errorMiddleware, csrfMiddleware],
 }));
