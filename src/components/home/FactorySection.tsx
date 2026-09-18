@@ -9,7 +9,7 @@ export function FactorySection() {
   return (
     <section className="relative overflow-hidden border-y border-border/60 bg-secondary/40">
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:py-24">
-        <div className="grid gap-10">
+        <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div className="min-w-0">
             <SectionHeading
               eyebrow={tr.factory.eyebrow}
@@ -31,6 +31,27 @@ export function FactorySection() {
                 </p>
               </li>
             </ul>
+          </div>
+
+          <div
+            aria-hidden="true"
+            className="surface-glass grain relative min-h-[16rem] overflow-hidden rounded-[2rem] p-8 shadow-[var(--shadow-deep)] lg:min-h-[22rem]"
+          >
+            <div className="animate-float-slow droplet absolute -top-14 -right-10 size-56 bg-[image:var(--gradient-milk)] opacity-70" />
+            <div className="droplet absolute -bottom-16 -left-12 size-48 bg-primary-soft/60" />
+            <div className="relative flex h-full flex-col justify-between">
+              <span className="droplet grid size-14 place-items-center bg-primary-deep text-primary-foreground shadow-[var(--shadow-lifted)]">
+                <MapPin size={22} strokeWidth={1.8} aria-hidden="true" />
+              </span>
+              <div>
+                <p className="text-[0.68rem] font-semibold tracking-[0.18em] text-primary uppercase">
+                  {tr.factory.eyebrow}
+                </p>
+                <p className="mt-2 text-3xl font-semibold text-primary-deep sm:text-4xl">
+                  {company.city}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
