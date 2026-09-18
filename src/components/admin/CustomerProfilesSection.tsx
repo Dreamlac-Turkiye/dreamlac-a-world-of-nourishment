@@ -59,30 +59,38 @@ export function CustomerProfilesSection() {
       {customers.isLoading ? (
         <AdminState kind="loading" message="Müşteriler yükleniyor…" />
       ) : customers.isError ? (
-        <AdminState kind="error" message="Müşteri listesi alınamadı." onRetry={() => void customers.refetch()} />
+        <AdminState
+          kind="error"
+          message="Müşteri listesi alınamadı."
+          onRetry={() => void customers.refetch()}
+        />
       ) : (
         <>
           <div className="mt-5 grid gap-3 lg:grid-cols-2">
-            {customers.data?.items.length ? customers.data.items.map((c) => (
-              <button
-                type="button"
-                key={c.id}
-                onClick={() => setSelected(c.id)}
-                className={`rounded-2xl border p-4 text-left transition-colors ${selected === c.id ? "border-primary bg-primary/5" : "border-border/60 hover:border-primary/40"}`}
-              >
-                <strong className="block truncate text-sm text-primary-deep">
-                  {c.fullName || c.email || "İsimsiz müşteri"}
-                </strong>
-                <span className="mt-1 block truncate text-xs text-muted-foreground">
-                  {c.email} · {c.phone || "Telefon yok"}
-                </span>
-                <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
-                  <Metric label="Sipariş" value={String(c.orderCount)} />
-                  <Metric label="Toplam değer" value={formatTry(c.lifetimeValueMinor) ?? "₺0"} />
-                  <Metric label="Açık destek" value={String(c.openTicketCount)} />
-                </div>
-              </button>
-            )) : <AdminState kind="empty" message="Bu arama ile eşleşen müşteri bulunamadı." />}
+            {customers.data?.items.length ? (
+              customers.data.items.map((c) => (
+                <button
+                  type="button"
+                  key={c.id}
+                  onClick={() => setSelected(c.id)}
+                  className={`rounded-2xl border p-4 text-left transition-colors ${selected === c.id ? "border-primary bg-primary/5" : "border-border/60 hover:border-primary/40"}`}
+                >
+                  <strong className="block truncate text-sm text-primary-deep">
+                    {c.fullName || c.email || "İsimsiz müşteri"}
+                  </strong>
+                  <span className="mt-1 block truncate text-xs text-muted-foreground">
+                    {c.email} · {c.phone || "Telefon yok"}
+                  </span>
+                  <div className="mt-3 grid grid-cols-3 gap-2 text-center text-xs">
+                    <Metric label="Sipariş" value={String(c.orderCount)} />
+                    <Metric label="Toplam değer" value={formatTry(c.lifetimeValueMinor) ?? "₺0"} />
+                    <Metric label="Açık destek" value={String(c.openTicketCount)} />
+                  </div>
+                </button>
+              ))
+            ) : (
+              <AdminState kind="empty" message="Bu arama ile eşleşen müşteri bulunamadı." />
+            )}
           </div>
           <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
             <span>{customers.data?.total ?? 0} müşteri</span>

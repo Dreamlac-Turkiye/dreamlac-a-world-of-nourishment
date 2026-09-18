@@ -46,10 +46,10 @@ export function AdminState({
   }
   return (
     <p
-    className="rounded-2xl border border-dashed border-border/70 p-4 text-sm text-muted-foreground"
-    role="status"
-    aria-live="polite"
-  >
+      className="rounded-2xl border border-dashed border-border/70 p-4 text-sm text-muted-foreground"
+      role="status"
+      aria-live="polite"
+    >
       {message}
     </p>
   );

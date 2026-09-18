@@ -33,13 +33,21 @@ export function AdminOverviewSection() {
 
   if (summary.isLoading) {
     return (
-      <section id="genel-bakis" className="mt-8"><AdminState kind="loading" message="Operasyon özeti hazırlanıyor…" /></section>
+      <section id="genel-bakis" className="mt-8">
+        <AdminState kind="loading" message="Operasyon özeti hazırlanıyor…" />
+      </section>
     );
   }
 
   if (summary.isError || !summary.data) {
     return (
-      <section id="genel-bakis" className="mt-8"><AdminState kind="error" message="Operasyon özeti alınamadı." onRetry={() => void summary.refetch()} /></section>
+      <section id="genel-bakis" className="mt-8">
+        <AdminState
+          kind="error"
+          message="Operasyon özeti alınamadı."
+          onRetry={() => void summary.refetch()}
+        />
+      </section>
     );
   }
 

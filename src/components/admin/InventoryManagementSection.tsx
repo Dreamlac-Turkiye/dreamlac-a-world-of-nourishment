@@ -60,7 +60,11 @@ export function InventoryManagementSection() {
       {inventory.isLoading ? (
         <AdminState kind="loading" message="Stoklar yükleniyor…" />
       ) : inventory.isError ? (
-        <AdminState kind="error" message="Stok verileri alınamadı." onRetry={() => void inventory.refetch()} />
+        <AdminState
+          kind="error"
+          message="Stok verileri alınamadı."
+          onRetry={() => void inventory.refetch()}
+        />
       ) : inventory.data?.length ? (
         <div className="mt-5 space-y-4">
           {inventory.data.map((item) => (
@@ -103,7 +107,11 @@ export function InventoryManagementSection() {
         {movements.isLoading ? (
           <AdminState kind="loading" message="Hareketler yükleniyor…" />
         ) : movements.isError ? (
-          <AdminState kind="error" message="Stok hareketleri alınamadı." onRetry={() => void movements.refetch()} />
+          <AdminState
+            kind="error"
+            message="Stok hareketleri alınamadı."
+            onRetry={() => void movements.refetch()}
+          />
         ) : movements.data?.length ? (
           <div className="mt-4 divide-y divide-border/60 rounded-2xl border border-border/60 px-4">
             {movements.data.map((movement) => (

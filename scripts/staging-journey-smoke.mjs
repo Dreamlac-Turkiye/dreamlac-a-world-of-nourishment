@@ -53,5 +53,11 @@ for (const route of routes) {
   }
 }
 const failures = results.filter((result) => !result.ok);
-console.log(JSON.stringify({ target: origin.origin, routes: results.length, failures: failures.length, results }, null, 2));
+console.log(
+  JSON.stringify(
+    { target: origin.origin, routes: results.length, failures: failures.length, results },
+    null,
+    2,
+  ),
+);
 if (failures.length) process.exitCode = 1;

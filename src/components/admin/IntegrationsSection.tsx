@@ -138,15 +138,13 @@ export function IntegrationsSection() {
           POST /api/public/kargo-durum
         </p>
         <p className="mt-3 text-xs text-muted-foreground">
-          {webhookQuery.isLoading ? (
-            tr.states.loading
-          ) : webhookQuery.isError ? (
-            "Webhook durumu alınamadı."
-          ) : webhookQuery.data?.ready ? (
-            tr.admin.integrations.webhookReady
-          ) : (
-            tr.admin.integrations.webhookPending
-          )}
+          {webhookQuery.isLoading
+            ? tr.states.loading
+            : webhookQuery.isError
+              ? "Webhook durumu alınamadı."
+              : webhookQuery.data?.ready
+                ? tr.admin.integrations.webhookReady
+                : tr.admin.integrations.webhookPending}
           {webhookQuery.data ? ` — ${webhookQuery.data.secretName}` : ""}
         </p>
       </article>
@@ -172,7 +170,9 @@ function IntegrationCard({
 
   async function onSave() {
     if (enabled && mode === "live") {
-      const confirmed = window.confirm("Bu sağlayıcı canlı moda geçirilecek. Üretim anahtarlarının güvenli ve doğru ayarlandığından emin olun. Devam edilsin mi?");
+      const confirmed = window.confirm(
+        "Bu sağlayıcı canlı moda geçirilecek. Üretim anahtarlarının güvenli ve doğru ayarlandığından emin olun. Devam edilsin mi?",
+      );
       if (!confirmed) return;
     }
     setBusy(true);

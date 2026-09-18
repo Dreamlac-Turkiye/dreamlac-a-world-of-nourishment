@@ -38,22 +38,29 @@ export function ProductTabs({ product }: { product: Product }) {
   return (
     <Tabs defaultValue="details" className="w-full">
       <TabsList className="h-auto w-full justify-start gap-6 overflow-x-auto rounded-none border-b border-border/70 bg-transparent p-0">
-        <TabsTrigger value="details" className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+        <TabsTrigger
+          value="details"
+          className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+        >
           {t.tabs.details}
         </TabsTrigger>
-        <TabsTrigger value="preparation" className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+        <TabsTrigger
+          value="preparation"
+          className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+        >
           {t.tabs.preparation}
         </TabsTrigger>
-        <TabsTrigger value="nutrition" className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none">
+        <TabsTrigger
+          value="nutrition"
+          className="rounded-none border-b-2 border-transparent px-0 py-4 text-sm shadow-none data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+        >
           {t.tabs.nutrition}
         </TabsTrigger>
       </TabsList>
 
       {/* 1 — Ürün detayı */}
       <TabsContent value="details" className="mt-8 space-y-8">
-        <p className="max-w-4xl text-base leading-8 text-primary-deep/85">
-          {product.description}
-        </p>
+        <p className="max-w-4xl text-base leading-8 text-primary-deep/85">{product.description}</p>
 
         <dl className="grid gap-x-10 rounded-[1.5rem] border border-border/70 bg-card p-5 sm:grid-cols-2">
           <InfoRow label={t.detailsFields.technicalName} value={product.technicalName} />

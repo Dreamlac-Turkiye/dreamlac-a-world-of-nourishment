@@ -29,11 +29,13 @@ export function PurchasePanel({ product }: { product: Product }) {
   return (
     <div className="border-t border-border/70 pt-6">
       <div className="flex flex-wrap items-end gap-x-4 gap-y-1">
-      {priceLabel ? (
-        <p className="text-4xl font-medium text-primary-deep tabular-nums">{priceLabel}</p>
-      ) : (
-        <p className="text-sm font-medium text-muted-foreground">{tr.productDetail.pricePending}</p>
-      )}
+        {priceLabel ? (
+          <p className="text-4xl font-medium text-primary-deep tabular-nums">{priceLabel}</p>
+        ) : (
+          <p className="text-sm font-medium text-muted-foreground">
+            {tr.productDetail.pricePending}
+          </p>
+        )}
         {product.weight ? (
           <p className="pb-1 text-sm font-medium text-muted-foreground">{product.weight}</p>
         ) : null}

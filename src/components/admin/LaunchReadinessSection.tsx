@@ -102,7 +102,11 @@ export function LaunchReadinessSection({ preview = false }: { preview?: boolean 
                 disabled={(!data.ready && !data.checkoutEnabled) || q.isFetching}
                 onClick={() => void change()}
               >
-                {q.isFetching ? "İşleniyor…" : data.checkoutEnabled ? "Satışı güvenle durdur" : "Canlı satışı etkinleştir"}
+                {q.isFetching
+                  ? "İşleniyor…"
+                  : data.checkoutEnabled
+                    ? "Satışı güvenle durdur"
+                    : "Canlı satışı etkinleştir"}
               </Button>
             ) : (
               <span className="text-xs text-amber-700">Önizleme — işlem kapalı</span>

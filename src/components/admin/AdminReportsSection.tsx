@@ -141,11 +141,7 @@ export function AdminReportsSection({ preview = false }: { preview?: boolean }) 
       ) : query.isLoading && !preview ? (
         <AdminState kind="loading" message="Rapor hazırlanıyor…" />
       ) : query.isError && !preview ? (
-        <AdminState
-          kind="error"
-          message="Rapor alınamadı."
-          onRetry={() => void query.refetch()}
-        />
+        <AdminState kind="error" message="Rapor alınamadı." onRetry={() => void query.refetch()} />
       ) : data ? (
         <ReportBody data={data} />
       ) : (

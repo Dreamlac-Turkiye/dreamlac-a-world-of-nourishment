@@ -77,7 +77,11 @@ export function CustomerSupportSection() {
       {tickets.isLoading ? (
         <AdminState kind="loading" message="Destek kuyruğu yükleniyor…" />
       ) : tickets.isError ? (
-        <AdminState kind="error" message="Destek kuyruğu alınamadı." onRetry={() => void tickets.refetch()} />
+        <AdminState
+          kind="error"
+          message="Destek kuyruğu alınamadı."
+          onRetry={() => void tickets.refetch()}
+        />
       ) : tickets.data?.length ? (
         <div className="mt-5 space-y-4">
           {tickets.data.map((ticket) => (

@@ -29,7 +29,7 @@ for (const route of ["/urunler", "/hakkimizda", "/kalite-ve-guvenlik", "/iletisi
   if (!sitemap.includes(route)) throw new Error(`Sitemap route missing: ${route}`);
 }
 
-if (!readFileSync("src/data/mock/products.ts", "utf8").includes(".webp")) {
+if (!readFileSync("src/data/catalog/products.ts", "utf8").includes(".webp")) {
   throw new Error("Optimized product images are not wired");
 }
 
