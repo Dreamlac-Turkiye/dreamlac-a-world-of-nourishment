@@ -23,11 +23,23 @@ export function Header() {
   const [signedIn, setSignedIn] = useState(false);
 
   useEffect(() => {
-    void supabase.auth.getSession().then(({ data }) => setSignedIn(Boolean(data.session)));
-    const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSignedIn(Boolean(session));
-    });
-    return () => sub.subscription.unsubscribe();
+    let unsubscribe = () => {};
+    try {
+      void supabase.auth
+        .getSession()
+        .then(({ data }) => setSignedIn(Boolean(data.session)))
+        .catch(() => {});
+      const { data: sub } = supabase.auth.onAuthStateChange((_event, session) => {
+        setSignedIn(Boolean(session));
+      });
+      unsubscribe = () => sub.subscription.unsubscribe();
+    } catch {
+      // The client throws when Supabase env vars are absent. The header renders on
+      // every page, so letting that escape takes the whole public site down — the
+      // catalog path already degrades the same way (listProductSettings returns []).
+      // Signed-out is the safe fallback: access is enforced by the server and RLS.
+    }
+    return () => unsubscribe();
   }, []);
 
   useEffect(() => {
