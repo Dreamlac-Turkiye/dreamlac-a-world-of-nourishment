@@ -9,7 +9,11 @@ import { resolveDataConfig } from "./src/config/data-mode";
 export default defineConfig(({ command, mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ""), ...process.env };
   const config = resolveDataConfig({
-    mode: env["VITE_DATA_MODE"],
+    // Design previews must not accidentally attach to a live project injected
+    // by an editor. Live development requires an explicit VITE_DATA_MODE.
+    mode:
+      env["VITE_DATA_MODE"] ||
+      (command === "serve" && env["APP_ENV"] !== "production" ? "demo" : undefined),
     url: env["VITE_SUPABASE_URL"],
     key: env["VITE_SUPABASE_PUBLISHABLE_KEY"],
     allowDemo:
