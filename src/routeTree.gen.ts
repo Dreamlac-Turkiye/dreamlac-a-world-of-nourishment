@@ -37,6 +37,7 @@ import { Route as UrunlerIndexRouteImport } from './routes/urunler.index'
 import { Route as UrunlerSlugRouteImport } from './routes/urunler.$slug'
 import { Route as AuthenticatedSiparislerimIndexRouteImport } from './routes/_authenticated/siparislerim.index'
 import { Route as AuthenticatedSiparislerimOrderNumberRouteImport } from './routes/_authenticated/siparislerim.$orderNumber'
+import { Route as ApiInternalOutboxDrainRouteImport } from './routes/api/internal/outbox-drain'
 import { Route as ApiPublicKargoDurumRouteImport } from './routes/api/public/kargo-durum'
 
 const IndexRoute = IndexRouteImport.update({
@@ -181,6 +182,11 @@ const AuthenticatedSiparislerimOrderNumberRoute =
     path: '/siparislerim/$orderNumber',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiInternalOutboxDrainRoute = ApiInternalOutboxDrainRouteImport.update({
+  id: '/api/internal/outbox-drain',
+  path: '/api/internal/outbox-drain',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicKargoDurumRoute = ApiPublicKargoDurumRouteImport.update({
   id: '/api/public/kargo-durum',
   path: '/api/public/kargo-durum',
@@ -214,6 +220,7 @@ export interface FileRoutesByFullPath {
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
   '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/api/internal/outbox-drain': typeof ApiInternalOutboxDrainRoute
   '/api/public/kargo-durum': typeof ApiPublicKargoDurumRoute
   '/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
@@ -244,6 +251,7 @@ export interface FileRoutesByTo {
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler': typeof UrunlerIndexRoute
   '/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/api/internal/outbox-drain': typeof ApiInternalOutboxDrainRoute
   '/api/public/kargo-durum': typeof ApiPublicKargoDurumRoute
   '/siparislerim': typeof AuthenticatedSiparislerimIndexRoute
 }
@@ -276,6 +284,7 @@ export interface FileRoutesById {
   '/urunler/$slug': typeof UrunlerSlugRoute
   '/urunler/': typeof UrunlerIndexRoute
   '/_authenticated/siparislerim/$orderNumber': typeof AuthenticatedSiparislerimOrderNumberRoute
+  '/api/internal/outbox-drain': typeof ApiInternalOutboxDrainRoute
   '/api/public/kargo-durum': typeof ApiPublicKargoDurumRoute
   '/_authenticated/siparislerim/': typeof AuthenticatedSiparislerimIndexRoute
 }
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/urunler/$slug'
     | '/urunler/'
     | '/siparislerim/$orderNumber'
+    | '/api/internal/outbox-drain'
     | '/api/public/kargo-durum'
     | '/siparislerim/'
   fileRoutesByTo: FileRoutesByTo
@@ -338,6 +348,7 @@ export interface FileRouteTypes {
     | '/urunler/$slug'
     | '/urunler'
     | '/siparislerim/$orderNumber'
+    | '/api/internal/outbox-drain'
     | '/api/public/kargo-durum'
     | '/siparislerim'
   id:
@@ -369,6 +380,7 @@ export interface FileRouteTypes {
     | '/urunler/$slug'
     | '/urunler/'
     | '/_authenticated/siparislerim/$orderNumber'
+    | '/api/internal/outbox-drain'
     | '/api/public/kargo-durum'
     | '/_authenticated/siparislerim/'
   fileRoutesById: FileRoutesById
@@ -398,6 +410,7 @@ export interface RootRouteChildren {
   YonetimOnizlemeRoute: typeof YonetimOnizlemeRoute
   UrunlerSlugRoute: typeof UrunlerSlugRoute
   UrunlerIndexRoute: typeof UrunlerIndexRoute
+  ApiInternalOutboxDrainRoute: typeof ApiInternalOutboxDrainRoute
   ApiPublicKargoDurumRoute: typeof ApiPublicKargoDurumRoute
 }
 
@@ -599,6 +612,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSiparislerimOrderNumberRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/internal/outbox-drain': {
+      id: '/api/internal/outbox-drain'
+      path: '/api/internal/outbox-drain'
+      fullPath: '/api/internal/outbox-drain'
+      preLoaderRoute: typeof ApiInternalOutboxDrainRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/kargo-durum': {
       id: '/api/public/kargo-durum'
       path: '/api/public/kargo-durum'
@@ -652,6 +672,7 @@ const rootRouteChildren: RootRouteChildren = {
   YonetimOnizlemeRoute: YonetimOnizlemeRoute,
   UrunlerSlugRoute: UrunlerSlugRoute,
   UrunlerIndexRoute: UrunlerIndexRoute,
+  ApiInternalOutboxDrainRoute: ApiInternalOutboxDrainRoute,
   ApiPublicKargoDurumRoute: ApiPublicKargoDurumRoute,
 }
 export const routeTree = rootRouteImport
