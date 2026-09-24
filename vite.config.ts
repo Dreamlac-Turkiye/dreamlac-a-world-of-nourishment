@@ -30,6 +30,8 @@ export default defineConfig(({ command, mode }) => {
         ? nitro({
             preset: env["NITRO_PRESET"] || "node-server",
             compatibilityDate: "2026-09-18",
+            // Hosting serves dist/; writing elsewhere leaves a stale old build live.
+            output: { dir: "dist", serverDir: "dist/server", publicDir: "dist/public" },
             cloudflare: {
               deployConfig: true,
               nodeCompat: true,
