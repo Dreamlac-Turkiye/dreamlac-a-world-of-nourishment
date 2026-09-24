@@ -2677,15 +2677,6 @@ export type Database = {
         Args: { p_full_name: string; p_phone: string; p_user_id: string }
         Returns: undefined
       }
-      defer_outbox_event: {
-        Args: {
-          p_event_id: string
-          p_reason: string
-          p_retry_after_seconds?: number
-          p_worker_id: string
-        }
-        Returns: undefined
-      }
       finish_outbox_event: {
         Args: {
           p_error?: string
