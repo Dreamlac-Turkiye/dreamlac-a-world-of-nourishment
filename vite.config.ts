@@ -6,16 +6,28 @@ import tsconfigPaths from "vite-tsconfig-paths";
 import { nitro } from "nitro/vite";
 import { resolveDataConfig } from "./src/config/data-mode";
 
+const DEFAULT_SUPABASE_URL = "https://ixmjuuhwjjdcuidromzs.supabase.co";
+const DEFAULT_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_NkQsPlCOMETEU9Og030lnw__DqD9REl";
+
 export default defineConfig(({ command, mode }) => {
   const env = { ...loadEnv(mode, process.cwd(), ""), ...process.env };
+  // Lovable Cloud may expose the same browser-safe connection values under
+  // their server aliases while creating a hosted preview. Normalize them at
+  // build time so the browser bundle never depends on server-only lookups.
+  const publicSupabaseUrl =
+    env["VITE_SUPABASE_URL"] || env["SUPABASE_URL"] || DEFAULT_SUPABASE_URL;
+  const publicSupabaseKey =
+    env["VITE_SUPABASE_PUBLISHABLE_KEY"] ||
+    env["SUPABASE_PUBLISHABLE_KEY"] ||
+    DEFAULT_SUPABASE_PUBLISHABLE_KEY;
   const config = resolveDataConfig({
     // Design previews must not accidentally attach to a live project injected
     // by an editor. Live development requires an explicit VITE_DATA_MODE.
     mode:
       env["VITE_DATA_MODE"] ||
       (command === "serve" && env["APP_ENV"] !== "production" ? "demo" : undefined),
-    url: env["VITE_SUPABASE_URL"],
-    key: env["VITE_SUPABASE_PUBLISHABLE_KEY"],
+    url: publicSupabaseUrl,
+    key: publicSupabaseKey,
     allowDemo:
       env["APP_ENV"] !== "production" &&
       (command === "serve" || mode === "preview" || mode === "development"),
@@ -40,7 +52,11 @@ export default defineConfig(({ command, mode }) => {
           })
         : []),
     ],
-    define: { "import.meta.env.VITE_DATA_MODE": JSON.stringify(config.mode) },
+    define: {
+      "import.meta.env.VITE_DATA_MODE": JSON.stringify(config.mode),
+      "import.meta.env.VITE_SUPABASE_URL": JSON.stringify(publicSupabaseUrl || ""),
+      "import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY": JSON.stringify(publicSupabaseKey || ""),
+    },
     resolve: { dedupe: ["react", "react-dom", "@tanstack/react-router"] },
     server: { host: "0.0.0.0", port: Number(env["PORT"] || 8080) },
   };
