@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Browser data configuration falls back to Dreamlac's public Lovable Cloud URL and publishable key so hosted previews cannot crash when Vite variables are omitted; explicit environment values override both for independent deployments.
